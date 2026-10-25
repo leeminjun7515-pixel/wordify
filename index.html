@@ -10,9 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
 
-  <!-- SUPABASE JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
     /* =========================================================
        CSS VARIABLES & QUIZLET AESTHETICS (ACCENT: #ffe050)
@@ -2226,16 +2223,16 @@
   </div>
 
   <!-- =========================================================
-       MODALS: AUTH (ACCOUNT CREATION & EMAIL AUTOMATION)
+       MODALS: AUTH (INSTANT SIGNUP / LOGIN - 100% LOCAL & FAST)
        ========================================================= -->
   <div class="modal-backdrop" id="auth-modal">
     <div class="modal-dialog">
       <div class="modal-header-row">
-        <h3 class="modal-title" id="auth-title">✨ Wordify 계정 만들기</h3>
+        <h3 class="modal-title" id="auth-title">✨ Wordify 회원가입</h3>
         <button class="modal-close-btn" onclick="closeModal('auth-modal')">&times;</button>
       </div>
 
-      <!-- STEP 1: FORM -->
+      <!-- AUTH FORM -->
       <div id="auth-form-step">
         <div id="auth-name-field-wrap">
           <label class="input-label">이름 (닉네임)</label>
@@ -2248,31 +2245,12 @@
         <label class="input-label">비밀번호</label>
         <input type="password" class="styled-input" id="auth-pwd" placeholder="비밀번호 입력">
 
-        <button class="btn-main-action" id="auth-submit-btn" onclick="requestEmailOtp()">인증코드 전송하고 계속하기</button>
+        <button class="btn-main-action" id="auth-submit-btn" onclick="handleAuthSubmit()">회원가입 완료</button>
 
         <div style="text-align: center; margin-top: 1.25rem; font-size: 0.85rem; color: var(--text-secondary);">
           <span id="auth-toggle-label">계정이 이미 있으신가요?</span>
           <a href="javascript:void(0)" style="font-weight: 800; color: var(--text-main); margin-left: 0.35rem;" onclick="switchAuthMode()" id="auth-toggle-link">로그인</a>
         </div>
-      </div>
-
-      <!-- STEP 2: EMAIL OTP VERIFICATION -->
-      <div id="auth-otp-step" style="display: none; text-align: center;">
-        <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">📬</div>
-        <h4 style="font-size: 1.2rem; font-weight: 900; margin-bottom: 0.35rem;">실제 이메일 인증</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.4;">
-          <strong id="auth-target-email-txt">user@example.com</strong> 메일함으로 Supabase 인증 메일이 발송되었습니다!<br>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">메일함에서 <strong>[Confirm your email] 링크를 클릭</strong>하시거나, 메일의 <strong>6자리 코드</strong>를 아래에 입력해 주세요.</span>
-        </p>
-
-        <input type="text" class="styled-input" id="auth-otp-code" placeholder="6자리 인증코드 입력" style="font-size: 1.4rem; text-align: center; letter-spacing: 0.2em; font-weight: 900;" maxlength="6">
-
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-          <button class="styled-input" style="flex: 1; padding: 0.65rem; font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="resendVerificationCode()">🔄 메일 재발송</button>
-        </div>
-
-        <button class="btn-main-action" onclick="finishEmailVerification()">인증 완료 및 계정 생성 🎉</button>
-        <button class="styled-input" style="margin-top: 0.75rem; border: none; font-weight: 700; cursor: pointer;" onclick="returnToAuthForm()">← 이메일 다시 입력하기</button>
       </div>
     </div>
   </div>
@@ -2342,7 +2320,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SETTINGS (SETTINGS, EMAIL/PWD VERIFICATION, DELETE ACCOUNT) -->
+  <!-- MODAL: SETTINGS (SETTINGS, EMAIL/PWD CHANGE WITH CURRENT PASSWORD) -->
   <div class="modal-backdrop" id="settings-modal">
     <div class="modal-dialog">
       <div class="modal-header-row">
@@ -2351,79 +2329,55 @@
       </div>
 
       <label class="input-label">프로필 사진(이모지) & 닉네임</label>
-      <div style="display: flex; gap: 0.5rem;">
-        <input type="text" class="styled-input" id="set-prof-avatar" style="width: 60px; text-align: center; font-size: 1.3rem;" value="🧑‍💻">
-        <input type="text" class="styled-input" id="set-prof-name" value="Minjun Lee">
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+        <input type="text" class="styled-input" id="set-prof-avatar" style="width: 60px; text-align: center; font-size: 1.3rem; margin-bottom: 0;" value="🧑‍💻">
+        <input type="text" class="styled-input" id="set-prof-name" style="margin-bottom: 0;" value="Minjun Lee">
       </div>
 
-      <label class="input-label">알림 설정</label>
-      <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; font-size: 0.88rem;">
-        <label><input type="checkbox" checked> 매일 연속학습(스트릭) 마감 2시간 전 리마인드</label>
-        <label><input type="checkbox" checked> 주간 리그 순위 변동 및 뱃지 알림</label>
+      <!-- EMAIL CHANGE SECTION (PASSWORD PROTECTED) -->
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
+        <div style="font-weight: 800; font-size: 0.92rem; margin-bottom: 0.5rem;">📧 이메일 변경</div>
+        <label class="input-label" style="font-size: 0.78rem;">새 이메일 주소</label>
+        <input type="email" class="styled-input" id="set-prof-email" placeholder="새 이메일 입력" style="margin-bottom: 0.5rem;">
+        <label class="input-label" style="font-size: 0.78rem;">현재 비밀번호 확인</label>
+        <input type="password" class="styled-input" id="set-email-cur-pwd" placeholder="현재 비밀번호 확인" style="margin-bottom: 0.75rem;">
+        <button class="styled-input" style="background: var(--bg-card); font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="handleChangeEmailWithPassword()">이메일 변경 저장</button>
       </div>
 
-      <label class="input-label">이메일 변경</label>
-      <div style="display: flex; gap: 0.5rem;">
-        <input type="email" class="styled-input" id="set-prof-email" value="lee.minjun7515@gmail.com">
-        <button class="styled-input" style="width: auto; padding: 0.75rem 1rem; font-weight: 800; cursor: pointer;" onclick="sendFieldVerifyCode('email')">인증코드</button>
-      </div>
-      <div id="email-verify-code-box" style="display: none; margin-top: -0.5rem; margin-bottom: 1rem;">
-        <input type="text" class="styled-input" placeholder="이메일로 전송된 6자리 코드 입력">
-      </div>
-
-      <label class="input-label">비밀번호 변경</label>
-      <div style="display: flex; gap: 0.5rem;">
-        <input type="password" class="styled-input" placeholder="새 비밀번호 입력">
-        <button class="styled-input" style="width: auto; padding: 0.75rem 1rem; font-weight: 800; cursor: pointer;" onclick="sendFieldVerifyCode('password')">인증코드</button>
-      </div>
-      <div id="pwd-verify-code-box" style="display: none; margin-top: -0.5rem; margin-bottom: 1rem;">
-        <input type="text" class="styled-input" placeholder="이메일로 전송된 6자리 코드 입력">
+      <!-- PASSWORD CHANGE SECTION (PASSWORD PROTECTED) -->
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
+        <div style="font-weight: 800; font-size: 0.92rem; margin-bottom: 0.5rem;">🔒 비밀번호 변경</div>
+        <label class="input-label" style="font-size: 0.78rem;">현재 비밀번호</label>
+        <input type="password" class="styled-input" id="set-cur-pwd" placeholder="현재 비밀번호 입력" style="margin-bottom: 0.5rem;">
+        <label class="input-label" style="font-size: 0.78rem;">새 비밀번호</label>
+        <input type="password" class="styled-input" id="set-new-pwd" placeholder="새 비밀번호 입력" style="margin-bottom: 0.75rem;">
+        <button class="styled-input" style="background: var(--bg-card); font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="handleChangePasswordWithPassword()">새 비밀번호로 변경</button>
       </div>
 
-      <!-- SUPABASE CLOUD BACKEND CONNECTION -->
-      <div style="margin: 1.5rem 0 1rem; padding: 1rem; background: var(--bg-subtle); border-radius: var(--radius-md); border: 1px dashed var(--border);">
-        <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem;">🔌 Supabase 클라우드 연동 (실제 이메일 발송)</div>
-        <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.85rem;">supabase.com 무료 프로젝트의 URL과 anon key를 넣으면 실제 Gmail/네이버 메일함으로 인증 메일이 발송됩니다.</div>
-        
-        <label class="input-label" style="font-size: 0.8rem;">Project URL</label>
-        <input type="text" class="styled-input" id="cfg-supabase-url" value="https://dvpfdboyjibejnegshhi.supabase.co" style="font-size: 0.85rem;">
-
-        <label class="input-label" style="font-size: 0.8rem;">anon Public Key</label>
-        <input type="text" class="styled-input" id="cfg-supabase-key" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGZkYm95amliZWpuZWdzaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5Mjg3NTEsImV4cCI6MjEwODUwNDc1MX0.kr-Vai7LIUSfLQ26c4cGDT9pCz4v0QipKt6ESNAkWd0" style="font-size: 0.85rem;">
-
-        <button class="styled-input" style="background: var(--primary); color: #0f172a; font-weight: 900; cursor: pointer; border: none; margin-bottom: 0;" onclick="saveSupabaseConfig()">⚡ Supabase 연동 저장</button>
-      </div>
-
-      <button class="btn-main-action" onclick="saveUserPreferences()">설정 저장하기</button>
+      <button class="btn-main-action" onclick="saveUserPreferences()">프로필 저장하기</button>
 
       <!-- DELETE ACCOUNT BUTTON AT THE VERY BOTTOM -->
       <button class="btn-danger-action" onclick="openDeleteConfirmDialog()">⚠️ 계정 삭제하기</button>
     </div>
   </div>
 
-  <!-- MODAL: DELETE CONFIRM (2-STEP WITH EMAIL CODE & PASSWORD) -->
+  <!-- MODAL: DELETE CONFIRM (PASSWORD PROTECTED, NO EMAIL CODE) -->
   <div class="modal-backdrop" id="delete-modal">
-    <div class="modal-dialog" style="text-align: center;">
+    <div class="modal-dialog" style="text-align: center; max-width: 420px;">
       <div style="font-size: 3rem; margin-bottom: 0.4rem;">😢</div>
       <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.4rem;">정말 계정을 삭제하시겠습니까?</h3>
-      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
-        삭제하시면 지금까지 달성한 연속 학습 스트릭, 모든 뱃지와 세트가 영구적으로 삭제됩니다.
+      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
+        삭제하시면 지금까지 달성한 연속 학습 스트릭, 모든 뱃지와 단어 세트가 즉시 삭제됩니다.
       </p>
 
-      <div style="text-align: left;">
-        <label class="input-label">이메일 인증코드</label>
-        <div style="display: flex; gap: 0.5rem;">
-          <input type="text" class="styled-input" id="del-email-code" placeholder="6자리 인증코드">
-          <button class="styled-input" style="width: auto; padding: 0.75rem 1rem; font-weight: 800; cursor: pointer;" onclick="showToastPill('📧 삭제 확인 코드가 메일로 전송되었습니다!')">코드 발송</button>
-        </div>
-
-        <label class="input-label">현재 비밀번호 확인</label>
-        <input type="password" class="styled-input" id="del-pwd-confirm" placeholder="현재 비밀번호">
+      <div style="text-align: left; margin-bottom: 1.25rem;">
+        <label class="input-label">본인 확인을 위해 현재 비밀번호를 입력해주세요</label>
+        <input type="password" class="styled-input" id="del-pwd-confirm" placeholder="현재 비밀번호 입력" style="margin-bottom: 0;">
       </div>
 
-      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-        <button class="styled-input" style="flex: 1; padding: 0.85rem; font-weight: 800; cursor: pointer;" onclick="closeModal('delete-modal')">나중에 하기</button>
-        <button class="btn-danger-action" style="flex: 1; margin-top: 0; padding: 0.85rem;" onclick="executeAccountDeletion()">영구 삭제</button>
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="styled-input" style="flex: 1; padding: 0.85rem; font-weight: 800; cursor: pointer; margin: 0;" onclick="closeModal('delete-modal')">취소</button>
+        <button class="btn-danger-action" style="flex: 1; margin: 0; padding: 0.85rem;" onclick="executeAccountDeletion()">계정 영구 삭제</button>
       </div>
     </div>
   </div>
@@ -3217,63 +3171,15 @@
     }
 
     // =========================================================
-    // 8. REAL ACCOUNT CREATION & SUPABASE INTEGRATION
+    // 8. 100% LOCAL INSTANT AUTHENTICATION & PASSWORD PROTECTION
     // =========================================================
     let currentAuthMode = 'signup';
-    let pendingAccount = null;
-    let currentOtpSecret = null;
-
-    let SUPABASE_URL = localStorage.getItem('wordify_supabase_url') || 'https://dvpfdboyjibejnegshhi.supabase.co';
-    let SUPABASE_ANON_KEY = localStorage.getItem('wordify_supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGZkYm95amliZWpuZWdzaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5Mjg3NTEsImV4cCI6MjEwODUwNDc1MX0.kr-Vai7LIUSfLQ26c4cGDT9pCz4v0QipKt6ESNAkWd0';
-    let supabaseClient = null;
-
-    function initSupabase() {
-      if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-        try {
-          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-          supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (session && session.user) {
-              currentUser = {
-                id: session.user.id,
-                email: session.user.email,
-                name: session.user.user_metadata?.name || session.user.email.split('@')[0],
-                avatar: '🧑‍💻'
-              };
-              localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
-              refreshUserNavUI();
-              closeModal('auth-modal');
-              showToastPill(`🎉 환영합니다, ${currentUser.name}님!`);
-            } else if (event === 'SIGNED_OUT') {
-              currentUser = null;
-              localStorage.removeItem('wordify_current_user');
-              refreshUserNavUI();
-            }
-          });
-        } catch (e) {
-          console.error('Supabase init failed:', e);
-        }
-      }
-    }
-    initSupabase();
-
-    function saveSupabaseConfig() {
-      const url = document.getElementById('cfg-supabase-url').value.trim();
-      const key = document.getElementById('cfg-supabase-key').value.trim();
-      if (!url || !key) { alert('URL과 anon Key를 모두 입력해주세요!'); return; }
-      localStorage.setItem('wordify_supabase_url', url);
-      localStorage.setItem('wordify_supabase_key', key);
-      SUPABASE_URL = url;
-      SUPABASE_ANON_KEY = key;
-      initSupabase();
-      showToastPill('⚡ Supabase 연동 완료! 이제 실제 메일함으로 인증 메일이 발송됩니다.');
-    }
 
     function openAuthModal(mode) {
       currentAuthMode = mode;
-      returnToAuthForm();
-      document.getElementById('auth-title').textContent = mode === 'login' ? '🔑 Wordify 로그인' : '✨ Wordify 계정 만들기';
+      document.getElementById('auth-title').textContent = mode === 'login' ? '🔑 Wordify 로그인' : '✨ Wordify 회원가입';
       document.getElementById('auth-name-field-wrap').style.display = mode === 'login' ? 'none' : 'block';
-      document.getElementById('auth-submit-btn').textContent = mode === 'login' ? '로그인하기' : '인증코드 전송하고 계정 생성';
+      document.getElementById('auth-submit-btn').textContent = mode === 'login' ? '로그인하기' : '회원가입 완료';
       document.getElementById('auth-toggle-label').textContent = mode === 'login' ? '계정이 없으신가요?' : '계정이 이미 있으신가요?';
       document.getElementById('auth-toggle-link').textContent = mode === 'login' ? '회원가입' : '로그인';
       openModal('auth-modal');
@@ -3283,13 +3189,7 @@
       openAuthModal(currentAuthMode === 'login' ? 'signup' : 'login');
     }
 
-    function returnToAuthForm() {
-      document.getElementById('auth-form-step').style.display = 'block';
-      document.getElementById('auth-otp-step').style.display = 'none';
-      document.getElementById('auth-otp-code').value = '';
-    }
-
-    async function requestEmailOtp() {
+    function handleAuthSubmit() {
       const email = document.getElementById('auth-email').value.trim();
       const pwd = document.getElementById('auth-pwd').value.trim();
       const name = document.getElementById('auth-name').value.trim() || '학습자';
@@ -3297,86 +3197,39 @@
       if (!email || !pwd) { alert('이메일과 비밀번호를 모두 입력해주세요!'); return; }
 
       if (currentAuthMode === 'login') {
-        if (supabaseClient) {
-          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pwd });
-          if (error) { alert('로그인 실패: ' + error.message); return; }
-          showToastPill('환영합니다!');
-          closeModal('auth-modal');
+        const found = storedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+        if (!found) {
+          alert('등록되지 않은 이메일입니다. 회원가입을 먼저 진행해주세요!');
           return;
         }
-        const found = storedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
-        if (!found) { alert('등록되지 않은 이메일입니다. 회원가입을 먼저 진행해주세요!'); return; }
-        if (found.pwd !== pwd) { alert('비밀번호가 일치하지 않습니다.'); return; }
+        if (found.pwd !== pwd) {
+          alert('비밀번호가 일치하지 않습니다.');
+          return;
+        }
         setSessionUser(found);
         return;
       }
 
-      // SIGN UP
-      pendingAccount = { email, pwd, name, avatar: '🧑‍💻' };
-      document.getElementById('auth-target-email-txt').textContent = email;
-      document.getElementById('auth-form-step').style.display = 'none';
-      document.getElementById('auth-otp-step').style.display = 'block';
-
-      if (supabaseClient) {
-        const { data, error } = await supabaseClient.auth.signUp({
-          email: email,
-          password: pwd,
-          options: { data: { name: name } }
-        });
-        if (error) {
-          alert('가입 요청 실패: ' + error.message);
-          returnToAuthForm();
-          return;
-        }
-        showToastPill(`📧 [${email}] 메일함으로 실제 인증 메일이 발송되었습니다!`);
-      } else {
-        currentOtpSecret = Math.floor(100000 + Math.random() * 900000).toString();
-        showToastPill(`📬 [인증코드 발송] 코드: ${currentOtpSecret}`);
-      }
-    }
-
-    function autoFillVerificationCode() {
-      if (currentOtpSecret) {
-        document.getElementById('auth-otp-code').value = currentOtpSecret;
-        showToastPill('⚡ 인증코드가 자동으로 입력되었습니다!');
-      }
-    }
-
-    function resendVerificationCode() {
-      currentOtpSecret = Math.floor(100000 + Math.random() * 900000).toString();
-      showToastPill(`📬 새 인증코드가 재발송되었습니다: ${currentOtpSecret}`);
-    }
-
-    async function finishEmailVerification() {
-      const entered = document.getElementById('auth-otp-code').value.trim();
-      if (!entered) { alert('인증코드를 입력해주세요!'); return; }
-
-      if (supabaseClient) {
-        const { data, error } = await supabaseClient.auth.verifyOtp({
-          email: pendingAccount.email,
-          token: entered,
-          type: 'signup'
-        });
-        if (error) {
-          alert('인증 실패: ' + error.message);
-          return;
-        }
-        showToastPill('🎉 이메일 인증 완료! 계정이 성공적으로 생성되었습니다 (+50 XP)');
-        gainXp(50);
-        closeModal('auth-modal');
+      // SIGN UP (INSTANT, NO EMAIL VERIFICATION)
+      if (storedUsers.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+        alert('이미 가입된 이메일 주소입니다. 로그인해주세요!');
+        openAuthModal('login');
         return;
       }
 
-      // Fallback
-      if (entered !== currentOtpSecret) { alert('인증코드가 일치하지 않습니다. 다시 확인해주세요!'); return; }
+      const newAcc = {
+        id: 'u_' + Date.now(),
+        email: email,
+        pwd: pwd,
+        name: name,
+        avatar: '🧑‍💻'
+      };
 
-      const idx = storedUsers.findIndex(u => u.email.toLowerCase() === pendingAccount.email.toLowerCase());
-      if (idx >= 0) storedUsers[idx] = pendingAccount;
-      else storedUsers.push(pendingAccount);
+      storedUsers.push(newAcc);
       localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
 
-      setSessionUser(pendingAccount);
-      showToastPill('🎉 이메일 인증 완료! 계정이 성공적으로 생성되었습니다 (+50 XP)');
+      setSessionUser(newAcc);
+      showToastPill(`🎉 회원가입 완료! 환영합니다, ${name}님! (+50 XP)`);
       gainXp(50);
     }
 
@@ -3388,10 +3241,7 @@
       showToastPill(`환영합니다, ${currentUser.name}님!`);
     }
 
-    async function performLogout() {
-      if (supabaseClient) {
-        await supabaseClient.auth.signOut();
-      }
+    function performLogout() {
       currentUser = null;
       localStorage.removeItem('wordify_current_user');
       refreshUserNavUI();
@@ -3433,6 +3283,14 @@
         const podNm = document.getElementById('live-podium-my-name');
         if (podNm) podNm.textContent = currentUser.name || '나';
 
+        // Pre-fill settings
+        const setProfName = document.getElementById('set-prof-name');
+        if (setProfName) setProfName.value = currentUser.name || '';
+        const setProfAvatar = document.getElementById('set-prof-avatar');
+        if (setProfAvatar) setProfAvatar.value = currentUser.avatar || '🧑‍💻';
+        const setProfEmail = document.getElementById('set-prof-email');
+        if (setProfEmail) setProfEmail.value = currentUser.email || '';
+
         renderMySets();
         renderLeaderboardView();
       } else {
@@ -3447,45 +3305,99 @@
     }
     refreshUserNavUI();
 
-    // 9. SETTINGS & DELETE ACCOUNT
-    function sendFieldVerifyCode(field) {
-      if (field === 'email') document.getElementById('email-verify-code-box').style.display = 'block';
-      if (field === 'password') document.getElementById('pwd-verify-code-box').style.display = 'block';
-      const c = Math.floor(100000 + Math.random() * 900000);
-      showToastPill(`📧 변경 인증코드 [${c}] 가 발송되었습니다.`);
+    // 9. SETTINGS & PASSWORD-PROTECTED PROFILE CHANGES
+    function handleChangeEmailWithPassword() {
+      if (!currentUser) return;
+      const newEmail = document.getElementById('set-prof-email').value.trim();
+      const curPwd = document.getElementById('set-email-cur-pwd').value.trim();
+
+      if (!newEmail) { alert('새 이메일 주소를 입력해주세요!'); return; }
+      if (!curPwd) { alert('본인 확인을 위해 현재 비밀번호를 입력해주세요!'); return; }
+
+      if (curPwd !== currentUser.pwd) {
+        alert('현재 비밀번호가 일치하지 않습니다.');
+        return;
+      }
+
+      currentUser.email = newEmail;
+      const idx = storedUsers.findIndex(u => u.id === currentUser.id);
+      if (idx >= 0) storedUsers[idx].email = newEmail;
+      localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
+      localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
+
+      document.getElementById('set-email-cur-pwd').value = '';
+      refreshUserNavUI();
+      showToastPill('✅ 이메일이 성공적으로 변경되었습니다!');
+    }
+
+    function handleChangePasswordWithPassword() {
+      if (!currentUser) return;
+      const curPwd = document.getElementById('set-cur-pwd').value.trim();
+      const newPwd = document.getElementById('set-new-pwd').value.trim();
+
+      if (!curPwd) { alert('현재 비밀번호를 입력해주세요!'); return; }
+      if (!newPwd) { alert('새로운 비밀번호를 입력해주세요!'); return; }
+
+      if (curPwd !== currentUser.pwd) {
+        alert('현재 비밀번호가 일치하지 않습니다.');
+        return;
+      }
+
+      currentUser.pwd = newPwd;
+      const idx = storedUsers.findIndex(u => u.id === currentUser.id);
+      if (idx >= 0) storedUsers[idx].pwd = newPwd;
+      localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
+      localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
+
+      document.getElementById('set-cur-pwd').value = '';
+      document.getElementById('set-new-pwd').value = '';
+      showToastPill('✅ 비밀번호가 안전하게 변경되었습니다!');
     }
 
     function saveUserPreferences() {
       const name = document.getElementById('set-prof-name').value.trim();
       const avatar = document.getElementById('set-prof-avatar').value.trim();
       if (currentUser) {
-        currentUser.name = name;
-        currentUser.avatar = avatar;
+        if (name) currentUser.name = name;
+        if (avatar) currentUser.avatar = avatar;
+        const idx = storedUsers.findIndex(u => u.id === currentUser.id);
+        if (idx >= 0) {
+          storedUsers[idx].name = currentUser.name;
+          storedUsers[idx].avatar = currentUser.avatar;
+          localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
+        }
         localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
       }
       refreshUserNavUI();
       closeModal('settings-modal');
-      showToastPill('✅ 설정이 안전하게 저장되었습니다!');
+      showToastPill('✅ 프로필이 안전하게 저장되었습니다!');
     }
 
     function openDeleteConfirmDialog() {
       closeModal('settings-modal');
+      const pwdInput = document.getElementById('del-pwd-confirm');
+      if (pwdInput) pwdInput.value = '';
       openModal('delete-modal');
     }
 
     function executeAccountDeletion() {
-      const code = document.getElementById('del-email-code').value.trim();
-      const pwd = document.getElementById('del-pwd-confirm').value.trim();
-      if (!code || !pwd) { alert('인증코드와 현재 비밀번호를 모두 입력해야 삭제가 진행됩니다.'); return; }
+      if (!currentUser) return;
+      const pwdConfirm = document.getElementById('del-pwd-confirm').value.trim();
+      if (!pwdConfirm) { alert('삭제를 진행하려면 현재 비밀번호를 입력해주세요!'); return; }
 
-      if (currentUser) {
-        storedUsers = storedUsers.filter(u => u.email !== currentUser.email);
-        localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
+      if (pwdConfirm !== currentUser.pwd) {
+        alert('현재 비밀번호가 일치하지 않습니다.');
+        return;
       }
+
+      storedUsers = storedUsers.filter(u => u.id !== currentUser.id);
+      localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
+      currentUser = null;
+      localStorage.removeItem('wordify_current_user');
+
       closeModal('delete-modal');
-      localStorage.clear();
-      showToastPill('계정 및 모든 데이터가 영구 삭제되었습니다.');
-      setTimeout(() => location.reload(), 1400);
+      refreshUserNavUI();
+      showToastPill('계정이 안전하게 영구 삭제되었습니다.');
     }
 
     // 10. CREATE STUDY SET (WORD-BY-WORD INPUT EDITOR)
