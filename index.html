@@ -1917,19 +1917,19 @@
         </div>
       </div>
 
-      <!-- STEP 2: EMAIL 6-DIGIT OTP VERIFICATION -->
+      <!-- STEP 2: EMAIL OTP VERIFICATION -->
       <div id="auth-otp-step" style="display: none; text-align: center;">
         <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">📬</div>
-        <h4 style="font-size: 1.2rem; font-weight: 900; margin-bottom: 0.35rem;">이메일 인증코드 입력</h4>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
-          <strong id="auth-target-email-txt">user@example.com</strong> 으로 6자리 인증코드를 발송했습니다. 코드를 입력해 주세요!
+        <h4 style="font-size: 1.2rem; font-weight: 900; margin-bottom: 0.35rem;">실제 이메일 인증</h4>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.4;">
+          <strong id="auth-target-email-txt">user@example.com</strong> 메일함으로 Supabase 인증 메일이 발송되었습니다!<br>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">메일함에서 <strong>[Confirm your email] 링크를 클릭</strong>하시거나, 메일의 <strong>6자리 코드</strong>를 아래에 입력해 주세요.</span>
         </p>
 
         <input type="text" class="styled-input" id="auth-otp-code" placeholder="6자리 인증코드 입력" style="font-size: 1.4rem; text-align: center; letter-spacing: 0.2em; font-weight: 900;" maxlength="6">
 
         <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-          <button class="styled-input" style="flex: 1; padding: 0.65rem; font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="autoFillVerificationCode()">⚡ 발송된 코드 자동입력</button>
-          <button class="styled-input" style="flex: 1; padding: 0.65rem; font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="resendVerificationCode()">🔄 재발송</button>
+          <button class="styled-input" style="flex: 1; padding: 0.65rem; font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="resendVerificationCode()">🔄 메일 재발송</button>
         </div>
 
         <button class="btn-main-action" onclick="finishEmailVerification()">인증 완료 및 계정 생성 🎉</button>
@@ -2026,10 +2026,10 @@
         <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.85rem;">supabase.com 무료 프로젝트의 URL과 anon key를 넣으면 실제 Gmail/네이버 메일함으로 인증 메일이 발송됩니다.</div>
         
         <label class="input-label" style="font-size: 0.8rem;">Project URL</label>
-        <input type="text" class="styled-input" id="cfg-supabase-url" placeholder="https://xyzcompany.supabase.co" style="font-size: 0.85rem;">
+        <input type="text" class="styled-input" id="cfg-supabase-url" value="https://dvpfdboyjibejnegshhi.supabase.co" style="font-size: 0.85rem;">
 
         <label class="input-label" style="font-size: 0.8rem;">anon Public Key</label>
-        <input type="text" class="styled-input" id="cfg-supabase-key" placeholder="eyJh..." style="font-size: 0.85rem;">
+        <input type="text" class="styled-input" id="cfg-supabase-key" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGZkYm95amliZWpuZWdzaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5Mjg3NTEsImV4cCI6MjEwODUwNDc1MX0.kr-Vai7LIUSfLQ26c4cGDT9pCz4v0QipKt6ESNAkWd0" style="font-size: 0.85rem;">
 
         <button class="styled-input" style="background: var(--primary); color: #0f172a; font-weight: 900; cursor: pointer; border: none; margin-bottom: 0;" onclick="saveSupabaseConfig()">⚡ Supabase 연동 저장</button>
       </div>
@@ -2644,8 +2644,8 @@
     let pendingAccount = null;
     let currentOtpSecret = null;
 
-    let SUPABASE_URL = localStorage.getItem('wordify_supabase_url') || '';
-    let SUPABASE_ANON_KEY = localStorage.getItem('wordify_supabase_key') || '';
+    let SUPABASE_URL = localStorage.getItem('wordify_supabase_url') || 'https://dvpfdboyjibejnegshhi.supabase.co';
+    let SUPABASE_ANON_KEY = localStorage.getItem('wordify_supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGZkYm95amliZWpuZWdzaGhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5Mjg3NTEsImV4cCI6MjEwODUwNDc1MX0.kr-Vai7LIUSfLQ26c4cGDT9pCz4v0QipKt6ESNAkWd0';
     let supabaseClient = null;
 
     function initSupabase() {
@@ -2662,6 +2662,8 @@
               };
               localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
               refreshUserNavUI();
+              closeModal('auth-modal');
+              showToastPill(`🎉 환영합니다, ${currentUser.name}님!`);
             } else if (event === 'SIGNED_OUT') {
               currentUser = null;
               localStorage.removeItem('wordify_current_user');
