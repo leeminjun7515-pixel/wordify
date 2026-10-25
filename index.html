@@ -2164,12 +2164,15 @@
     ];
 
     // STORAGE & SESSION
-    let storedUsers = JSON.parse(localStorage.getItem('wordify_users')) || [
-      { email: 'lee.minjun7515@gmail.com', name: 'Minjun Lee', avatar: '🧑‍💻', pwd: 'password123' }
-    ];
-    let currentUser = JSON.parse(localStorage.getItem('wordify_current_user')) || storedUsers[0];
+    let storedUsers = JSON.parse(localStorage.getItem('wordify_users')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('wordify_current_user')) || null;
+    // Clean old dummy session if never explicitly created
+    if (currentUser && (!currentUser.pwd || currentUser.pwd === 'password123') && storedUsers.length === 0) {
+      currentUser = null;
+      localStorage.removeItem('wordify_current_user');
+    }
     let studySets = JSON.parse(localStorage.getItem('wordify_sets')) || SEED_SETS;
-    let userXp = parseInt(localStorage.getItem('wordify_xp')) || 1420;
+    let userXp = parseInt(localStorage.getItem('wordify_xp')) || 0;
 
     // ACTIVE STUDY STATE
     let activeSet = null;
