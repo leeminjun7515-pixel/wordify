@@ -2,364 +2,240 @@
 <html lang="ko" data-theme="white">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Wordify — The moment a word becomes my own</title>
   
-  <!-- FONTS: Pretendard for clean Korean/English, Plus Jakarta Sans for Brand -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================
-       CSS VARIABLES & QUIZLET AESTHETICS (ACCENT: #ffe050)
+       CSS THEMES (WHITE / DARK / WARM)
        ========================================================= */
     :root {
       --primary: #ffe050;
-      --primary-hover: #f5d438;
-      --primary-active: #e2c11e;
-      --primary-soft: rgba(255, 224, 80, 0.22);
-      --primary-glow: rgba(255, 224, 80, 0.45);
-      
-      --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      --font-brand: 'Plus Jakarta Sans', var(--font-body);
-
+      --primary-hover: #fed726;
+      --primary-soft: rgba(255, 224, 80, 0.16);
+      --primary-glow: rgba(255, 224, 80, 0.4);
+      --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      --font-brand: 'Plus Jakarta Sans', var(--font-main);
       --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 22px;
-      --radius-xl: 30px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
       --radius-full: 9999px;
-
-      --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-      --transition-smooth: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      --card-spring: 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* 1. WHITE THEME (Clean Quizlet Style) */
     html[data-theme="white"] {
-      --bg-page: #f8fafc;
-      --bg-header: rgba(255, 255, 255, 0.94);
+      --bg: #f8fafc;
       --bg-card: #ffffff;
-      --bg-card-hover: #ffffff;
       --bg-subtle: #f1f5f9;
-      --bg-input: #ffffff;
+      --bg-elevated: #ffffff;
       --border: #e2e8f0;
-      --border-hover: #cbd5e1;
+      --border-strong: #cbd5e1;
       --text-main: #0f172a;
       --text-secondary: #475569;
-      --text-muted: #94a3b8;
-      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
-      --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
-      --shadow-card: 0 16px 36px -6px rgba(15, 23, 42, 0.12);
-      --flashcard-front: #ffffff;
-      --flashcard-back: #fffdf5;
-      --grid-line: rgba(148, 163, 184, 0.25);
-    }
-
-    /* 2. DARK THEME (Sleek Slate Dark) */
-    html[data-theme="dark"] {
-      --bg-page: #0f1115;
-      --bg-header: rgba(15, 17, 21, 0.94);
-      --bg-card: #181b21;
-      --bg-card-hover: #1f232b;
-      --bg-subtle: #242832;
-      --bg-input: #181b21;
-      --border: #2b303c;
-      --border-hover: #3d4454;
-      --text-main: #f8fafc;
-      --text-secondary: #cbd5e1;
       --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --canvas-bg: #ffffff;
+      --canvas-grid: #e2e8f0;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #09090b;
+      --bg-card: #18181b;
+      --bg-subtle: #27272a;
+      --bg-elevated: #27272a;
+      --border: #27272a;
+      --border-strong: #3f3f46;
+      --text-main: #fafafa;
+      --text-secondary: #d4d4d8;
+      --text-muted: #a1a1aa;
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.6);
-      --shadow-card: 0 16px 36px -6px rgba(0, 0, 0, 0.7);
-      --flashcard-front: #1c2028;
-      --flashcard-back: #262b36;
-      --grid-line: rgba(255, 255, 255, 0.12);
+      --shadow-card: 0 12px 28px -6px rgba(0, 0, 0, 0.6);
+      --canvas-bg: #18181b;
+      --canvas-grid: #3f3f46;
     }
 
-    /* 3. WARM THEME (Aesthetic Cozy Paper) */
     html[data-theme="warm"] {
-      --bg-page: #f9f5ec;
-      --bg-header: rgba(249, 245, 236, 0.94);
+      --bg: #fcfaf2;
       --bg-card: #ffffff;
-      --bg-card-hover: #ffffff;
-      --bg-subtle: #eee6d6;
-      --bg-input: #ffffff;
-      --border: #e4d8c3;
-      --border-hover: #d5c4a6;
-      --text-main: #2a241c;
-      --text-secondary: #5c5243;
-      --text-muted: #9e917d;
-      --shadow-sm: 0 2px 8px rgba(42, 36, 28, 0.05);
-      --shadow-md: 0 8px 24px -4px rgba(42, 36, 28, 0.09);
-      --shadow-card: 0 16px 36px -6px rgba(42, 36, 28, 0.13);
-      --flashcard-front: #ffffff;
-      --flashcard-back: #fffcf4;
-      --grid-line: rgba(92, 82, 67, 0.2);
+      --bg-subtle: #f6f1e3;
+      --bg-elevated: #ffffff;
+      --border: #e5dec9;
+      --border-strong: #d6ccb2;
+      --text-main: #1f2937;
+      --text-secondary: #4b5563;
+      --text-muted: #6b7280;
+      --shadow-sm: 0 2px 8px rgba(92, 77, 43, 0.05);
+      --shadow-card: 0 10px 25px -5px rgba(92, 77, 43, 0.08);
+      --canvas-bg: #fefdfa;
+      --canvas-grid: #e5dec9;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: var(--font-body);
-      background-color: var(--bg-page);
+      background-color: var(--bg);
       color: var(--text-main);
-      line-height: 1.5;
+      font-family: var(--font-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      transition: background-color var(--transition-smooth), color var(--transition-smooth);
-      overflow-x: hidden;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* =========================================================
-       TOP NAVBAR: QUIZLET STYLE
-       ========================================================= */
+    /* NAVBAR */
     .navbar {
       position: sticky;
       top: 0;
-      z-index: 80;
-      background: var(--bg-header);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      background: var(--bg-card);
       border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1.5rem;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: border-color var(--transition-smooth), background-color var(--transition-smooth);
+      padding: 0 1.5rem;
+      box-shadow: var(--shadow-sm);
     }
 
     .nav-brand-wrap {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.5rem;
     }
 
     .brand-logo {
       display: flex;
       flex-direction: column;
-      text-decoration: none;
       cursor: pointer;
       user-select: none;
     }
 
-    .brand-row {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
     .brand-name {
       font-family: var(--font-brand);
-      font-size: 1.55rem;
+      font-size: 1.45rem;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.03em;
       color: var(--text-main);
-      display: flex;
-      align-items: center;
-    }
-
-    .brand-tag {
-      background: var(--primary);
-      color: #0f172a;
-      font-size: 0.72rem;
-      font-weight: 900;
-      padding: 0.18rem 0.5rem;
-      border-radius: var(--radius-sm);
-      letter-spacing: -0.01em;
-      box-shadow: 0 2px 6px var(--primary-glow);
+      line-height: 1.1;
     }
 
     .brand-slogan {
-      font-size: 0.7rem;
-      color: var(--text-muted);
+      font-size: 0.68rem;
       font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-top: -0.1rem;
+      color: var(--text-muted);
+      letter-spacing: -0.01em;
     }
 
-    /* Desktop Navigation Tabs */
     .desktop-nav-tabs {
       display: flex;
-      align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
     }
 
     .nav-tab-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      font-weight: 700;
-      padding: 0.55rem 0.95rem;
+      padding: 0.5rem 0.9rem;
       border-radius: var(--radius-md);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.92rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      transition: var(--transition-fast);
-      white-space: nowrap;
+      transition: all var(--transition-fast);
     }
 
     .nav-tab-btn:hover {
-      color: var(--text-main);
       background: var(--bg-subtle);
+      color: var(--text-main);
     }
 
     .nav-tab-btn.active {
+      background: var(--primary-soft);
       color: var(--text-main);
-      background: var(--bg-subtle);
       font-weight: 800;
-      position: relative;
     }
 
-    .nav-tab-btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 20%;
-      right: 20%;
-      height: 3px;
-      background: var(--primary);
-      border-radius: var(--radius-full);
-    }
-
-    /* Right Action Bar */
     .nav-actions {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
 
-    /* + Create Button (Quizlet signature pill) */
     .btn-create-pill {
       background: var(--primary);
       color: #0f172a;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      font-size: 0.92rem;
-      font-weight: 800;
-      padding: 0.5rem 1rem;
+      font-weight: 900;
+      font-size: 0.9rem;
+      padding: 0.48rem 1.05rem;
       border-radius: var(--radius-full);
-      display: flex;
+      border: none;
+      display: inline-flex;
       align-items: center;
       gap: 0.4rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px var(--primary-glow);
-      transition: transform var(--transition-fast), background-color var(--transition-fast);
-      white-space: nowrap;
+      box-shadow: 0 2px 8px var(--primary-glow);
+      transition: transform var(--transition-fast);
     }
+    .btn-create-pill:hover { transform: translateY(-1px); }
 
-    .btn-create-pill:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-create-pill .plus-icon {
-      font-size: 1.25rem;
-      line-height: 1;
-      font-weight: 900;
-    }
-
-    /* Streak Badge Pill */
     .pill-badge {
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      padding: 0.45rem 0.85rem;
-      border-radius: var(--radius-full);
-      font-size: 0.86rem;
-      font-weight: 800;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      cursor: pointer;
-      user-select: none;
-      transition: transform var(--transition-fast);
-      white-space: nowrap;
-    }
-
-    .pill-badge:hover {
-      transform: scale(1.03);
-    }
-
-    .pill-xp {
-      background: var(--primary-soft);
-      border-color: rgba(255, 224, 80, 0.6);
-      color: var(--text-main);
-    }
-
-    /* Avatar Button */
-    .avatar-btn {
-      width: 40px;
-      height: 40px;
+      padding: 0.35rem 0.75rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
       border-radius: var(--radius-full);
-      border: 2px solid var(--primary);
-      background: var(--bg-card);
+      font-size: 0.82rem;
+      font-weight: 800;
       cursor: pointer;
+    }
+
+    .avatar-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--border);
+      background: var(--bg-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.25rem;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-fast);
-      flex-shrink: 0;
-    }
-
-    .avatar-btn:hover {
-      transform: scale(1.06);
-    }
-
-    /* Guest Auth Buttons */
-    .guest-auth-box {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      cursor: pointer;
     }
 
     .btn-auth-login {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--text-main);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.88rem;
-      padding: 0.45rem 0.95rem;
+      padding: 0.48rem 0.95rem;
       border-radius: var(--radius-md);
       cursor: pointer;
-      transition: background var(--transition-fast);
     }
-
-    .btn-auth-login:hover {
-      background: var(--bg-subtle);
-    }
-
     .btn-auth-signup {
       background: var(--primary);
       color: #0f172a;
-      border: none;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 0.88rem;
-      padding: 0.45rem 1.05rem;
+      padding: 0.48rem 1.05rem;
       border-radius: var(--radius-md);
+      border: none;
       cursor: pointer;
-      box-shadow: 0 4px 12px var(--primary-glow);
-      transition: transform var(--transition-fast);
+      box-shadow: 0 2px 10px var(--primary-glow);
     }
 
-    .btn-auth-signup:hover {
-      transform: translateY(-1px);
-    }
-
-    /* =========================================================
-       USER DROPDOWN MENU
-       ========================================================= */
+    /* DROPDOWN MENU */
     .dropdown-menu {
       position: absolute;
-      top: 68px;
+      top: 66px;
       right: 1.5rem;
       width: 290px;
       background: var(--bg-card);
@@ -370,15 +246,8 @@
       display: none;
       flex-direction: column;
       z-index: 120;
-      animation: dropDownScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     .dropdown-menu.show { display: flex; }
-
-    @keyframes dropDownScale {
-      from { opacity: 0; transform: translateY(-10px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
 
     .dropdown-user-card {
       display: flex;
@@ -389,33 +258,10 @@
       border-radius: var(--radius-md);
       margin-bottom: 0.5rem;
     }
+    .dropdown-avatar { font-size: 1.8rem; }
+    .dropdown-name { font-weight: 800; font-size: 0.95rem; }
+    .dropdown-email { font-size: 0.75rem; color: var(--text-muted); }
 
-    .dropdown-avatar {
-      font-size: 1.8rem;
-    }
-
-    .dropdown-user-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .dropdown-name {
-      font-weight: 800;
-      font-size: 0.95rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .dropdown-email {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* 3 Theme Picker Bar */
     .theme-bar {
       display: flex;
       align-items: center;
@@ -425,74 +271,44 @@
       border-radius: var(--radius-md);
       margin-bottom: 0.5rem;
     }
-
-    .theme-bar-label {
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .theme-btn-group {
-      display: flex;
-      gap: 0.25rem;
-    }
-
+    .theme-btn-group { display: flex; gap: 0.25rem; }
     .t-btn {
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-      color: var(--text-secondary);
-      padding: 0.28rem 0.55rem;
+      padding: 0.28rem 0.6rem;
       border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      font-weight: 800;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: all var(--transition-fast);
     }
-
     .t-btn.active {
-      background: var(--primary);
-      color: #0f172a;
-      border-color: var(--primary);
-      box-shadow: 0 2px 6px var(--primary-glow);
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
     }
 
     .menu-item {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      padding: 0.7rem 0.85rem;
+      gap: 0.6rem;
+      padding: 0.65rem 0.75rem;
       border-radius: var(--radius-md);
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-main);
-      background: transparent;
       border: none;
-      width: 100%;
-      text-align: left;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background var(--transition-fast);
+      text-align: left;
+      width: 100%;
     }
+    .menu-item:hover { background: var(--bg-subtle); }
+    .menu-item.danger { color: #ef4444; }
+    .menu-divider { height: 1px; background: var(--border); margin: 0.35rem 0; }
 
-    .menu-item:hover {
-      background: var(--bg-subtle);
-    }
-
-    .menu-item.danger {
-      color: #ef4444;
-    }
-
-    .menu-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0.4rem 0;
-    }
-
-    /* =========================================================
-       MAIN CONTENT CONTAINER
-       ========================================================= */
+    /* MAIN CONTAINER */
     .main-content {
       max-width: 1100px;
       width: 100%;
@@ -501,9 +317,7 @@
       flex: 1;
     }
 
-    /* =========================================================
-       LANDING / PROMO VIEW (FOR GUESTS)
-       ========================================================= */
+    /* GUEST LANDING PROMO */
     .landing-wrap {
       display: flex;
       flex-direction: column;
@@ -537,7 +351,7 @@
 
     .landing-title {
       font-family: var(--font-brand);
-      font-size: 2.8rem;
+      font-size: 2.7rem;
       font-weight: 900;
       letter-spacing: -0.04em;
       line-height: 1.15;
@@ -545,7 +359,7 @@
     }
 
     .landing-sub {
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       color: var(--text-secondary);
       max-width: 640px;
       margin: 0 auto 2.25rem;
@@ -571,9 +385,7 @@
       box-shadow: 0 4px 16px var(--primary-glow);
       transition: transform var(--transition-fast);
     }
-    .btn-landing-primary:hover {
-      transform: translateY(-2px);
-    }
+    .btn-landing-primary:hover { transform: translateY(-2px); }
 
     .btn-landing-secondary {
       background: var(--bg-card);
@@ -585,23 +397,19 @@
       border-radius: var(--radius-lg);
       cursor: pointer;
       box-shadow: var(--shadow-sm);
-      transition: background var(--transition-fast);
-    }
-    .btn-landing-secondary:hover {
-      background: var(--bg-subtle);
     }
 
     .landing-features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
     }
 
     .landing-feature-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.75rem;
+      padding: 1.6rem;
       box-shadow: var(--shadow-sm);
       transition: transform var(--transition-fast), border-color var(--transition-fast);
     }
@@ -610,50 +418,22 @@
       border-color: var(--primary);
     }
 
-    .landing-feat-icon {
-      font-size: 2.2rem;
-      margin-bottom: 0.85rem;
-    }
+    .landing-feat-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .landing-feat-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .landing-feat-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
 
-    .landing-feat-title {
-      font-weight: 800;
-      font-size: 1.15rem;
-      margin-bottom: 0.45rem;
-    }
-
-    .landing-feat-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-
-    /* =========================================================
-       HERO BANNER: AESTHETIC QUIZLET PROMO
-       ========================================================= */
+    /* DASHBOARD VIEWS */
     .hero-container {
       background: linear-gradient(135deg, var(--bg-card) 0%, var(--primary-soft) 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: 2.25rem 2rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       box-shadow: var(--shadow-sm);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-container::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-      pointer-events: none;
     }
 
     .hero-left h1 {
@@ -662,781 +442,314 @@
       font-weight: 900;
       letter-spacing: -0.03em;
       line-height: 1.25;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .hero-left p {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
       max-width: 580px;
     }
 
-    .hero-stats-group {
-      display: flex;
-      gap: 1rem;
-      flex-shrink: 0;
-    }
-
+    .hero-stats-group { display: flex; gap: 0.85rem; flex-shrink: 0; }
     .hero-stat-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1rem 1.4rem;
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.25rem;
       text-align: center;
-      min-width: 110px;
-      box-shadow: var(--shadow-md);
+      min-width: 100px;
+      box-shadow: var(--shadow-sm);
     }
-
     .hero-stat-num {
-      font-size: 1.65rem;
+      font-family: var(--font-brand);
+      font-size: 1.45rem;
       font-weight: 900;
       color: var(--text-main);
-      font-family: var(--font-brand);
     }
+    .hero-stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin-top: 0.2rem; }
 
-    .hero-stat-label {
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      margin-top: 0.15rem;
-    }
-
-    /* Section Headers */
     .section-head {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       margin-bottom: 1.25rem;
     }
+    .section-head-title { font-size: 1.35rem; font-weight: 900; }
+    .section-head-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem; }
 
-    .section-head-title {
-      font-size: 1.35rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-
-    .section-head-subtitle {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-    }
-
-    /* =========================================================
-       SETS GRID: QUIZLET FLASHCARD DECK PREVIEW
-       ========================================================= */
+    /* SETS GRID */
     .sets-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.25rem;
-      margin-bottom: 3rem;
     }
 
     .set-item-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      padding: 1.4rem;
       box-shadow: var(--shadow-sm);
       cursor: pointer;
+      transition: all var(--transition-fast);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+      height: 190px;
     }
-
     .set-item-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-card);
+      transform: translateY(-3px);
       border-color: var(--primary);
+      box-shadow: var(--shadow-card);
     }
 
-    .set-badge-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.85rem;
-      flex-wrap: wrap;
-    }
-
+    .set-badge-row { display: flex; gap: 0.4rem; margin-bottom: 0.65rem; }
     .lang-pill {
       font-size: 0.72rem;
-      font-weight: 900;
+      font-weight: 800;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
       padding: 0.2rem 0.55rem;
       border-radius: var(--radius-full);
-      background: var(--primary);
-      color: #0f172a;
+      color: var(--text-secondary);
     }
-
     .type-pill {
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 800;
+      background: var(--primary-soft);
       padding: 0.2rem 0.55rem;
       border-radius: var(--radius-full);
-      background: var(--bg-subtle);
-      color: var(--text-secondary);
-      border: 1px solid var(--border);
+      color: var(--text-main);
     }
 
-    .set-name {
-      font-size: 1.18rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-      margin-bottom: 0.45rem;
-    }
-
+    .set-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem; }
     .set-description {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      line-height: 1.45;
-      margin-bottom: 1.2rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-
     .set-meta-bottom {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding-top: 0.85rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.82rem;
-    }
-
-    .author-info {
-      display: flex;
       align-items: center;
-      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
       font-weight: 700;
-      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      padding-top: 0.65rem;
+      margin-top: 0.5rem;
     }
 
-    .term-count-badge {
-      font-weight: 800;
-      background: var(--bg-subtle);
-      padding: 0.25rem 0.65rem;
-      border-radius: var(--radius-md);
-      color: var(--text-main);
-    }
+    /* STUDY SCREEN */
+    .study-screen { display: none; }
+    .study-screen.active { display: block; }
 
-    /* =========================================================
-       QUIZLET SIGNATURE STUDY VIEW
-       ========================================================= */
-    .study-screen {
-      display: none;
-      flex-direction: column;
-      gap: 1.75rem;
-    }
-
-    .study-screen.active {
-      display: flex;
-    }
-
-    /* Top Study Navigation & Modes */
     .study-top-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      align-items: center;
       flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .btn-exit-study {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
       font-weight: 800;
       font-size: 0.88rem;
-      padding: 0.55rem 1rem;
-      border-radius: var(--radius-md);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      box-shadow: var(--shadow-sm);
-      transition: background var(--transition-fast);
     }
 
-    .btn-exit-study:hover {
-      background: var(--bg-subtle);
-    }
-
-    /* 4 QUIZLET CORE MODES */
     .modes-pill-bar {
       display: flex;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
+      gap: 0.4rem;
+      background: var(--bg-subtle);
       padding: 0.3rem;
-      gap: 0.3rem;
-      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
     }
 
     .mode-tab-item {
-      background: transparent;
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-md);
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-full);
-      font-size: 0.86rem;
-      font-weight: 800;
+      background: transparent;
       color: var(--text-secondary);
+      font-weight: 800;
+      font-size: 0.85rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all var(--transition-fast);
-      white-space: nowrap;
     }
-
-    .mode-tab-item:hover {
-      color: var(--text-main);
-    }
-
     .mode-tab-item.active {
-      background: var(--primary);
-      color: #0f172a;
-      box-shadow: 0 2px 8px var(--primary-glow);
+      background: var(--bg-card);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
     }
 
-    /* 3D FLASHCARD CONTAINER */
+    /* 3D FLASHCARD STAGE */
     .flashcard-stage {
-      perspective: 1400px;
-      width: 100%;
-      max-width: 680px;
-      height: 380px;
-      margin: 0.5rem auto 1rem;
-      cursor: pointer;
-      user-select: none;
+      perspective: 1200px;
+      height: 360px;
+      margin-bottom: 1.5rem;
     }
 
-    .quizlet-card {
+    .flashcard-3d {
       width: 100%;
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform var(--card-spring);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-card);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
     }
+    .flashcard-3d.flipped { transform: rotateY(180deg); }
 
-    .quizlet-card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .card-pane {
+    .flashcard-face {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
       border-radius: var(--radius-xl);
+      background: var(--bg-card);
       border: 2px solid var(--border);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.25rem 2rem;
+      text-align: center;
+    }
+    .flashcard-back { transform: rotateY(180deg); background: var(--bg-card); }
+
+    .card-top-tag { font-size: 0.82rem; font-weight: 800; color: var(--text-muted); }
+    .card-center-text { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .card-term-display { font-size: 2.6rem; font-weight: 900; font-family: var(--font-brand); margin-bottom: 0.5rem; }
+    .card-pronun-display { font-size: 1.05rem; color: var(--text-muted); }
+    .card-meaning-display { font-size: 1.85rem; font-weight: 900; margin-bottom: 0.65rem; }
+    .card-example-display { font-size: 0.95rem; color: var(--text-secondary); max-width: 500px; line-height: 1.5; }
+    .card-bot-hint { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* CARD CONTROLS */
+    .card-controls-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-circle-action {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+    .card-counter { font-weight: 800; font-size: 1rem; color: var(--text-muted); min-width: 70px; text-align: center; }
+
+    /* RICE GRID CANVAS FOR NON-ROMAN */
+    .canvas-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 2rem;
-      text-align: center;
-      box-sizing: border-box;
-      background: var(--flashcard-front);
-      transition: border-color var(--transition-fast);
+      margin: 1.5rem 0;
     }
 
-    .card-pane.back {
-      background: var(--flashcard-back);
-      transform: rotateY(180deg);
-      border-color: var(--primary);
-    }
-
-    /* Card Top Actions (Speaker, Star) */
-    .card-corner-actions {
-      position: absolute;
-      top: 1.25rem;
-      right: 1.25rem;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 10;
-    }
-
-    .icon-action-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-full);
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: transform var(--transition-fast), background var(--transition-fast);
-    }
-
-    .icon-action-btn:hover {
-      transform: scale(1.1);
-      background: var(--bg-page);
-    }
-
-    .icon-action-btn.starred {
-      color: #eab308;
-      background: #fef9c3;
-      border-color: #fde047;
-    }
-
-    .card-term-display {
-      font-size: 2.5rem;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
-
-    .card-phonetic-display {
-      font-size: 1.15rem;
-      font-style: italic;
-      color: var(--text-secondary);
-      margin-bottom: 1.2rem;
-    }
-
-    .card-meaning-display {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-main);
-      line-height: 1.3;
-    }
-
-    .card-example-display {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-top: 1rem;
-      max-width: 480px;
-      background: var(--bg-subtle);
-      padding: 0.6rem 1rem;
-      border-radius: var(--radius-md);
-      border: 1px dashed var(--border);
-    }
-
-    .card-flip-prompt {
-      position: absolute;
-      bottom: 1.25rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    /* Study Controls Bar (Previous, Next, Play, Shuffle) */
-    .study-controls-panel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.25rem;
-      max-width: 680px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .study-ctrl-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-full);
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-fast), background var(--transition-fast);
-    }
-
-    .study-ctrl-btn:hover {
-      transform: scale(1.08);
-      background: var(--bg-subtle);
-    }
-
-    .study-ctrl-btn.primary-check {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #0f172a;
-      box-shadow: 0 4px 14px var(--primary-glow);
-    }
-
-    .study-counter {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--text-secondary);
-      min-width: 70px;
-      text-align: center;
-    }
-
-    /* Study Progress Bar */
-    .study-progress-wrap {
-      width: 100%;
-      max-width: 680px;
-      margin: 0 auto;
-      height: 7px;
-      background: var(--border);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-    }
-
-    .study-progress-fill {
-      height: 100%;
-      background: var(--primary);
-      width: 20%;
-      border-radius: var(--radius-full);
-      transition: width var(--transition-smooth);
-    }
-
-    /* =========================================================
-       LEARN MODE: SPELLING & DRAWING (米字格 GRID)
-       ========================================================= */
-    .learn-panel {
-      max-width: 680px;
-      margin: 0 auto;
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 2.25rem 2rem;
-      box-shadow: var(--shadow-card);
-      text-align: center;
-    }
-
-    .learn-question-meaning {
-      font-size: 1.75rem;
-      font-weight: 900;
-      margin-bottom: 0.4rem;
-    }
-
-    .learn-instruction {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.75rem;
-    }
-
-    /* Roman Keyboard Input */
-    .roman-input-field {
-      width: 100%;
-      max-width: 420px;
-      padding: 1rem 1.25rem;
-      font-size: 1.35rem;
-      font-weight: 800;
-      text-align: center;
-      border: 2px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--bg-input);
-      color: var(--text-main);
-      outline: none;
-      transition: border-color var(--transition-fast);
-      margin-bottom: 1.25rem;
-    }
-
-    .roman-input-field:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-soft);
-    }
-
-    /* Non-Roman Canvas (米字格 Chinese/Japanese/Arabic Rice Grid) */
-    .canvas-board-wrap {
-      margin: 1.25rem auto;
-      width: 300px;
+    .rice-grid-box {
+      width: 260px;
       height: 260px;
       position: relative;
-      border: 3px solid var(--border);
+      background: var(--canvas-bg);
+      border: 2px solid var(--border-strong);
       border-radius: var(--radius-lg);
-      background: var(--bg-subtle);
-      overflow: hidden;
+      box-shadow: var(--shadow-card);
       touch-action: none;
     }
 
-    /* SVG Rice Grid Background for Hanzi */
-    .canvas-bg-grid {
+    .rice-grid-svg {
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: 
-        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-        linear-gradient(45deg, transparent 49.5%, var(--grid-line) 49.5%, var(--grid-line) 50.5%, transparent 50.5%),
-        linear-gradient(-45deg, transparent 49.5%, var(--grid-line) 49.5%, var(--grid-line) 50.5%, transparent 50.5%);
-      background-size: 50% 50%, 50% 50%, 100% 100%, 100% 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
     }
 
-    #drawingCanvas {
+    .canvas-ghost-char {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8rem;
+      font-weight: 400;
+      color: rgba(148, 163, 184, 0.28);
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    #drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      position: relative;
-      z-index: 2;
       cursor: crosshair;
     }
 
-    .canvas-action-bar {
-      display: flex;
-      justify-content: center;
-      gap: 0.65rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .canvas-tool-btn {
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 0.45rem 0.95rem;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .canvas-tool-btn:hover {
-      color: var(--text-main);
-      background: var(--bg-page);
-    }
-
-    .btn-submit-learn {
-      background: var(--primary);
-      color: #0f172a;
-      font-weight: 900;
-      font-size: 1.05rem;
-      padding: 0.85rem 2.5rem;
-      border-radius: var(--radius-full);
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 6px 18px var(--primary-glow);
-      transition: transform var(--transition-fast);
-    }
-
-    .btn-submit-learn:hover {
-      transform: translateY(-2px);
-    }
-
-    .learn-feedback-message {
-      margin-top: 1rem;
-      font-weight: 800;
-      font-size: 1.1rem;
-      min-height: 28px;
-    }
-
-    /* =========================================================
-       TEST MODE
-       ========================================================= */
-    .test-box {
-      max-width: 680px;
-      margin: 0 auto;
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 2.25rem 2rem;
-      box-shadow: var(--shadow-card);
-      text-align: center;
-    }
-
-    .test-term-title {
-      font-size: 2.4rem;
-      font-weight: 900;
-      margin: 1rem 0 1.75rem;
-    }
-
-    .test-options-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.85rem;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .test-option-btn {
-      background: var(--bg-subtle);
-      border: 2px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1rem 1.25rem;
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--text-main);
-      cursor: pointer;
-      text-align: left;
-      transition: all var(--transition-fast);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .test-option-btn:hover {
-      border-color: var(--primary);
-      background: var(--bg-page);
-      transform: translateX(3px);
-    }
-
-    /* =========================================================
-       MATCH GAME (QUIZLET SIGNATURE MATCHING TILES)
-       ========================================================= */
-    .match-panel {
-      max-width: 720px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .match-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 0.75rem 1.25rem;
-    }
-
-    .match-timer {
-      font-family: var(--font-brand);
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--primary-active);
-    }
-
+    /* MATCH GAME TILES */
     .match-tiles-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.85rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
     }
-
     .match-tile {
       background: var(--bg-card);
       border: 2px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.5rem 1rem;
-      min-height: 100px;
+      height: 110px;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 1rem;
       text-align: center;
       font-weight: 800;
       font-size: 1.05rem;
       cursor: pointer;
       box-shadow: var(--shadow-sm);
-      user-select: none;
       transition: all var(--transition-fast);
+      user-select: none;
     }
-
-    .match-tile:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
     .match-tile.selected {
       border-color: var(--primary);
       background: var(--primary-soft);
-      transform: scale(1.04);
+      transform: scale(1.03);
     }
-
     .match-tile.matched {
       visibility: hidden;
       opacity: 0;
       pointer-events: none;
     }
 
-    /* =========================================================
-       VOCABULARY LIST TABLE (QUIZLET "이 세트의 단어")
-       ========================================================= */
-    .terms-list-section {
-      margin-top: 3rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .terms-table-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .term-row {
-      display: flex;
-      align-items: center;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--border);
-      gap: 1.5rem;
-    }
-
-    .term-col-word {
-      width: 32%;
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .term-col-meaning {
-      flex: 1;
-      font-size: 1rem;
-      color: var(--text-secondary);
-      font-weight: 600;
-    }
-
-    .term-col-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    /* =========================================================
-       COMMENTS & SOCIAL DISCUSSION
-       ========================================================= */
-    .comments-wrap {
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .comment-input-bar {
-      display: flex;
-      gap: 0.65rem;
-      margin: 1rem 0 1.5rem;
-    }
-
-    .comment-input {
-      flex: 1;
-      padding: 0.8rem 1.1rem;
-      font-size: 0.95rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      background: var(--bg-input);
-      color: var(--text-main);
-      outline: none;
-    }
-
-    .comment-card {
-      display: flex;
-      gap: 0.85rem;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .comment-avatar {
-      font-size: 1.6rem;
-    }
-
-    /* =========================================================
-       MODALS: CLEAN, INTUITIVE & EMOTIONAL
-       ========================================================= */
+    /* MODALS */
     .modal-backdrop {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -1446,7 +759,6 @@
       justify-content: center;
       padding: 1.25rem;
     }
-
     .modal-backdrop.show { display: flex; }
 
     .modal-dialog {
@@ -1459,232 +771,143 @@
       overflow-y: auto;
       padding: 2rem;
       box-shadow: var(--shadow-card);
-      animation: modalFadePop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes modalFadePop {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      position: relative;
     }
 
     .modal-header-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.5rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
     }
-
-    .modal-title {
-      font-size: 1.35rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-
+    .modal-title { font-size: 1.35rem; font-weight: 900; }
     .modal-close-btn {
       background: transparent;
       border: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: var(--text-muted);
       cursor: pointer;
-      line-height: 1;
     }
 
     .input-label {
       display: block;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 800;
-      margin-bottom: 0.4rem;
-      color: var(--text-main);
+      margin-bottom: 0.35rem;
+      color: var(--text-secondary);
     }
-
-    .styled-input, .styled-select, .styled-textarea {
+    .styled-input, .styled-textarea, .styled-select {
       width: 100%;
       padding: 0.75rem 0.95rem;
+      background: var(--bg-subtle);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      background: var(--bg-input);
       color: var(--text-main);
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
       outline: none;
-      transition: border-color var(--transition-fast);
-      margin-bottom: 1.1rem;
     }
-
-    .styled-input:focus, .styled-select:focus, .styled-textarea:focus {
+    .styled-input:focus, .styled-textarea:focus, .styled-select:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-soft);
+      background: var(--bg-card);
     }
 
     .btn-main-action {
       width: 100%;
+      padding: 0.85rem;
+      border-radius: var(--radius-md);
       background: var(--primary);
       color: #0f172a;
-      border: none;
-      padding: 0.9rem;
-      font-size: 1rem;
       font-weight: 900;
-      border-radius: var(--radius-md);
+      font-size: 1rem;
+      border: none;
       cursor: pointer;
       box-shadow: 0 4px 14px var(--primary-glow);
-      transition: transform var(--transition-fast);
     }
-
-    .btn-main-action:hover {
-      transform: translateY(-1px);
-    }
-
     .btn-danger-action {
       width: 100%;
-      background: #fee2e2;
-      color: #b91c1c;
-      border: 1px solid #fca5a5;
       padding: 0.85rem;
+      border-radius: var(--radius-md);
+      background: #ef4444;
+      color: #ffffff;
+      font-weight: 900;
       font-size: 0.95rem;
-      font-weight: 800;
-      border-radius: var(--radius-md);
+      border: none;
       cursor: pointer;
-      margin-top: 1.25rem;
-      transition: background var(--transition-fast);
+      margin-top: 0.75rem;
     }
 
-    /* BADGES 1~10 LEADERBOARD */
-    .badge-shelf-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      margin-top: 1rem;
-    }
-
-    .badge-card {
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 0.4rem;
-      text-align: center;
-    }
-
-    .badge-card.unlocked {
-      background: var(--primary-soft);
-      border-color: var(--primary);
-    }
-
-    .badge-card-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .badge-card-title {
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-
-    .badge-card-sub {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-    }
-
-    /* TOAST ALERT */
+    /* TOAST */
     .toast-pill {
       position: fixed;
-      bottom: 5.5rem;
+      bottom: 2rem;
       left: 50%;
-      transform: translateX(-50%) translateY(120px);
+      transform: translateX(-50%) translateY(40px);
       background: #0f172a;
       color: #ffffff;
-      padding: 0.85rem 1.6rem;
+      padding: 0.75rem 1.4rem;
       border-radius: var(--radius-full);
-      font-size: 0.92rem;
       font-weight: 800;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       z-index: 300;
       opacity: 0;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
       pointer-events: none;
-      white-space: nowrap;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     .toast-pill.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
 
-    /* MOBILE BOTTOM TAB BAR */
+    /* MOBILE BOTTOM BAR */
     .mobile-bottom-tabs {
-      display: none;
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 64px;
-      background: var(--bg-header);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      height: 60px;
+      background: var(--bg-card);
       border-top: 1px solid var(--border);
-      z-index: 75;
+      display: none;
       justify-content: space-around;
       align-items: center;
-      padding-bottom: env(safe-area-inset-bottom);
+      z-index: 90;
     }
-
     .bottom-tab-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       background: transparent;
       border: none;
       color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
-      flex: 1;
-      height: 100%;
-      gap: 0.2rem;
-      transition: color var(--transition-fast);
     }
+    .bottom-tab-link.active { color: var(--text-main); font-weight: 900; }
+    .bottom-tab-link span:first-child { font-size: 1.25rem; margin-bottom: 2px; }
 
-    .bottom-tab-link.active {
-      color: var(--text-main);
-      font-weight: 900;
-    }
-
-    .bottom-tab-link .b-icon {
-      font-size: 1.35rem;
-    }
-
-    /* RESPONSIVE LAYOUT */
     @media (max-width: 768px) {
-      .desktop-nav-tabs { display: none; }
-      .brand-slogan { display: none; }
+      .desktop-nav-tabs { display: none !important; }
       .mobile-bottom-tabs { display: flex; }
-      .main-content { padding-bottom: 6.5rem; }
-      .hero-container { flex-direction: column; align-items: flex-start; padding: 1.5rem 1.25rem; }
+      .hero-container { flex-direction: column; align-items: flex-start; gap: 1.25rem; padding: 1.5rem; }
       .hero-stats-group { width: 100%; justify-content: space-between; }
-      .hero-stat-box { flex: 1; min-width: 0; }
-      .sets-grid { grid-template-columns: 1fr; }
-      .flashcard-stage { height: 320px; }
-      .card-term-display { font-size: 2rem; }
-      .card-meaning-display { font-size: 1.5rem; }
+      .hero-stat-box { flex: 1; }
       .match-tiles-grid { grid-template-columns: repeat(2, 1fr); }
-      .badge-shelf-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
 
   <!-- =========================================================
-       TOP NAVBAR: WORDIFY HEADER
+       TOP NAVBAR
        ========================================================= -->
   <nav class="navbar">
     <div class="nav-brand-wrap">
       <div class="brand-logo" onclick="handleBrandLogoClick()">
-        <div class="brand-row">
-          <span class="brand-name">Wordify</span>
-        </div>
+        <span class="brand-name">Wordify</span>
         <span class="brand-slogan">The moment a word becomes my own—Wordify</span>
       </div>
 
@@ -1701,29 +924,28 @@
     <div class="nav-actions">
       <!-- + CREATE PILL BUTTON (LOGGED IN ONLY) -->
       <button class="btn-create-pill" id="main-create-pill-btn" style="display: none;" onclick="openModal('create-modal')" title="새 단어 세트 만들기">
-        <span class="plus-icon">+</span>
-        <span>만들기</span>
+        <span>+ 만들기</span>
       </button>
 
-      <!-- LOGGED IN USER STATE -->
+      <!-- LOGGED IN USER PILLS -->
       <div id="user-auth-area" style="display: none; align-items: center; gap: 0.6rem;">
         <div class="pill-badge" onclick="openModal('badge-modal')" title="연속 학습 일수">
-          <span>🔥</span><span id="streak-text">5일</span>
+          <span>🔥</span><span id="streak-text">1일</span>
         </div>
-        <div class="pill-badge pill-xp" title="총 경험치">
-          <span>⚡</span><span id="xp-text">1,420 XP</span>
+        <div class="pill-badge" onclick="switchView('leaderboard')" title="총 경험치">
+          <span>⚡</span><span id="xp-text">0 XP</span>
         </div>
         <button class="avatar-btn" id="profile-avatar-btn" onclick="toggleDropdown()">
           <span id="nav-avatar-icon">🧑‍💻</span>
         </button>
       </div>
 
-      <!-- LOGGED OUT GUEST STATE (DEFAULT) -->
-      <div id="guest-auth-area" class="guest-auth-box" style="display: flex; align-items: center; gap: 0.5rem;">
-        <div class="theme-btn-group" style="display: flex; gap: 0.2rem; background: var(--bg-subtle); padding: 0.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <button class="t-btn active" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="changeTheme('white')">화이트</button>
-          <button class="t-btn" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="changeTheme('dark')">다크</button>
-          <button class="t-btn" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="changeTheme('warm')">웜</button>
+      <!-- GUEST AREA (DEFAULT) -->
+      <div id="guest-auth-area" style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="theme-btn-group" style="background: var(--bg-subtle); padding: 0.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+          <button class="t-btn active" id="btn-t-white" onclick="changeTheme('white')">화이트</button>
+          <button class="t-btn" id="btn-t-dark" onclick="changeTheme('dark')">다크</button>
+          <button class="t-btn" id="btn-t-warm" onclick="changeTheme('warm')">웜</button>
         </div>
         <button class="btn-auth-login" onclick="openAuthModal('login')">로그인</button>
         <button class="btn-auth-signup" onclick="openAuthModal('signup')">회원가입</button>
@@ -1731,25 +953,22 @@
     </div>
   </nav>
 
-  <!-- =========================================================
-       USER DROPDOWN MENU
-       ========================================================= */ -->
+  <!-- USER DROPDOWN MENU -->
   <div class="dropdown-menu" id="user-dropdown">
     <div class="dropdown-user-card">
       <div class="dropdown-avatar" id="drop-avatar">🧑‍💻</div>
-      <div class="dropdown-user-info">
-        <div class="dropdown-name" id="drop-name">Minjun Lee</div>
-        <div class="dropdown-email" id="drop-email">lee.minjun7515@gmail.com</div>
+      <div>
+        <div class="dropdown-name" id="drop-name">Minjun</div>
+        <div class="dropdown-email" id="drop-email">minjun@example.com</div>
       </div>
     </div>
 
-    <!-- 3 THEMES (WHITE / DARK / WARM) -->
     <div class="theme-bar">
-      <span class="theme-bar-label">🎨 모드</span>
+      <span style="font-size: 0.8rem; font-weight: 800;">🎨 모드</span>
       <div class="theme-btn-group">
-        <button class="t-btn active" id="btn-t-white" onclick="changeTheme('white')">화이트</button>
-        <button class="t-btn" id="btn-t-dark" onclick="changeTheme('dark')">다크</button>
-        <button class="t-btn" id="btn-t-warm" onclick="changeTheme('warm')">웜</button>
+        <button class="t-btn" onclick="changeTheme('white')">화이트</button>
+        <button class="t-btn" onclick="changeTheme('dark')">다크</button>
+        <button class="t-btn" onclick="changeTheme('warm')">웜</button>
       </div>
     </div>
 
@@ -1770,22 +989,18 @@
        ========================================================= -->
   <main class="main-content">
 
-    <!-- =========================================================
-         LANDING & PROMO VIEW (UNAUTHENTICATED GUEST ONLY)
-         ========================================================= -->
+    <!-- 1. GUEST LANDING PROMO (SHOWN TO GUESTS ONLY) -->
     <div id="landing-promo-wrap" style="display: block;">
       <div class="landing-wrap">
-        <!-- HERO -->
         <div class="landing-hero">
           <div class="landing-badge">
             <span>✨</span> The moment a word becomes my own—Wordify
           </div>
           <h1 class="landing-title">
-            단어가 온전히 내 것이 되는 순간<br>
-            <span style="background: linear-gradient(135deg, var(--text-main) 0%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Wordify</span>
+            단어가 온전히 내 것이 되는 순간<br>Wordify
           </h1>
           <p class="landing-sub">
-            퀴즐렛 스타일의 감각적인 낱말카드부터 로마자 스펠링 타이핑, 한자·비로마자 획순 캔버스 그리기, 실시간 라이브 퀴즈 배틀까지.<br>
+            퀴즐렛 스타일의 낱말카드 학습부터 로마자 스펠링 타이핑, 비로마자 획순 캔버스 그리기, 실시간 라이브 퀴즈 배틀까지.<br>
             원하는 모든 언어의 단어장을 직접 만들어 완벽하게 정복하세요.
           </p>
           <div class="landing-cta-row">
@@ -1794,10 +1009,9 @@
           </div>
         </div>
 
-        <!-- 4 CORE STUDY MODES -->
         <div>
           <div style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 0.4rem;">Wordify만의 독보적인 4가지 학습 방식</h2>
+            <h2 style="font-size: 1.55rem; font-weight: 900; margin-bottom: 0.35rem;">Wordify만의 4가지 핵심 학습 방식</h2>
             <p style="color: var(--text-secondary); font-size: 0.95rem;">단순 암기를 넘어, 오감과 손끝으로 체득하는 과학적인 어휘 정복 루틴</p>
           </div>
 
@@ -1807,19 +1021,16 @@
               <div class="landing-feat-title">3D 인터랙티브 낱말카드</div>
               <div class="landing-feat-desc">부드러운 카드 뒤집기 애니메이션과 실제 현지 원어민 발음 오디오, 별표 즐겨찾기로 헷갈리는 단어를 집중 복습합니다.</div>
             </div>
-
             <div class="landing-feature-card">
               <div class="landing-feat-icon">✍️</div>
               <div class="landing-feat-title">미자격(米字格) 획순 그리기</div>
-              <div class="landing-feat-desc">중국어 한자, 일본어 히라가나 등 비로마자 언어를 화면 캔버스에 직접 손가락/마우스로 따라 쓰며 획순을 체득합니다.</div>
+              <div class="landing-feat-desc">중국어 한자, 일본어 히라가나, 한국어 등 비로마자 언어를 화면 캔버스에 직접 손으로 따라 쓰며 획순을 체득합니다.</div>
             </div>
-
             <div class="landing-feature-card">
               <div class="landing-feat-icon">⌨️</div>
               <div class="landing-feat-title">키보드 스펠링 학습</div>
               <div class="landing-feat-desc">영어, 말레이어, 스페인어 등 로마자 언어는 키보드로 철자를 직접 타이핑하여 스펠링 실수 없이 완벽하게 암기합니다.</div>
             </div>
-
             <div class="landing-feature-card">
               <div class="landing-feat-icon">⏱️</div>
               <div class="landing-feat-title">타임어택 매치 게임</div>
@@ -1828,51 +1039,43 @@
           </div>
         </div>
 
-        <!-- SOCIAL & LIVE SHOWCASE -->
         <div>
           <div style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 0.4rem;">실시간 멀티플레이와 주간 리그</h2>
-            <p style="color: var(--text-secondary); font-size: 0.95rem;">혼자 외우지 마세요. 친구들과 대항전을 펼치고 주간 리그 뱃지를 획득하세요.</p>
+            <h2 style="font-size: 1.55rem; font-weight: 900; margin-bottom: 0.35rem;">실시간 멀티플레이와 주간 리그</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">친구들과 함께 대결하고 주간 리그 뱃지를 획득하세요.</p>
           </div>
-
           <div class="landing-features-grid">
             <div class="landing-feature-card">
               <div class="landing-feat-icon">⚡</div>
               <div class="landing-feat-title">Wordify Live 퀴즈 배틀</div>
               <div class="landing-feat-desc">PIN 코드 하나로 친구들과 같은 방에 입장해 실시간으로 문제 풀이 속도를 겨루는 흥미진진한 퀴즈 대항전!</div>
             </div>
-
             <div class="landing-feature-card">
               <div class="landing-feat-icon">🏆</div>
               <div class="landing-feat-title">주간 다이아몬드 리그 & 뱃지</div>
               <div class="landing-feat-desc">학습할 때마다 쌓이는 XP로 리그 순위가 실시간 변동! 1위부터 10위까지 전원 명예로운 고유 뱃지를 수여합니다.</div>
             </div>
-
             <div class="landing-feature-card">
               <div class="landing-feat-icon">🌏</div>
-              <div class="landing-feat-title">무제한 다국어 세트 제작</div>
-              <div class="landing-feat-desc">한국어, 영어, 말레이어, 중국어, 일본어뿐만 아니라 전 세계 모든 언어로 나만의 단어장을 자유롭게 제작하고 공유하세요.</div>
+              <div class="landing-feat-title">5대 필수 언어 및 전 세계 지원</div>
+              <div class="landing-feat-desc">한국어, 영어, 말레이어, 중국어, 일본어뿐만 아니라 전 세계 모든 언어로 나만의 단어장을 자유롭게 제작하세요.</div>
             </div>
           </div>
         </div>
 
-        <!-- BOTTOM CALL TO ACTION -->
-        <div style="background: linear-gradient(135deg, var(--primary-soft) 0%, var(--bg-card) 100%); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 3rem 2rem; text-align: center;">
+        <div style="background: linear-gradient(135deg, var(--primary-soft) 0%, var(--bg-card) 100%); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 3rem 1.5rem; text-align: center;">
           <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem;">지금 Wordify로 나만의 어휘 학습을 시작하세요</h2>
-          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">가입은 무료이며, 1분이면 첫 번째 단어 세트를 만들 수 있습니다.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">가입은 무료이며, 1초 만에 바로 시작할 수 있습니다.</p>
           <button class="btn-landing-primary" onclick="openAuthModal('signup')">✨ 1초 만에 무료 회원가입</button>
         </div>
       </div>
     </div>
 
-    <!-- =========================================================
-         APP DASHBOARD VIEW (AUTHENTICATED USERS ONLY)
-         ========================================================= -->
+    <!-- 2. APP DASHBOARD (LOGGED IN ONLY) -->
     <div id="app-dashboard-wrap" style="display: none;">
 
-      <!-- 1. HOME VIEW: MY SETS -->
+      <!-- A. HOME: MY SETS -->
       <div id="view-home">
-        <!-- HERO BANNER -->
         <div class="hero-container">
           <div class="hero-left">
             <h1>The moment a word<br>becomes my own ✨</h1>
@@ -1880,11 +1083,11 @@
           </div>
           <div class="hero-stats-group">
             <div class="hero-stat-box">
-              <div class="hero-stat-num" id="stat-words-count">24</div>
+              <div class="hero-stat-num" id="stat-words-count">0</div>
               <div class="hero-stat-label">외운 단어</div>
             </div>
             <div class="hero-stat-box">
-              <div class="hero-stat-num" id="stat-league-badge">다이아 💎</div>
+              <div class="hero-stat-num" id="stat-league-badge">챌린저 🛡️</div>
               <div class="hero-stat-label">주간 리그</div>
             </div>
           </div>
@@ -1893,7 +1096,7 @@
         <div class="section-head">
           <div>
             <h2 class="section-head-title">내 단어 세트</h2>
-            <div class="section-head-subtitle">내가 직접 만들거나 북마크한 학습 세트입니다.</div>
+            <div class="section-head-subtitle">내가 직접 만들거나 학습 중인 단어 세트입니다.</div>
           </div>
           <button class="btn-create-pill" onclick="openModal('create-modal')">+ 새 세트</button>
         </div>
@@ -1901,22 +1104,22 @@
         <div class="sets-grid" id="my-sets-container"></div>
       </div>
 
-      <!-- 2. EXPLORE VIEW: PUBLIC COMMUNITY SETS -->
+      <!-- B. EXPLORE: COMMUNITY SETS -->
       <div id="view-explore" style="display: none;">
         <div class="section-head">
           <div>
             <h2 class="section-head-title">🌍 전 세계 공유 단어 세트</h2>
-            <div class="section-head-subtitle">전 세계 학습자들이 공유한 수천 개의 어휘 카드를 무료로 학습하세요.</div>
+            <div class="section-head-subtitle">전 세계 5대 핵심 언어 및 다양한 어휘 카드를 무료로 학습하세요.</div>
           </div>
         </div>
         <div class="sets-grid" id="explore-sets-container"></div>
       </div>
 
-      <!-- 3. WORDIFY LIVE VIEW (INTERACTIVE REALTIME MULTIPLAYER) -->
+      <!-- C. WORDIFY LIVE MULTIPLAYER BATTLE -->
       <div id="view-live" style="display: none;">
         <!-- LOBBY -->
         <div id="live-stage-lobby" class="hero-container" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color:#fff; display: flex; flex-direction: column; align-items: center; text-align: center;">
-          <div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase;">Realtime Battle</div>
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase;">Realtime Multi-Battle</div>
           <h1 style="color: #fff; margin: 0.5rem 0 0.25rem;">⚡ Wordify Live 멀티플레이 배틀</h1>
           <p style="color: rgba(255, 255, 255, 0.85); margin-bottom: 1.5rem; max-width: 480px;">
             친구들과 실시간으로 스피드 단어 퀴즈를 겨루는 라이브 대항전입니다!
@@ -1924,7 +1127,7 @@
 
           <div style="background: rgba(255, 255, 255, 0.08); border: 2px dashed rgba(255, 224, 80, 0.7); padding: 1rem 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1.5rem;">
             <div>
-              <div style="font-size: 0.75rem; color: #ffe050; font-weight: 800;">참가 PIN 코드</div>
+              <div style="font-size: 0.75rem; color: #ffe050; font-weight: 800;">방 참가 PIN 코드</div>
               <div style="font-family: var(--font-brand); font-size: 2.5rem; font-weight: 900; letter-spacing: 0.15em; color: var(--primary);" id="live-pin-display">8347</div>
             </div>
             <button class="styled-input" style="width: auto; padding: 0.5rem 0.8rem; margin: 0; background: rgba(255,255,255,0.15); color: #fff; border: none; font-size: 0.8rem; cursor: pointer;" onclick="refreshLivePin()">🔄 새 PIN</button>
@@ -1963,19 +1166,17 @@
           </button>
         </div>
 
-        <!-- LIVE QUIZ ROUND -->
+        <!-- QUIZ STAGE -->
         <div id="live-stage-quiz" style="display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-card);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <div style="font-weight: 900; font-size: 1.1rem; color: var(--primary);" id="live-round-indicator">문제 1 / 4</div>
             <div style="font-weight: 900; font-size: 1.25rem; font-family: var(--font-brand);" id="live-score-display">0 pts</div>
           </div>
 
-          <!-- TIMER BAR -->
           <div style="height: 8px; background: var(--bg-subtle); border-radius: var(--radius-full); overflow: hidden; margin-bottom: 1.25rem;">
             <div id="live-timer-bar" style="height: 100%; width: 100%; background: var(--primary); transition: width 0.1s linear;"></div>
           </div>
 
-          <!-- RACE PROGRESS -->
           <div style="background: var(--bg-subtle); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.75rem;">
             <div style="font-size: 0.75rem; font-weight: 800; color: var(--text-muted); margin-bottom: 0.5rem;">🏁 실시간 레이스 현황</div>
             <div style="display: flex; flex-direction: column; gap: 0.45rem;">
@@ -2050,7 +1251,7 @@
         </div>
       </div>
 
-      <!-- 4. LEADERBOARD VIEW (1~10 BADGES) -->
+      <!-- D. LEADERBOARD (DYNAMIC XP-BASED) -->
       <div id="view-leaderboard" style="display: none;">
         <div class="section-head">
           <div>
@@ -2061,136 +1262,110 @@
         <div id="leaderboard-table" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
       </div>
 
-    <!-- =========================================================
-         5. STUDY DETAIL SCREEN (QUIZLET STYLE STUDY)
-         ========================================================= -->
-    <div class="study-screen" id="view-study">
-      <!-- TOP NAV & 4 MODES -->
-      <div class="study-top-bar">
-        <button class="btn-exit-study" onclick="exitStudySession()">← 세트 나가기</button>
-        <div class="modes-pill-bar">
-          <button class="mode-tab-item active" id="btn-m-flashcard" onclick="selectStudyMode('flashcard')">🃏 낱말카드</button>
-          <button class="mode-tab-item" id="btn-m-learn" onclick="selectStudyMode('learn')">✏️ 학습하기 (스펠링/그리기)</button>
-          <button class="mode-tab-item" id="btn-m-test" onclick="selectStudyMode('test')">📝 테스트</button>
-          <button class="mode-tab-item" id="btn-m-match" onclick="selectStudyMode('match')">⚡ 매치 게임</button>
-        </div>
-      </div>
-
-      <!-- PROGRESS BAR -->
-      <div class="study-progress-wrap">
-        <div class="study-progress-fill" id="study-progress-bar"></div>
-      </div>
-
-      <!-- A. FLASHCARD MODE -->
-      <div id="mode-flashcard-stage">
-        <div class="flashcard-stage" onclick="flipStudyCard()">
-          <div class="quizlet-card" id="active-quizlet-card">
-            <!-- FRONT -->
-            <div class="card-pane front">
-              <div class="card-corner-actions" onclick="event.stopPropagation()">
-                <button class="icon-action-btn" onclick="speakCurrentWord()" title="음성 발음 듣기">🔊</button>
-                <button class="icon-action-btn" id="btn-star-card" onclick="toggleStarWord()" title="별표 단어">⭐</button>
-              </div>
-              <div class="card-term-display" id="fc-term">Terima Kasih</div>
-              <div class="card-phonetic-display" id="fc-phonetic">[뜨리마 까시]</div>
-              <div class="card-flip-prompt">💡 카드를 누르면 뜻이 뒤집혀요</div>
-            </div>
-            <!-- BACK -->
-            <div class="card-pane back">
-              <div class="card-corner-actions" onclick="event.stopPropagation()">
-                <button class="icon-action-btn" onclick="speakCurrentWord()" title="음성 발음 듣기">🔊</button>
-                <button class="icon-action-btn starred" title="별표">⭐</button>
-              </div>
-              <div class="card-meaning-display" id="fc-meaning">감사합니다 / 고맙습니다</div>
-              <div class="card-example-display" id="fc-example">Terima kasih banyak-banyak! (대단히 감사합니다)</div>
-              <div class="card-flip-prompt">💡 다시 누르면 앞면으로 돌아가요</div>
-            </div>
+      <!-- E. STUDY SCREEN -->
+      <div class="study-screen" id="view-study">
+        <div class="study-top-bar">
+          <button class="btn-exit-study" onclick="exitStudySession()">← 나가기</button>
+          <div class="modes-pill-bar">
+            <button class="mode-tab-item active" id="btn-m-flashcard" onclick="selectStudyMode('flashcard')">🃏 낱말카드</button>
+            <button class="mode-tab-item" id="btn-m-learn" onclick="selectStudyMode('learn')">✍️ 학습하기</button>
+            <button class="mode-tab-item" id="btn-m-test" onclick="selectStudyMode('test')">📝 테스트</button>
+            <button class="mode-tab-item" id="btn-m-match" onclick="selectStudyMode('match')">⚡ 매치 게임</button>
           </div>
         </div>
 
-        <!-- CONTROLS -->
-        <div class="study-controls-panel">
-          <button class="study-ctrl-btn" onclick="prevStudyWord()" title="이전 단어">←</button>
-          <button class="study-ctrl-btn" onclick="shuffleStudySet()" title="셔플 단어 섞기">🔀</button>
-          <div class="study-counter" id="study-card-counter">1 / 6</div>
-          <button class="study-ctrl-btn primary-check" onclick="nextStudyWord(true)" title="알고 있음 (+10 XP)">✅</button>
-          <button class="study-ctrl-btn" onclick="nextStudyWord(false)" title="다음 단어">→</button>
-        </div>
-
-        <!-- VOCABULARY LIST TABLE ("이 세트의 단어") -->
-        <div class="terms-list-section">
-          <div class="terms-table-head">
-            <h3 style="font-size: 1.2rem; font-weight: 800;">이 세트의 단어 (<span id="set-vocab-count">6</span>)</h3>
-            <span style="font-size: 0.82rem; color: var(--text-muted);">전체 발음 지원</span>
-          </div>
-          <div id="set-terms-table-rows"></div>
-
-          <!-- COMMENTS & SHARING -->
-          <div class="comments-wrap">
-            <h3 style="font-size: 1.1rem; font-weight: 800;">💬 세트 댓글 & 토론</h3>
-            <div class="comment-input-bar">
-              <input type="text" class="comment-input" id="set-comment-text" placeholder="단어 암기 꿀팁이나 응원 댓글을 남겨보세요!">
-              <button class="btn-create-pill" onclick="postSetComment()">등록</button>
-            </div>
-            <div id="comments-container">
-              <div class="comment-card">
-                <div class="comment-avatar">👩‍🎓</div>
-                <div>
-                  <div style="font-weight: 800; font-size: 0.9rem;">Hana_K <span style="font-weight: 400; font-size: 0.72rem; color: var(--text-muted);">어제</span></div>
-                  <div style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.2rem;">조지타운 야시장에서 주문할 때 진짜 그대로 썼어요! 효과 만점입니다.</div>
+        <!-- 1. FLASHCARD MODE -->
+        <div id="stage-flashcard">
+          <div class="flashcard-stage" onclick="flipActiveCard()">
+            <div class="flashcard-3d" id="active-card-3d">
+              <div class="flashcard-face flashcard-front">
+                <div class="card-top-tag" id="card-lang-tag">언어</div>
+                <div class="card-center-text">
+                  <div class="card-term-display" id="card-front-term">Term</div>
+                  <div class="card-pronun-display" id="card-front-pronun">[Pronunciation]</div>
                 </div>
+                <div class="card-bot-hint">💡 탭하여 뜻 확인하기 · 🔊 발음 듣기</div>
+              </div>
+              <div class="flashcard-face flashcard-back">
+                <div class="card-top-tag">뜻 & 예문</div>
+                <div class="card-center-text">
+                  <div class="card-meaning-display" id="card-back-meaning">Meaning</div>
+                  <div class="card-example-display" id="card-back-example">Example sentence</div>
+                </div>
+                <div class="card-bot-hint">💡 탭하여 단어로 뒤집기</div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- B. LEARN MODE: SPELLING & DRAWING -->
-      <div id="mode-learn-stage" style="display: none;">
-        <div class="learn-panel">
-          <div class="learn-question-meaning" id="learn-prompt-meaning">감사합니다 / 고맙습니다</div>
-          <div class="learn-instruction" id="learn-prompt-guide">알맞은 스펠링을 입력하세요</div>
-
-          <!-- ROMAN KEYBOARD SPELLING -->
-          <div id="roman-learn-box">
-            <input type="text" class="roman-input-field" id="roman-spelling-inp" placeholder="스펠링 타이핑" autocomplete="off" onkeydown="if(event.key==='Enter')verifyLearnAnswer()">
+          <div class="card-controls-row">
+            <button class="btn-circle-action" onclick="prevCard()" title="이전 카드">←</button>
+            <button class="btn-circle-action" onclick="playAudioPronun()" title="원어민 발음">🔊</button>
+            <div class="card-counter" id="card-counter-txt">1 / 5</div>
+            <button class="btn-circle-action" id="btn-card-star" onclick="toggleCardStar()" title="별표">⭐</button>
+            <button class="btn-circle-action" onclick="nextCard()" title="다음 카드">→</button>
           </div>
 
-          <!-- NON-ROMAN CANVAS (米字格 Rice Grid) -->
-          <div id="drawing-learn-box" style="display: none;">
-            <div class="canvas-board-wrap">
-              <div class="canvas-bg-grid"></div>
-              <canvas id="drawingCanvas" width="300" height="260"></canvas>
-            </div>
-            <div class="canvas-action-bar">
-              <button class="canvas-tool-btn" onclick="eraseDrawingCanvas()">🧹 획 지우기</button>
-              <button class="canvas-tool-btn" onclick="triggerStrokeHint()">👁️ 가이드 보기</button>
+          <!-- WORD LIST TABLE -->
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 1.5rem; margin-top: 1rem;">
+            <div style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">이 세트의 단어 (<span id="set-words-total-cnt">0</span>)</div>
+            <div id="study-words-table" style="display: flex; flex-direction: column; gap: 0.65rem;"></div>
+          </div>
+        </div>
+
+        <!-- 2. LEARN MODE (SPELLING OR CANVAS DRAWING) -->
+        <div id="stage-learn" style="display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
+          <!-- A. ROMAN: SPELLING TYPING -->
+          <div id="learn-roman-wrap" style="display: none;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 800; margin-bottom: 0.5rem;">⌨️ 키보드 스펠링 학습</div>
+            <div style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.35rem;" id="learn-prompt-meaning">뜻</div>
+            <div style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;" id="learn-prompt-example">예문</div>
+
+            <div style="max-width: 400px; margin: 0 auto;">
+              <input type="text" class="styled-input" id="learn-spelling-input" placeholder="정확한 철자를 입력하세요" style="font-size: 1.25rem; font-weight: 800; text-align: center;" onkeydown="if(event.key==='Enter')checkSpellingAnswer()">
+              <button class="btn-main-action" onclick="checkSpellingAnswer()">정답 확인 (Enter) ✨</button>
             </div>
           </div>
 
-          <button class="btn-submit-learn" onclick="verifyLearnAnswer()">정답 확인 (+15 XP)</button>
-          <div class="learn-feedback-message" id="learn-feedback"></div>
-        </div>
-      </div>
+          <!-- B. NON-ROMAN: RICE-GRID CANVAS DRAWING -->
+          <div id="learn-canvas-wrap" style="display: none;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 800; margin-bottom: 0.5rem;">✍️ 미자격(米字格) 획순 그리기 학습</div>
+            <div style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.2rem;" id="learn-canvas-meaning">뜻</div>
+            <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;" id="learn-canvas-pronun">[발음]</div>
 
-      <!-- C. TEST MODE -->
-      <div id="mode-test-stage" style="display: none;">
-        <div class="test-box">
-          <div style="font-size: 0.85rem; font-weight: 800; color: var(--text-muted);">테스트 문제</div>
-          <div class="test-term-title" id="test-question-word">Selamat Pagi</div>
-          <div class="test-options-grid" id="test-options-container"></div>
-        </div>
-      </div>
-
-      <!-- D. MATCH GAME -->
-      <div id="mode-match-stage" style="display: none;">
-        <div class="match-panel">
-          <div class="match-header-bar">
-            <div>
-              <div style="font-weight: 800; font-size: 1.1rem;">⚡ 카드 짝 맞추기 매치</div>
-              <div style="font-size: 0.78rem; color: var(--text-muted);">단어와 뜻을 빠르게 짝지어 모든 카드를 없애세요!</div>
+            <div class="canvas-container">
+              <div class="rice-grid-box">
+                <svg class="rice-grid-svg" viewBox="0 0 260 260">
+                  <line x1="0" y1="0" x2="260" y2="260" stroke="currentColor" stroke-dasharray="4" style="color:var(--canvas-grid)" />
+                  <line x1="260" y1="0" x2="0" y2="260" stroke="currentColor" stroke-dasharray="4" style="color:var(--canvas-grid)" />
+                  <line x1="130" y1="0" x2="130" y2="260" stroke="currentColor" stroke-dasharray="4" style="color:var(--canvas-grid)" />
+                  <line x1="0" y1="130" x2="260" y2="130" stroke="currentColor" stroke-dasharray="4" style="color:var(--canvas-grid)" />
+                </svg>
+                <div class="canvas-ghost-char" id="canvas-ghost-char">字</div>
+                <canvas id="drawing-canvas" width="260" height="260"></canvas>
+              </div>
             </div>
-            <div class="match-timer" id="match-timer-display">⏱️ 0.0s</div>
+
+            <div style="display: flex; gap: 0.75rem; max-width: 300px; margin: 1rem auto 0;">
+              <button class="styled-input" style="flex: 1; margin: 0; font-weight: 800; cursor: pointer;" onclick="clearDrawingCanvas()">🔄 지우기</button>
+              <button class="btn-main-action" style="flex: 1;" onclick="completeCanvasWord()">완료 (+20 XP)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. TEST MODE -->
+        <div id="stage-test" style="display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 2rem;">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 800; margin-bottom: 0.5rem;" id="test-q-counter">문제 1 / 5</div>
+            <h2 style="font-size: 2.2rem; font-weight: 900; font-family: var(--font-brand);" id="test-question-term">Term</h2>
+          </div>
+          <div id="test-options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 600px; margin: 0 auto;"></div>
+        </div>
+
+        <!-- 4. MATCH GAME MODE -->
+        <div id="stage-match" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div style="font-weight: 800; font-size: 1.1rem;">⏱️ 타임어택 매치 게임</div>
+            <div style="font-family: var(--font-brand); font-size: 1.4rem; font-weight: 900; color: var(--primary);" id="match-timer-display">⏱️ 0.0s</div>
           </div>
           <div class="match-tiles-grid" id="match-grid-container"></div>
         </div>
@@ -2201,30 +1376,28 @@
   </main>
 
   <!-- =========================================================
-       MOBILE BOTTOM TAB BAR (LOGGED IN ONLY)
+       MOBILE BOTTOM TAB BAR
        ========================================================= -->
   <div class="mobile-bottom-tabs" id="main-mobile-bottom-tabs" style="display: none;">
     <button class="bottom-tab-link active" id="b-tab-home" onclick="switchView('home')">
-      <span class="b-icon">📚</span>
-      <span>내 세트</span>
+      <span>📚</span><span>내 세트</span>
     </button>
     <button class="bottom-tab-link" id="b-tab-explore" onclick="switchView('explore')">
-      <span class="b-icon">🔍</span>
-      <span>탐색</span>
+      <span>🔍</span><span>탐색</span>
     </button>
     <button class="bottom-tab-link" id="b-tab-live" onclick="switchView('live')">
-      <span class="b-icon">⚡</span>
-      <span>라이브</span>
+      <span>⚡</span><span>라이브</span>
     </button>
     <button class="bottom-tab-link" id="b-tab-leaderboard" onclick="switchView('leaderboard')">
-      <span class="b-icon">🏆</span>
-      <span>리더보드</span>
+      <span>🏆</span><span>리더보드</span>
     </button>
   </div>
 
   <!-- =========================================================
-       MODALS: AUTH (INSTANT SIGNUP / LOGIN - 100% LOCAL & FAST)
+       MODALS
        ========================================================= -->
+
+  <!-- AUTH MODAL -->
   <div class="modal-backdrop" id="auth-modal">
     <div class="modal-dialog">
       <div class="modal-header-row">
@@ -2232,32 +1405,29 @@
         <button class="modal-close-btn" onclick="closeModal('auth-modal')">&times;</button>
       </div>
 
-      <!-- AUTH FORM -->
-      <div id="auth-form-step">
-        <div id="auth-name-field-wrap">
-          <label class="input-label">이름 (닉네임)</label>
-          <input type="text" class="styled-input" id="auth-name" placeholder="닉네임을 입력하세요">
-        </div>
+      <div id="auth-name-field-wrap">
+        <label class="input-label">이름 (닉네임)</label>
+        <input type="text" class="styled-input" id="auth-name" placeholder="닉네임을 입력하세요">
+      </div>
 
-        <label class="input-label">이메일 주소</label>
-        <input type="email" class="styled-input" id="auth-email" placeholder="name@example.com">
+      <label class="input-label">이메일 주소</label>
+      <input type="email" class="styled-input" id="auth-email" placeholder="name@example.com">
 
-        <label class="input-label">비밀번호</label>
-        <input type="password" class="styled-input" id="auth-pwd" placeholder="비밀번호 입력">
+      <label class="input-label">비밀번호</label>
+      <input type="password" class="styled-input" id="auth-pwd" placeholder="비밀번호 입력">
 
-        <button class="btn-main-action" id="auth-submit-btn" onclick="handleAuthSubmit()">회원가입 완료</button>
+      <button class="btn-main-action" id="auth-submit-btn" onclick="handleAuthSubmit()">회원가입 완료</button>
 
-        <div style="text-align: center; margin-top: 1.25rem; font-size: 0.85rem; color: var(--text-secondary);">
-          <span id="auth-toggle-label">계정이 이미 있으신가요?</span>
-          <a href="javascript:void(0)" style="font-weight: 800; color: var(--text-main); margin-left: 0.35rem;" onclick="switchAuthMode()" id="auth-toggle-link">로그인</a>
-        </div>
+      <div style="text-align: center; margin-top: 1.25rem; font-size: 0.85rem; color: var(--text-secondary);">
+        <span id="auth-toggle-label">계정이 이미 있으신가요?</span>
+        <a href="javascript:void(0)" style="font-weight: 800; color: var(--text-main); margin-left: 0.35rem;" onclick="switchAuthMode()" id="auth-toggle-link">로그인</a>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: CREATE SET (WORD-BY-WORD QUIZLET EDITOR) -->
+  <!-- CREATE SET MODAL (WORD-BY-WORD QUIZLET CREATOR) -->
   <div class="modal-backdrop" id="create-modal">
-    <div class="modal-dialog" style="max-width: 620px; max-height: 88vh; display: flex; flex-direction: column;">
+    <div class="modal-dialog" style="max-width: 640px; max-height: 88vh; display: flex; flex-direction: column;">
       <div class="modal-header-row">
         <h3 class="modal-title">✨ 새 단어 세트 만들기</h3>
         <button class="modal-close-btn" onclick="closeModal('create-modal')">&times;</button>
@@ -2274,21 +1444,19 @@
           <div>
             <label class="input-label">학습 언어</label>
             <select class="styled-select" id="new-set-lang-select">
-              <optgroup label="기본 지원 언어">
-                <option value="Bahasa Melayu" data-roman="true">말레이어 (Bahasa Melayu)</option>
-                <option value="English" data-roman="true">영어 (English)</option>
-                <option value="Chinese" data-roman="false">중국어 / 한자 (中文 - 획순 캔버스)</option>
-                <option value="Japanese" data-roman="false">일본어 (日本語 - 가나 획순)</option>
-                <option value="Korean" data-roman="false">한국어 (Korean)</option>
+              <optgroup label="5대 기본 지원 언어">
+                <option value="Bahasa Melayu" data-roman="true" data-tts="ms-MY">말레이어 (Bahasa Melayu - 스펠링)</option>
+                <option value="English" data-roman="true" data-tts="en-US">영어 (English - 스펠링)</option>
+                <option value="Chinese" data-roman="false" data-tts="zh-CN">중국어 / 한자 (中文 - 획순 캔버스)</option>
+                <option value="Japanese" data-roman="false" data-tts="ja-JP">일본어 (日本語 - 가나 획순)</option>
+                <option value="Korean" data-roman="false" data-tts="ko-KR">한국어 (Korean - 한글 획순)</option>
               </optgroup>
               <optgroup label="전 세계 주요 언어">
-                <option value="Spanish" data-roman="true">스페인어 (Español)</option>
-                <option value="French" data-roman="true">프랑스어 (Français)</option>
-                <option value="German" data-roman="true">독일어 (Deutsch)</option>
-                <option value="Arabic" data-roman="false">아랍어 (العربية)</option>
-                <option value="Russian" data-roman="false">러시아어 (Русский)</option>
-                <option value="Hindi" data-roman="false">힌디어 (हिन्दी)</option>
-                <option value="Thai" data-roman="false">태국어 (ภาษาไทย)</option>
+                <option value="Spanish" data-roman="true" data-tts="es-ES">스페인어 (Español)</option>
+                <option value="French" data-roman="true" data-tts="fr-FR">프랑스어 (Français)</option>
+                <option value="German" data-roman="true" data-tts="de-DE">독일어 (Deutsch)</option>
+                <option value="Arabic" data-roman="false" data-tts="ar-SA">아랍어 (العربية)</option>
+                <option value="Russian" data-roman="false" data-tts="ru-RU">러시아어 (Русский)</option>
               </optgroup>
             </select>
           </div>
@@ -2302,11 +1470,10 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 1.25rem 0 0.75rem;">
-          <h4 style="font-size: 0.95rem; font-weight: 800;">단어 목록 (단어와 뜻을 직접 입력)</h4>
+          <h4 style="font-size: 0.95rem; font-weight: 800;">단어 목록 (단어와 뜻을 직접 하나하나 입력)</h4>
           <span style="font-size: 0.78rem; color: var(--text-muted);">최소 2개 이상 필수</span>
         </div>
 
-        <!-- DYNAMIC WORD ROW CONTAINER -->
         <div id="create-word-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
 
         <button type="button" class="styled-input" style="border: 2px dashed var(--primary); background: var(--primary-soft); font-weight: 800; cursor: pointer; margin-top: 0.85rem; text-align: center; color: var(--text-main);" onclick="addWordCardRow()">
@@ -2320,7 +1487,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SETTINGS (SETTINGS, EMAIL/PWD CHANGE WITH CURRENT PASSWORD) -->
+  <!-- SETTINGS MODAL -->
   <div class="modal-backdrop" id="settings-modal">
     <div class="modal-dialog">
       <div class="modal-header-row">
@@ -2331,10 +1498,10 @@
       <label class="input-label">프로필 사진(이모지) & 닉네임</label>
       <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
         <input type="text" class="styled-input" id="set-prof-avatar" style="width: 60px; text-align: center; font-size: 1.3rem; margin-bottom: 0;" value="🧑‍💻">
-        <input type="text" class="styled-input" id="set-prof-name" style="margin-bottom: 0;" value="Minjun Lee">
+        <input type="text" class="styled-input" id="set-prof-name" style="margin-bottom: 0;" value="Minjun">
       </div>
 
-      <!-- EMAIL CHANGE SECTION (PASSWORD PROTECTED) -->
+      <!-- EMAIL CHANGE (PASSWORD PROTECTED) -->
       <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
         <div style="font-weight: 800; font-size: 0.92rem; margin-bottom: 0.5rem;">📧 이메일 변경</div>
         <label class="input-label" style="font-size: 0.78rem;">새 이메일 주소</label>
@@ -2344,7 +1511,7 @@
         <button class="styled-input" style="background: var(--bg-card); font-weight: 800; cursor: pointer; margin-bottom: 0;" onclick="handleChangeEmailWithPassword()">이메일 변경 저장</button>
       </div>
 
-      <!-- PASSWORD CHANGE SECTION (PASSWORD PROTECTED) -->
+      <!-- PASSWORD CHANGE (PASSWORD PROTECTED) -->
       <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
         <div style="font-weight: 800; font-size: 0.92rem; margin-bottom: 0.5rem;">🔒 비밀번호 변경</div>
         <label class="input-label" style="font-size: 0.78rem;">현재 비밀번호</label>
@@ -2355,19 +1522,17 @@
       </div>
 
       <button class="btn-main-action" onclick="saveUserPreferences()">프로필 저장하기</button>
-
-      <!-- DELETE ACCOUNT BUTTON AT THE VERY BOTTOM -->
       <button class="btn-danger-action" onclick="openDeleteConfirmDialog()">⚠️ 계정 삭제하기</button>
     </div>
   </div>
 
-  <!-- MODAL: DELETE CONFIRM (PASSWORD PROTECTED, NO EMAIL CODE) -->
+  <!-- DELETE ACCOUNT CONFIRM MODAL -->
   <div class="modal-backdrop" id="delete-modal">
     <div class="modal-dialog" style="text-align: center; max-width: 420px;">
       <div style="font-size: 3rem; margin-bottom: 0.4rem;">😢</div>
       <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.4rem;">정말 계정을 삭제하시겠습니까?</h3>
       <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
-        삭제하시면 지금까지 달성한 연속 학습 스트릭, 모든 뱃지와 단어 세트가 즉시 삭제됩니다.
+        삭제하시면 지금까지 달성한 연속 학습 스트릭, 모든 뱃지와 단어 세트가 즉시 영구 삭제됩니다.
       </p>
 
       <div style="text-align: left; margin-bottom: 1.25rem;">
@@ -2382,35 +1547,22 @@
     </div>
   </div>
 
-  <!-- MODAL: BADGES & STREAK (1~10TH LEAGUE BADGES) -->
+  <!-- BADGES & STREAK MODAL -->
   <div class="modal-backdrop" id="badge-modal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: 580px;">
       <div class="modal-header-row">
         <h3 class="modal-title">🏅 뱃지 보관함 & 연속 학습</h3>
         <button class="modal-close-btn" onclick="closeModal('badge-modal')">&times;</button>
       </div>
 
       <div style="text-align: center; padding: 1.25rem; background: var(--bg-subtle); border-radius: var(--radius-lg); margin-bottom: 1.5rem; border: 1px solid var(--border);">
-        <div style="font-size: 2.8rem; margin-bottom: 0.25rem;">🔥 5일</div>
-        <div style="font-weight: 900; font-size: 1.2rem;">연속 학습 기록 중!</div>
-        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem;">매일 자정 전 단어를 1세트 이상 학습하면 불꽃이 유지됩니다.</div>
+        <div style="font-size: 2.8rem; margin-bottom: 0.25rem;" id="badge-modal-streak-icon">🔥</div>
+        <div style="font-weight: 900; font-size: 1.3rem;" id="badge-modal-streak-txt">1일 연속 학습 달성!</div>
+        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem;">매일 자정 전 단어를 학습하면 불꽃이 유지됩니다.</div>
       </div>
 
-      <h4 style="font-size: 0.95rem; font-weight: 900; margin-bottom: 0.65rem;">🏆 주간 리그 1~10등 명예의 뱃지</h4>
-      <div class="badge-shelf-grid">
-        <div class="badge-card"><div class="badge-card-icon">👑</div><div class="badge-card-title">1위 챔피언</div><div class="badge-card-sub">리그 1등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">🥈</div><div class="badge-card-title">2위 러너</div><div class="badge-card-sub">리그 2등</div></div>
-        <div class="badge-card unlocked"><div class="badge-card-icon">🥉</div><div class="badge-card-title">3위 마스터</div><div class="badge-card-sub">리그 3등 (보유)</div></div>
-        <div class="badge-card"><div class="badge-card-icon">💎</div><div class="badge-card-title">4위 엘리트</div><div class="badge-card-sub">리그 4등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">⚡</div><div class="badge-card-title">5위 스트라이커</div><div class="badge-card-sub">리그 5등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">🌟</div><div class="badge-card-title">6위 스타</div><div class="badge-card-sub">리그 6등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">🔥</div><div class="badge-card-title">7위 파이터</div><div class="badge-card-sub">리그 7등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">🎯</div><div class="badge-card-title">8위 샤프슈터</div><div class="badge-card-sub">리그 8등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">🛡️</div><div class="badge-card-title">9위 가디언</div><div class="badge-card-sub">리그 9등</div></div>
-        <div class="badge-card"><div class="badge-card-icon">🎖️</div><div class="badge-card-title">10위 챌린저</div><div class="badge-card-sub">리그 10등</div></div>
-        <div class="badge-card unlocked"><div class="badge-card-icon">🚀</div><div class="badge-card-title">3일 스트릭</div><div class="badge-card-sub">스트릭 달성</div></div>
-        <div class="badge-card unlocked"><div class="badge-card-icon">✨</div><div class="badge-card-title">첫 단어 정복</div><div class="badge-card-sub">1회독 완료</div></div>
-      </div>
+      <div style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.75rem;">획득 가능한 뱃지 목록</div>
+      <div id="badge-shelf-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;"></div>
     </div>
   </div>
 
@@ -2421,15 +1573,16 @@
        JAVASCRIPT LOGIC
        ========================================================= -->
   <script>
-    // DEFAULT SETS WITH AUDIO PRONUNCIATIONS & WORDS
+    // 5 CORE LANGUAGES DEFAULT SEED SETS
     const SEED_SETS = [
       {
         id: 'set-melayu',
-        title: '🇲🇾 페낭 현지 말레이어 필수 회화 & 단어',
-        desc: '조지타운, 거니 마켓, 식당에서 바로 쓰는 실전 말레이어 단어 모음',
+        title: '🇲🇾 페낭 실전 말레이어 필수 회화 & 단어',
+        desc: '조지타운, 거니 마켓, 식당에서 바로 쓰는 필수 말레이어 어휘 모음',
         lang: 'Bahasa Melayu',
         isRoman: true,
-        author: 'Minjun Lee',
+        ttsLang: 'ms-MY',
+        author: 'Wordify Official',
         words: [
           { word: 'Terima Kasih', pronun: '[뜨리마 까시]', meaning: '감사합니다 / 고맙습니다', example: 'Terima kasih banyak-banyak!' },
           { word: 'Sama-sama', pronun: '[사마 사마]', meaning: '천만에요 / 별말씀을요', example: 'Sama-sama, jumpa lagi!' },
@@ -2440,70 +1593,89 @@
         ]
       },
       {
-        id: 'set-hanzi',
-        title: '🇨🇳 HSK 필수 기초 한자 & 획순 그리기',
-        desc: '획순을 직접 캔버스에 손으로 그리면서 체득하는 중국어 필수 한자',
-        lang: 'Chinese',
-        isRoman: false,
-        author: 'Wordify Official',
-        words: [
-          { word: '你', pronun: '[nǐ, 니]', meaning: '너 / 당신', example: '你好! (안녕하세요)' },
-          { word: '好', pronun: '[hǎo, 하오]', meaning: '좋다 / 안녕하다', example: '很好! (매우 좋습니다)' },
-          { word: '水', pronun: '[shuǐ, 슈이]', meaning: '물', example: '我想喝水。 (물 마시고 싶어요)' },
-          { word: '学', pronun: '[xué, 쉬에]', meaning: '배우다 / 공부하다', example: '学习汉语 (중국어를 배우다)' }
-        ]
-      },
-      {
         id: 'set-english',
         title: '🇬🇧 Global Academic English 100',
         desc: '국제학교 및 영미권 수업 필수 학술 어휘 세트',
         lang: 'English',
         isRoman: true,
+        ttsLang: 'en-US',
         author: 'Teacher Yang',
         words: [
-          { word: 'Hypothesis', pronun: '[하이파서시스]', meaning: '가설 / 추정', example: 'We tested the hypothesis in the science lab.' },
           { word: 'Perspective', pronun: '[퍼스펙티브]', meaning: '관점 / 시각', example: 'Consider the issue from multiple perspectives.' },
-          { word: 'Evaluate', pronun: '[이밸류에이트]', meaning: '평가하다 / 감정하다', example: 'Evaluate the evidence carefully.' }
+          { word: 'Evaluate', pronun: '[이밸류에이트]', meaning: '평가하다 / 감정하다', example: 'Evaluate the evidence carefully.' },
+          { word: 'Innovation', pronun: '[이노베이션]', meaning: '혁신 / 쇄신', example: 'Technological innovation drives progress.' },
+          { word: 'Resilient', pronun: '[레질리언트]', meaning: '회복력 있는 / 탄력적인', example: 'She remained resilient in tough times.' },
+          { word: 'Hypothesis', pronun: '[하이파서시스]', meaning: '가설 / 추정', example: 'We tested the scientific hypothesis.' }
+        ]
+      },
+      {
+        id: 'set-hanzi',
+        title: '🇨🇳 HSK 필수 기초 한자 & 획순 그리기',
+        desc: '미자격(米字格) 캔버스에 직접 손으로 쓰며 외우는 중국어 필수 한자',
+        lang: 'Chinese',
+        isRoman: false,
+        ttsLang: 'zh-CN',
+        author: 'Wordify Official',
+        words: [
+          { word: '你', pronun: '[nǐ, 니]', meaning: '너 / 당신', example: '你好! (안녕하세요)' },
+          { word: '好', pronun: '[hǎo, 하오]', meaning: '좋다 / 안녕하다', example: '很好! (매우 좋습니다)' },
+          { word: '水', pronun: '[shuǐ, 슈이]', meaning: '물', example: '我想喝水。 (물 마시고 싶어요)' },
+          { word: '学', pronun: '[xué, 쉬에]', meaning: '배우다 / 공부하다', example: '学习汉语 (중국어를 배우다)' },
+          { word: '朋', pronun: '[péng, 펑]', meaning: '벗 / 친구', example: '朋友 (친구)' }
         ]
       },
       {
         id: 'set-kana',
         title: '🇯🇵 일본어 기초 히라가나 획순',
-        desc: '히라가나 획순을 캔버스에 따라 쓰며 외우는 코스',
+        desc: '히라가나 획순을 캔버스에 직접 따라 쓰며 암기하는 코스',
         lang: 'Japanese',
         isRoman: false,
+        ttsLang: 'ja-JP',
         author: 'Kenji_99',
         words: [
           { word: 'あ', pronun: '[a, 아]', meaning: '히라가나 [아]', example: 'ありがとう (고마워요)' },
           { word: 'い', pronun: '[i, 이]', meaning: '히라가나 [이]', example: 'いいえ (아니요)' },
-          { word: 'う', pronun: '[u, 우]', meaning: '히라가나 [우]', example: 'うみ (바다)' }
+          { word: 'う', pronun: '[u, 우]', meaning: '히라가나 [우]', example: 'うみ (바다)' },
+          { word: 'え', pronun: '[e, 에]', meaning: '히라가나 [에]', example: 'えき (역)' },
+          { word: 'お', pronun: '[o, 오]', meaning: '히라가나 [오]', example: 'お茶 (차)' }
+        ]
+      },
+      {
+        id: 'set-korean',
+        title: '🇰🇷 한국어 아름다운 순우리말 & 자모',
+        desc: '한글의 조형미와 의미를 획순 캔버스로 체득하는 한국어 세트',
+        lang: 'Korean',
+        isRoman: false,
+        ttsLang: 'ko-KR',
+        author: '한글사랑',
+        words: [
+          { word: '꿈', pronun: '[kkum, 꿈]', meaning: '희망 / 이상 / 꿈', example: '꿈을 향해 한 걸음씩 나아가세요.' },
+          { word: '별', pronun: '[byeol, 별]', meaning: '밤하늘에 빛나는 별', example: '저 하늘의 별처럼 빛나는 사람.' },
+          { word: '길', pronun: '[gil, 길]', meaning: '사람이나 차가 다니는 길 / 방향', example: '새로운 길을 찾아 떠납니다.' },
+          { word: '해', pronun: '[hae, 해]', meaning: '낮에 세상을 비추는 태양', example: '아침 해가 밝게 떠올랐습니다.' },
+          { word: '달', pronun: '[dal, 달]', meaning: '어두운 밤을 밝히는 달', example: '보름달이 환하게 비춥니다.' }
         ]
       }
     ];
 
-    const LEADERBOARD_USERS = [
-      { rank: 1, name: 'Sarah_K', title: '👑 1위 챔피언', xp: '3,240 XP', isMe: false },
-      { rank: 2, name: 'Kenji_Tokyo', title: '🥈 2위 러너', xp: '2,920 XP', isMe: false },
-      { rank: 3, name: 'Minjun Lee (나)', title: '🥉 3위 마스터', xp: '1,420 XP', isMe: true },
-      { rank: 4, name: 'Alex_Global', title: '💎 4위 엘리트', xp: '1,310 XP', isMe: false },
-      { rank: 5, name: 'Hana_Busan', title: '⚡ 5위 스트라이커', xp: '1,190 XP', isMe: false },
-      { rank: 6, name: 'David_KL', title: '🌟 6위 스타', xp: '1,050 XP', isMe: false },
-      { rank: 7, name: 'Nurul_Penang', title: '🔥 7위 파이터', xp: '920 XP', isMe: false },
-      { rank: 8, name: 'Jiwoo_Seoul', title: '🎯 8위 샤프슈터', xp: '840 XP', isMe: false },
-      { rank: 9, name: 'Carlos_Madrid', title: '🛡️ 9위 가디언', xp: '760 XP', isMe: false },
-      { rank: 10, name: 'Mei_Ling', title: '🎖️ 10위 챌린저', xp: '680 XP', isMe: false }
+    // ALL BADGES DEFINITION
+    const BADGES_CATALOG = [
+      { id: 'b_seed', icon: '🌱', name: '새싹 학습자', desc: 'Wordify 첫 가입 달성' },
+      { id: 'b_streak_3', icon: '🔥', name: '3일 연속 학습', desc: '3일 스트릭 달성' },
+      { id: 'b_streak_7', icon: '⚡', name: '7일 연속 학습', desc: '7일 스트릭 달성' },
+      { id: 'b_streak_30', icon: '💎', name: '30일 마스터', desc: '한 달 연속 학습' },
+      { id: 'b_xp_100', icon: '🎯', name: '100 XP 돌파', desc: '누적 100 XP 획득' },
+      { id: 'b_xp_500', icon: '🌟', name: '500 XP 돌파', desc: '누적 500 XP 획득' },
+      { id: 'b_xp_1000', icon: '👑', name: '1,000 XP 돌파', desc: '어휘 마스터 달성' },
+      { id: 'b_creator', icon: '✍️', name: '세트 크리에이터', desc: '직접 첫 단어장 제작' },
+      { id: 'b_match_king', icon: '⏱️', name: '스피드 매치 킹', desc: '매치 게임 클리어' },
+      { id: 'b_live_champ', icon: '🏆', name: '라이브 챔피언', desc: 'Wordify Live 1위 우승' }
     ];
 
     // STORAGE & SESSION
     let storedUsers = JSON.parse(localStorage.getItem('wordify_users')) || [];
     let currentUser = JSON.parse(localStorage.getItem('wordify_current_user')) || null;
-    // Clean old dummy session if never explicitly created via Supabase or real login
-    if (currentUser && (currentUser.id === 'u1' || currentUser.pwd === 'password123' || !currentUser.email)) {
-      currentUser = null;
-      localStorage.removeItem('wordify_current_user');
-    }
     let studySets = JSON.parse(localStorage.getItem('wordify_sets')) || SEED_SETS;
-    let userXp = parseInt(localStorage.getItem('wordify_xp')) || 0;
 
     // ACTIVE STUDY STATE
     let activeSet = null;
@@ -2513,12 +1685,16 @@
     let matchStartTime = 0;
     let matchSelectedTile = null;
 
+    // CANVAS DRAWING STATE
+    let isDrawing = false;
+    let canvasCtx = null;
+
     // 1. THEME SWITCHER
     function changeTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('wordify_theme', theme);
       document.querySelectorAll('.t-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.id === `btn-t-${theme}`);
+        btn.classList.toggle('active', btn.textContent.includes(theme === 'white' ? '화이트' : theme === 'dark' ? '다크' : '웜'));
       });
       showToastPill(`${theme.toUpperCase()} 모드 적용! ✨`);
     }
@@ -2582,8 +1758,8 @@
             <div class="set-description">${set.desc}</div>
           </div>
           <div class="set-meta-bottom">
-            <span class="author-info">👤 ${set.author}</span>
-            <span class="term-count-badge">${set.words.length} 단어</span>
+            <span>👤 ${set.author}</span>
+            <span>${set.words.length} 단어</span>
           </div>
         </div>
       `).join('');
@@ -2603,29 +1779,32 @@
             <div class="set-description">${set.desc}</div>
           </div>
           <div class="set-meta-bottom">
-            <span class="author-info">👤 ${set.author}</span>
-            <span class="term-count-badge">💬 8 · ${set.words.length} 단어</span>
+            <span>👤 ${set.author}</span>
+            <span>${set.words.length} 단어</span>
           </div>
         </div>
       `).join('');
     }
 
+    // 4. DYNAMIC LEADERBOARD
     function renderLeaderboardView() {
       const t = document.getElementById('leaderboard-table');
       if (!t) return;
 
-      const myDisplayName = currentUser ? currentUser.name + ' (나)' : '나 (학습자)';
+      const myXp = currentUser ? (currentUser.xp || 0) : 0;
+      const myName = currentUser ? currentUser.name + ' (나)' : '나 (학습자)';
+
       const list = [
-        { name: 'Sarah_K', xp: 3240, isMe: false },
-        { name: 'Kenji_Tokyo', xp: 2920, isMe: false },
-        { name: myDisplayName, xp: userXp, isMe: true },
+        { name: 'Sarah_K', xp: 2450, isMe: false },
+        { name: 'Kenji_Tokyo', xp: 1980, isMe: false },
         { name: 'Alex_Global', xp: 1310, isMe: false },
-        { name: 'Hana_Busan', xp: 1190, isMe: false },
-        { name: 'David_KL', xp: 1050, isMe: false },
-        { name: 'Nurul_Penang', xp: 920, isMe: false },
-        { name: 'Jiwoo_Seoul', xp: 840, isMe: false },
-        { name: 'Carlos_Madrid', xp: 760, isMe: false },
-        { name: 'Mei_Ling', xp: 680, isMe: false }
+        { name: 'Hana_Busan', xp: 980, isMe: false },
+        { name: 'David_KL', xp: 650, isMe: false },
+        { name: 'Nurul_Penang', xp: 420, isMe: false },
+        { name: 'Jiwoo_Seoul', xp: 280, isMe: false },
+        { name: 'Carlos_Madrid', xp: 150, isMe: false },
+        { name: 'Mei_Ling', xp: 80, isMe: false },
+        { name: myName, xp: myXp, isMe: true }
       ].sort((a, b) => b.xp - a.xp);
 
       const rankTitles = [
@@ -2657,12 +1836,21 @@
           </div>
         `;
       }).join('');
+
+      // Update league rank badge in stat box
+      const myRank = list.findIndex(u => u.isMe) + 1;
+      const statBadge = document.getElementById('stat-league-badge');
+      if (statBadge) {
+        statBadge.textContent = myRank <= 3 ? ['챔피언 👑', '러너 🥈', '마스터 🥉'][myRank-1] : `${myRank}위 💎`;
+      }
     }
 
-    // 4. STUDY SESSION CONTROLLER
+    // 5. STUDY SESSION CONTROLLER
     function openStudyView(setId) {
       activeSet = studySets.find(s => s.id === setId);
+      if (!activeSet) return;
       cardIdx = 0;
+
       document.getElementById('view-home').style.display = 'none';
       document.getElementById('view-explore').style.display = 'none';
       document.getElementById('view-live').style.display = 'none';
@@ -2670,250 +1858,247 @@
       document.getElementById('view-study').classList.add('active');
 
       selectStudyMode('flashcard');
-      loadActiveCardData();
-      renderVocabularyTable();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function exitStudySession() {
-      if (matchTimerInterval) clearInterval(matchTimerInterval);
+      document.getElementById('view-study').classList.remove('active');
       switchView('home');
     }
 
     function selectStudyMode(mode) {
       activeMode = mode;
-      document.getElementById('btn-m-flashcard').classList.toggle('active', mode === 'flashcard');
-      document.getElementById('btn-m-learn').classList.toggle('active', mode === 'learn');
-      document.getElementById('btn-m-test').classList.toggle('active', mode === 'test');
-      document.getElementById('btn-m-match').classList.toggle('active', mode === 'match');
+      document.querySelectorAll('.mode-tab-item').forEach(b => b.classList.toggle('active', b.id === `btn-m-${mode}`));
+      document.getElementById('stage-flashcard').style.display = mode === 'flashcard' ? 'block' : 'none';
+      document.getElementById('stage-learn').style.display = mode === 'learn' ? 'block' : 'none';
+      document.getElementById('stage-test').style.display = mode === 'test' ? 'block' : 'none';
+      document.getElementById('stage-match').style.display = mode === 'match' ? 'block' : 'none';
 
-      document.getElementById('mode-flashcard-stage').style.display = mode === 'flashcard' ? 'block' : 'none';
-      document.getElementById('mode-learn-stage').style.display = mode === 'learn' ? 'block' : 'none';
-      document.getElementById('mode-test-stage').style.display = mode === 'test' ? 'block' : 'none';
-      document.getElementById('mode-match-stage').style.display = mode === 'match' ? 'block' : 'none';
-
+      if (mode === 'flashcard') setupFlashcardStage();
       if (mode === 'learn') setupLearnStage();
       if (mode === 'test') setupTestStage();
       if (mode === 'match') setupMatchStage();
     }
 
-    function loadActiveCardData() {
-      const word = activeSet.words[cardIdx];
-      document.getElementById('active-quizlet-card').classList.remove('flipped');
-      document.getElementById('fc-term').textContent = word.word;
-      document.getElementById('fc-phonetic').textContent = word.pronun || '';
-      document.getElementById('fc-meaning').textContent = word.meaning;
-      document.getElementById('fc-example').textContent = word.example || '';
+    // FLASHCARD STAGE
+    function setupFlashcardStage() {
+      if (!activeSet || activeSet.words.length === 0) return;
+      const w = activeSet.words[cardIdx];
+      document.getElementById('card-lang-tag').textContent = `${activeSet.lang} · 단어 ${cardIdx + 1}/${activeSet.words.length}`;
+      document.getElementById('card-front-term').textContent = w.word;
+      document.getElementById('card-front-pronun').textContent = w.pronun || '';
+      document.getElementById('card-back-meaning').textContent = w.meaning;
+      document.getElementById('card-back-example').textContent = w.example || '';
+      document.getElementById('card-counter-txt').textContent = `${cardIdx + 1} / ${activeSet.words.length}`;
 
-      document.getElementById('study-card-counter').textContent = `${cardIdx + 1} / ${activeSet.words.length}`;
-      const progress = ((cardIdx + 1) / activeSet.words.length) * 100;
-      document.getElementById('study-progress-bar').style.width = `${progress}%`;
-    }
+      document.getElementById('active-card-3d').classList.remove('flipped');
+      document.getElementById('set-words-total-cnt').textContent = activeSet.words.length;
 
-    function flipStudyCard() {
-      document.getElementById('active-quizlet-card').classList.toggle('flipped');
-    }
-
-    function nextStudyWord(earned) {
-      if (earned) gainXp(10);
-      if (cardIdx < activeSet.words.length - 1) {
-        cardIdx++;
-        loadActiveCardData();
-      } else {
-        showToastPill('🎉 세트 1회독 완료! (+50 XP)');
-        gainXp(50);
-        cardIdx = 0;
-        loadActiveCardData();
-      }
-    }
-
-    function prevStudyWord() {
-      if (cardIdx > 0) {
-        cardIdx--;
-        loadActiveCardData();
-      }
-    }
-
-    function shuffleStudySet() {
-      activeSet.words.sort(() => Math.random() - 0.5);
-      cardIdx = 0;
-      loadActiveCardData();
-      renderVocabularyTable();
-      showToastPill('🔀 단어 순서를 무작위로 섞었습니다!');
-    }
-
-    function speakCurrentWord() {
-      const word = activeSet.words[cardIdx].word;
-      const utt = new SpeechSynthesisUtterance(word);
-      speechSynthesis.speak(utt);
-      showToastPill(`🔊 "${word}" 발음 재생`);
-    }
-
-    function toggleStarWord() {
-      const btn = document.getElementById('btn-star-card');
-      btn.classList.toggle('starred');
-      showToastPill(btn.classList.contains('starred') ? '⭐ 중요 단어로 등록됨' : '별표 해제됨');
-    }
-
-    function renderVocabularyTable() {
-      const container = document.getElementById('set-terms-table-rows');
-      document.getElementById('set-vocab-count').textContent = activeSet.words.length;
-      container.innerHTML = activeSet.words.map(w => `
-        <div class="term-row">
-          <div class="term-col-word">${w.word} <span style="font-weight:400; font-size:0.8rem; color:var(--text-muted); display:block;">${w.pronun || ''}</span></div>
-          <div class="term-col-meaning">${w.meaning}</div>
-          <div class="term-col-actions">
-            <button class="icon-action-btn" onclick="const u=new SpeechSynthesisUtterance('${w.word}');speechSynthesis.speak(u);">🔊</button>
+      // Render words table
+      const table = document.getElementById('study-words-table');
+      table.innerHTML = activeSet.words.map((item, idx) => `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg-subtle); border-radius: var(--radius-md); font-size: 0.9rem;">
+          <div>
+            <strong style="font-size: 1.05rem;">${item.word}</strong>
+            <span style="color: var(--text-muted); margin-left: 0.4rem; font-size: 0.82rem;">${item.pronun || ''}</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="color: var(--text-secondary);">${item.meaning}</span>
+            <button class="styled-input" style="width: auto; padding: 0.25rem 0.6rem; margin: 0; font-size: 0.85rem; cursor: pointer; border: none; background: transparent;" onclick="speakCustomText('${item.word}', '${activeSet.ttsLang || 'en-US'}')">🔊</button>
           </div>
         </div>
       `).join('');
     }
 
-    function postSetComment() {
-      const inp = document.getElementById('set-comment-text');
-      const text = inp.value.trim();
-      if (!text) return;
-
-      const container = document.getElementById('comments-container');
-      const card = document.createElement('div');
-      card.className = 'comment-card';
-      card.innerHTML = `
-        <div class="comment-avatar">${currentUser ? currentUser.avatar : '🧑‍💻'}</div>
-        <div>
-          <div style="font-weight: 800; font-size: 0.9rem;">${currentUser ? currentUser.name : '학습자'} <span style="font-weight: 400; font-size: 0.72rem; color: var(--text-muted);">방금 전</span></div>
-          <div style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.2rem;">${text}</div>
-        </div>
-      `;
-      container.prepend(card);
-      inp.value = '';
-      showToastPill('💬 댓글이 등록되었습니다!');
+    function flipActiveCard() {
+      document.getElementById('active-card-3d').classList.toggle('flipped');
     }
 
-    // 5. LEARN STAGE (SPELLING & CANVAS DRAWING)
+    function nextCard() {
+      if (!activeSet) return;
+      cardIdx = (cardIdx + 1) % activeSet.words.length;
+      setupFlashcardStage();
+      gainXp(5);
+    }
+
+    function prevCard() {
+      if (!activeSet) return;
+      cardIdx = (cardIdx - 1 + activeSet.words.length) % activeSet.words.length;
+      setupFlashcardStage();
+    }
+
+    function toggleCardStar() {
+      const btn = document.getElementById('btn-card-star');
+      btn.style.color = btn.style.color === 'rgb(245, 158, 11)' ? 'inherit' : '#f59e0b';
+      showToastPill('⭐ 즐겨찾기 상태가 변경되었습니다.');
+    }
+
+    function playAudioPronun() {
+      if (!activeSet) return;
+      const w = activeSet.words[cardIdx];
+      speakCustomText(w.word, activeSet.ttsLang || 'en-US');
+    }
+
+    function speakCustomText(text, langCode) {
+      if (!window.speechSynthesis) {
+        showToastPill('🔊 음성 합성을 지원하지 않는 브라우저입니다.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = langCode || 'en-US';
+      u.rate = 0.95;
+      window.speechSynthesis.speak(u);
+    }
+
+    // LEARN STAGE
     function setupLearnStage() {
-      const currentWord = activeSet.words[cardIdx];
-      document.getElementById('learn-prompt-meaning').textContent = currentWord.meaning;
-      document.getElementById('learn-feedback').textContent = '';
+      if (!activeSet) return;
+      const w = activeSet.words[cardIdx];
 
       if (activeSet.isRoman) {
-        document.getElementById('roman-learn-box').style.display = 'block';
-        document.getElementById('drawing-learn-box').style.display = 'none';
-        document.getElementById('learn-prompt-guide').textContent = '키보드로 올바른 스펠링을 입력하세요.';
-        const inp = document.getElementById('roman-spelling-inp');
+        document.getElementById('learn-roman-wrap').style.display = 'block';
+        document.getElementById('learn-canvas-wrap').style.display = 'none';
+
+        document.getElementById('learn-prompt-meaning').textContent = w.meaning;
+        document.getElementById('learn-prompt-example').textContent = w.example || '';
+        const inp = document.getElementById('learn-spelling-input');
         inp.value = '';
         inp.focus();
       } else {
-        document.getElementById('roman-learn-box').style.display = 'none';
-        document.getElementById('drawing-learn-box').style.display = 'block';
-        document.getElementById('learn-prompt-guide').textContent = '비로마자 획순 캔버스: 손끝으로 획순을 그려보세요!';
-        setupDrawingCanvas(currentWord.word);
+        document.getElementById('learn-roman-wrap').style.display = 'none';
+        document.getElementById('learn-canvas-wrap').style.display = 'block';
+
+        document.getElementById('learn-canvas-meaning').textContent = w.meaning;
+        document.getElementById('learn-canvas-pronun').textContent = w.pronun || '';
+        document.getElementById('canvas-ghost-char').textContent = w.word;
+        initDrawingCanvas();
       }
     }
 
-    function verifyLearnAnswer() {
-      const word = activeSet.words[cardIdx];
-      const feedback = document.getElementById('learn-feedback');
+    function checkSpellingAnswer() {
+      const inp = document.getElementById('learn-spelling-input');
+      const val = inp.value.trim().toLowerCase();
+      const correct = activeSet.words[cardIdx].word.trim().toLowerCase();
 
-      if (activeSet.isRoman) {
-        const val = document.getElementById('roman-spelling-inp').value.trim();
-        if (val.toLowerCase() === word.word.toLowerCase()) {
-          feedback.innerHTML = `<span style="color:#22c55e;">🎉 정답입니다! (${word.word})</span>`;
-          gainXp(15);
-          setTimeout(() => nextStudyWord(true), 1200);
-        } else {
-          feedback.innerHTML = `<span style="color:#ef4444;">❌ 아쉬워요! 정답은 <strong>${word.word}</strong></span>`;
-        }
-      } else {
-        feedback.innerHTML = `<span style="color:#22c55e;">✨ 아름다운 획순입니다! 정답: <strong>${word.word}</strong></span>`;
+      if (val === correct) {
+        showToastPill(`🎯 정답입니다! 스펠링 암기 완료 (+20 XP)`);
         gainXp(20);
-        setTimeout(() => nextStudyWord(true), 1400);
+        setTimeout(() => nextCard(), 800);
+      } else {
+        showToastPill(`❌ 오답입니다! 정답: ${activeSet.words[cardIdx].word}`);
+        inp.value = activeSet.words[cardIdx].word;
+        setTimeout(() => nextCard(), 1800);
       }
     }
 
-    // SMOOTH TOUCH CANVAS WITH RICE-GRID
-    let drawCanvas, drawCtx, isPainting = false;
-    function setupDrawingCanvas(character) {
-      drawCanvas = document.getElementById('drawingCanvas');
-      drawCtx = drawCanvas.getContext('2d');
-      drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-      drawCtx.lineWidth = 7;
-      drawCtx.lineCap = 'round';
-      drawCtx.lineJoin = 'round';
-      drawCtx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffe050' : '#0f172a';
+    function initDrawingCanvas() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas) return;
+      canvasCtx = canvas.getContext('2d');
+      clearDrawingCanvas();
 
-      // Guide watermark
-      drawCtx.font = 'bold 110px sans-serif';
-      drawCtx.fillStyle = 'rgba(150, 150, 150, 0.18)';
-      drawCtx.textAlign = 'center';
-      drawCtx.textBaseline = 'middle';
-      drawCtx.fillText(character, drawCanvas.width / 2, drawCanvas.height / 2);
+      canvas.onmousedown = (e) => { isDrawing = true; drawStroke(e); };
+      canvas.onmousemove = (e) => { if (isDrawing) drawStroke(e); };
+      window.onmouseup = () => { isDrawing = false; canvasCtx.beginPath(); };
 
-      drawCanvas.onmousedown = (e) => { isPainting = true; drawCtx.beginPath(); drawCtx.moveTo(e.offsetX, e.offsetY); };
-      drawCanvas.onmousemove = (e) => { if (isPainting) { drawCtx.lineTo(e.offsetX, e.offsetY); drawCtx.stroke(); } };
-      drawCanvas.onmouseup = () => isPainting = false;
-      drawCanvas.onmouseleave = () => isPainting = false;
-
-      drawCanvas.ontouchstart = (e) => {
-        e.preventDefault();
-        const rect = drawCanvas.getBoundingClientRect();
-        isPainting = true;
-        drawCtx.beginPath();
-        drawCtx.moveTo(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
-      };
-      drawCanvas.ontouchmove = (e) => {
-        if (!isPainting) return;
-        e.preventDefault();
-        const rect = drawCanvas.getBoundingClientRect();
-        drawCtx.lineTo(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
-        drawCtx.stroke();
-      };
-      drawCanvas.ontouchend = () => isPainting = false;
+      canvas.ontouchstart = (e) => { isDrawing = true; drawTouch(e); };
+      canvas.ontouchmove = (e) => { if (isDrawing) drawTouch(e); };
+      canvas.ontouchend = () => { isDrawing = false; canvasCtx.beginPath(); };
     }
 
-    function eraseDrawingCanvas() {
-      if (drawCanvas && drawCtx) {
-        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-        setupDrawingCanvas(activeSet.words[cardIdx].word);
-      }
+    function drawStroke(e) {
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      canvasCtx.lineWidth = 10;
+      canvasCtx.lineCap = 'round';
+      canvasCtx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#0f172a';
+      canvasCtx.lineTo(x, y);
+      canvasCtx.stroke();
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(x, y);
     }
 
-    function triggerStrokeHint() {
-      showToastPill('👁️ 획순 가이드 오버레이가 켜져 있습니다.');
+    function drawTouch(e) {
+      e.preventDefault();
+      const rect = e.target.getBoundingClientRect();
+      const touch = e.touches[0];
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      canvasCtx.lineWidth = 10;
+      canvasCtx.lineCap = 'round';
+      canvasCtx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#0f172a';
+      canvasCtx.lineTo(x, y);
+      canvasCtx.stroke();
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(x, y);
     }
 
-    // 6. TEST STAGE
+    function clearDrawingCanvas() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas || !canvasCtx) return;
+      canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+      canvasCtx.beginPath();
+    }
+
+    function completeCanvasWord() {
+      showToastPill('✨ 획순 그리기 암기 완료! (+20 XP)');
+      gainXp(20);
+      nextCard();
+    }
+
+    // TEST STAGE
     function setupTestStage() {
-      const target = activeSet.words[cardIdx];
-      document.getElementById('test-question-word').textContent = target.word;
+      if (!activeSet) return;
+      const q = activeSet.words[cardIdx];
+      document.getElementById('test-q-counter').textContent = `문제 ${cardIdx + 1} / ${activeSet.words.length}`;
+      document.getElementById('test-question-term').textContent = q.word;
 
-      let options = [target.meaning];
-      while (options.length < Math.min(4, activeSet.words.length)) {
-        const rand = activeSet.words[Math.floor(Math.random() * activeSet.words.length)].meaning;
-        if (!options.includes(rand)) options.push(rand);
-      }
-      options.sort(() => Math.random() - 0.5);
+      const otherMeanings = activeSet.words.map(w => w.meaning).filter(m => m !== q.meaning);
+      const distractors = otherMeanings.sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [q.meaning, ...distractors].sort(() => Math.random() - 0.5);
 
-      const grid = document.getElementById('test-options-container');
-      grid.innerHTML = options.map((opt, i) => `
-        <button class="test-option-btn" onclick="submitTestAnswer('${opt}', '${target.meaning}')">
-          <span style="width:26px; height:26px; border-radius:var(--radius-full); background:var(--bg-card); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.85rem;">${['A','B','C','D'][i]}</span>
-          <span>${opt}</span>
+      const grid = document.getElementById('test-options-grid');
+      grid.innerHTML = options.map(opt => `
+        <button class="styled-input" style="padding: 1.25rem 1rem; font-size: 1rem; font-weight: 800; cursor: pointer; text-align: center; margin: 0; background: var(--bg-subtle);" onclick="handleTestAnswer(this, '${encodeURIComponent(opt)}', '${encodeURIComponent(q.meaning)}')">
+          ${opt}
         </button>
       `).join('');
     }
 
-    function submitTestAnswer(chosen, correct) {
+    function handleTestAnswer(btn, chosenEnc, correctEnc) {
+      const chosen = decodeURIComponent(chosenEnc);
+      const correct = decodeURIComponent(correctEnc);
+      const btns = document.querySelectorAll('#test-options-grid button');
+      btns.forEach(b => b.style.pointerEvents = 'none');
+
       if (chosen === correct) {
+        btn.style.background = '#22c55e';
+        btn.style.color = '#fff';
         showToastPill('🎯 정답입니다! (+25 XP)');
         gainXp(25);
-        setTimeout(() => nextStudyWord(true), 800);
       } else {
-        showToastPill(`❌ 오답입니다! 정답: ${correct}`);
-        setTimeout(() => nextStudyWord(false), 1400);
+        btn.style.background = '#ef4444';
+        btn.style.color = '#fff';
+        btns.forEach(b => {
+          if (decodeURIComponent(b.getAttribute('onclick')).includes(correct)) {
+            b.style.background = '#22c55e';
+            b.style.color = '#fff';
+          }
+        });
+        showToastPill('❌ 오답입니다!');
       }
+
+      setTimeout(() => {
+        cardIdx = (cardIdx + 1) % activeSet.words.length;
+        setupTestStage();
+      }, 1400);
     }
 
-    // 7. MATCH STAGE (QUIZLET MATCHING TILES)
+    // MATCH STAGE
     function setupMatchStage() {
+      if (!activeSet) return;
       if (matchTimerInterval) clearInterval(matchTimerInterval);
       matchStartTime = Date.now();
       matchSelectedTile = null;
@@ -2923,11 +2108,11 @@
         document.getElementById('match-timer-display').textContent = `⏱️ ${elapsed}s`;
       }, 100);
 
-      let tiles = [];
       const sampleWords = activeSet.words.slice(0, 6);
+      let tiles = [];
       sampleWords.forEach((w, i) => {
-        tiles.push({ id: `w-${i}`, pairId: i, text: w.word, type: 'word' });
-        tiles.push({ id: `m-${i}`, pairId: i, text: w.meaning, type: 'meaning' });
+        tiles.push({ id: `w-${i}`, pairId: i, text: w.word });
+        tiles.push({ id: `m-${i}`, pairId: i, text: w.meaning });
       });
       tiles.sort(() => Math.random() - 0.5);
 
@@ -2941,7 +2126,7 @@
 
     function handleMatchTileClick(tileId) {
       const tileEl = document.getElementById(tileId);
-      if (tileEl.classList.contains('matched')) return;
+      if (!tileEl || tileEl.classList.contains('matched')) return;
 
       if (!matchSelectedTile) {
         matchSelectedTile = tileEl;
@@ -2955,47 +2140,42 @@
         return;
       }
 
-      // Check match
       const p1 = matchSelectedTile.getAttribute('data-pair');
       const p2 = tileEl.getAttribute('data-pair');
 
       if (p1 === p2) {
-        // MATCHED!
         matchSelectedTile.classList.add('matched');
         tileEl.classList.add('matched');
         matchSelectedTile.classList.remove('selected');
         matchSelectedTile = null;
         gainXp(15);
 
-        // Check if all matched
-        const remaining = document.querySelectorAll('.match-tile:not(.matched)');
-        if (remaining.length === 0) {
+        const left = document.querySelectorAll('.match-tile:not(.matched)');
+        if (left.length === 0) {
           clearInterval(matchTimerInterval);
           const finalTime = ((Date.now() - matchStartTime) / 1000).toFixed(1);
-          showToastPill(`🏆 매치 완료! 기록: ${finalTime}초 (+60 XP)`);
+          showToastPill(`🏆 모든 단어 매치 성공! 기록: ${finalTime}초 (+60 XP)`);
           gainXp(60);
+          unlockBadge('b_match_king');
         }
       } else {
-        // MISMATCH
         tileEl.classList.add('selected');
         setTimeout(() => {
-          matchSelectedTile.classList.remove('selected');
+          if (matchSelectedTile) matchSelectedTile.classList.remove('selected');
           tileEl.classList.remove('selected');
           matchSelectedTile = null;
         }, 400);
       }
     }
 
-    // =========================================================
-    // REALTIME WORDIFY LIVE MULTIPLAYER GAME ENGINE
-    // =========================================================
+    // 6. REALTIME WORDIFY LIVE GAME
     let livePin = 8347;
     let liveQuizQuestions = [];
     let liveCurrentQuestionIdx = 0;
     let liveScore = 0;
     let liveTimerInterval = null;
     let liveTimerLeft = 10;
-    let opponentRaceScores = { alex: 0, kenji: 0, mei: 0 };
+    let opponentScores = { alex: 0, kenji: 0, mei: 0 };
 
     function refreshLivePin() {
       livePin = Math.floor(1000 + Math.random() * 9000);
@@ -3011,18 +2191,18 @@
 
     function startLiveBattle() {
       const sel = document.getElementById('live-set-selector');
-      const setId = sel ? sel.value : (studySets[0] ? studySets[0].id : null);
+      const setId = sel ? sel.value : studySets[0].id;
       const set = studySets.find(s => s.id === setId) || studySets[0];
 
       if (!set || set.words.length < 2) {
-        alert('대결할 단어 세트에 단어가 2개 이상 필요합니다!');
+        alert('대결할 단어 세트에 최소 2개 이상의 단어가 필요합니다!');
         return;
       }
 
       liveQuizQuestions = [...set.words].sort(() => Math.random() - 0.5);
       liveCurrentQuestionIdx = 0;
       liveScore = 0;
-      opponentRaceScores = { alex: 10, kenji: 10, mei: 10 };
+      opponentScores = { alex: 10, kenji: 10, mei: 10 };
 
       document.getElementById('live-stage-lobby').style.display = 'none';
       document.getElementById('live-stage-podium').style.display = 'none';
@@ -3042,19 +2222,17 @@
       document.getElementById('live-score-display').textContent = `${liveScore.toLocaleString()} pts`;
       document.getElementById('live-quiz-term').textContent = q.word;
 
-      // 4 options
       const otherMeanings = studySets.flatMap(s => s.words.map(w => w.meaning)).filter(m => m !== q.meaning);
-      const shuffledDistractors = otherMeanings.sort(() => Math.random() - 0.5).slice(0, 3);
-      const options = [q.meaning, ...shuffledDistractors].sort(() => Math.random() - 0.5);
+      const distractors = otherMeanings.sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [q.meaning, ...distractors].sort(() => Math.random() - 0.5);
 
       const grid = document.getElementById('live-options-grid');
       grid.innerHTML = options.map(opt => `
-        <button class="styled-input live-opt-btn" style="padding: 1.15rem 1rem; font-size: 1rem; font-weight: 800; cursor: pointer; text-align: center; margin-bottom: 0; transition: all 0.2s ease;" onclick="handleLiveAnswer(this, '${encodeURIComponent(opt)}', '${encodeURIComponent(q.meaning)}')">
+        <button class="styled-input" style="padding: 1.15rem 1rem; font-size: 1rem; font-weight: 800; cursor: pointer; text-align: center; margin: 0; background: var(--bg-subtle);" onclick="handleLiveAnswer(this, '${encodeURIComponent(opt)}', '${encodeURIComponent(q.meaning)}')">
           ${opt}
         </button>
       `).join('');
 
-      // 10s Timer
       clearInterval(liveTimerInterval);
       liveTimerLeft = 10;
       const timerBar = document.getElementById('live-timer-bar');
@@ -3074,25 +2252,23 @@
       }, 100);
     }
 
-    function handleLiveAnswer(btn, chosenEncoded, correctEncoded) {
+    function handleLiveAnswer(btn, chosenEnc, correctEnc) {
       clearInterval(liveTimerInterval);
-      const chosen = decodeURIComponent(chosenEncoded);
-      const correct = decodeURIComponent(correctEncoded);
-
-      const buttons = document.querySelectorAll('.live-opt-btn');
-      buttons.forEach(b => b.style.pointerEvents = 'none');
+      const chosen = decodeURIComponent(chosenEnc);
+      const correct = decodeURIComponent(correctEnc);
+      const btns = document.querySelectorAll('#live-options-grid button');
+      btns.forEach(b => b.style.pointerEvents = 'none');
 
       if (chosen === correct) {
         btn.style.background = '#22c55e';
         btn.style.color = '#fff';
-        btn.style.borderColor = '#22c55e';
         const speedBonus = Math.round(liveTimerLeft * 85);
         liveScore += (500 + speedBonus);
         showToastPill(`🎯 정답! +${500 + speedBonus} pts`);
       } else {
         btn.style.background = '#ef4444';
         btn.style.color = '#fff';
-        buttons.forEach(b => {
+        btns.forEach(b => {
           if (decodeURIComponent(b.getAttribute('onclick')).includes(correct)) {
             b.style.background = '#22c55e';
             b.style.color = '#fff';
@@ -3101,9 +2277,9 @@
         showToastPill('❌ 오답입니다!');
       }
 
-      opponentRaceScores.alex += Math.floor(Math.random() * 450 + 350);
-      opponentRaceScores.kenji += Math.floor(Math.random() * 400 + 300);
-      opponentRaceScores.mei += Math.floor(Math.random() * 350 + 200);
+      opponentScores.alex += Math.floor(Math.random() * 450 + 350);
+      opponentScores.kenji += Math.floor(Math.random() * 400 + 300);
+      opponentScores.mei += Math.floor(Math.random() * 350 + 200);
 
       updateRaceBars();
 
@@ -3114,8 +2290,8 @@
     }
 
     function handleLiveTimeout(correct) {
-      const buttons = document.querySelectorAll('.live-opt-btn');
-      buttons.forEach(b => {
+      const btns = document.querySelectorAll('#live-options-grid button');
+      btns.forEach(b => {
         b.style.pointerEvents = 'none';
         if (decodeURIComponent(b.getAttribute('onclick')).includes(correct)) {
           b.style.background = '#22c55e';
@@ -3132,9 +2308,9 @@
     function updateRaceBars() {
       const maxTrack = 3500;
       const myPct = Math.min(100, Math.max(5, (liveScore / maxTrack) * 100));
-      const alexPct = Math.min(95, Math.max(5, (opponentRaceScores.alex / maxTrack) * 100));
-      const kenjiPct = Math.min(90, Math.max(5, (opponentRaceScores.kenji / maxTrack) * 100));
-      const meiPct = Math.min(85, Math.max(5, (opponentRaceScores.mei / maxTrack) * 100));
+      const alexPct = Math.min(95, Math.max(5, (opponentScores.alex / maxTrack) * 100));
+      const kenjiPct = Math.min(90, Math.max(5, (opponentScores.kenji / maxTrack) * 100));
+      const meiPct = Math.min(85, Math.max(5, (opponentScores.mei / maxTrack) * 100));
 
       document.getElementById('live-race-bar-me').style.width = myPct + '%';
       document.getElementById('live-race-bar-alex').style.width = alexPct + '%';
@@ -3147,9 +2323,10 @@
       document.getElementById('live-stage-quiz').style.display = 'none';
       document.getElementById('live-stage-podium').style.display = 'block';
 
-      const won = liveScore >= opponentRaceScores.alex;
+      const won = liveScore >= opponentScores.alex;
       const xpEarned = won ? 120 : 60;
       gainXp(xpEarned);
+      if (won) unlockBadge('b_live_champ');
 
       document.getElementById('live-podium-title').textContent = won ? '🥇 1위 우승 챔피언!' : '🥈 2위 러너업!';
       document.getElementById('live-podium-desc').textContent = `최종 점수: ${liveScore.toLocaleString()} pts (+${xpEarned} XP 획득!)`;
@@ -3163,16 +2340,7 @@
       refreshLivePin();
     }
 
-    function gainXp(amount) {
-      userXp += amount;
-      document.getElementById('xp-text').textContent = `${userXp.toLocaleString()} XP`;
-      localStorage.setItem('wordify_xp', userXp);
-      renderLeaderboardView();
-    }
-
-    // =========================================================
-    // 8. 100% LOCAL INSTANT AUTHENTICATION & PASSWORD PROTECTION
-    // =========================================================
+    // 7. USER AUTH & PROFILE (100% LOCAL, NO EMAIL CODES)
     let currentAuthMode = 'signup';
 
     function openAuthModal(mode) {
@@ -3210,7 +2378,7 @@
         return;
       }
 
-      // SIGN UP (INSTANT, NO EMAIL VERIFICATION)
+      // SIGN UP (NEW USER STARTS AT 0 XP, 1-DAY STREAK, 0 LEARNED WORDS)
       if (storedUsers.some(u => u.email.toLowerCase() === email.toLowerCase())) {
         alert('이미 가입된 이메일 주소입니다. 로그인해주세요!');
         openAuthModal('login');
@@ -3222,15 +2390,18 @@
         email: email,
         pwd: pwd,
         name: name,
-        avatar: '🧑‍💻'
+        avatar: '🧑‍💻',
+        streak: 1,
+        xp: 0,
+        wordsLearned: 0,
+        badges: ['b_seed']
       };
 
       storedUsers.push(newAcc);
       localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
 
       setSessionUser(newAcc);
-      showToastPill(`🎉 회원가입 완료! 환영합니다, ${name}님! (+50 XP)`);
-      gainXp(50);
+      showToastPill(`🎉 회원가입 완료! 환영합니다, ${name}님!`);
     }
 
     function setSessionUser(user) {
@@ -3267,10 +2438,17 @@
         if (createPill) createPill.style.display = 'inline-flex';
         if (mobileBottom) mobileBottom.style.display = 'flex';
 
+        const myStreak = currentUser.streak || 1;
+        const myXp = currentUser.xp || 0;
+        const myWords = currentUser.wordsLearned || 0;
+
         document.getElementById('nav-avatar-icon').textContent = currentUser.avatar || '🧑‍💻';
         document.getElementById('drop-avatar').textContent = currentUser.avatar || '🧑‍💻';
         document.getElementById('drop-name').textContent = currentUser.name || '학습자';
         document.getElementById('drop-email').textContent = currentUser.email || '';
+        document.getElementById('streak-text').textContent = `${myStreak}일`;
+        document.getElementById('xp-text').textContent = `${myXp.toLocaleString()} XP`;
+        document.getElementById('stat-words-count').textContent = myWords;
 
         const liveMyAv = document.getElementById('live-my-avatar');
         if (liveMyAv) liveMyAv.textContent = currentUser.avatar || '🧑‍💻';
@@ -3293,6 +2471,7 @@
 
         renderMySets();
         renderLeaderboardView();
+        renderBadgesModal();
       } else {
         if (userArea) userArea.style.display = 'none';
         if (guestArea) guestArea.style.display = 'flex';
@@ -3303,9 +2482,47 @@
         if (mobileBottom) mobileBottom.style.display = 'none';
       }
     }
-    refreshUserNavUI();
 
-    // 9. SETTINGS & PASSWORD-PROTECTED PROFILE CHANGES
+    function gainXp(amount) {
+      if (!currentUser) return;
+      currentUser.xp = (currentUser.xp || 0) + amount;
+      currentUser.wordsLearned = (currentUser.wordsLearned || 0) + 1;
+
+      // Check XP badges
+      if (currentUser.xp >= 100) unlockBadge('b_xp_100');
+      if (currentUser.xp >= 500) unlockBadge('b_xp_500');
+      if (currentUser.xp >= 1000) unlockBadge('b_xp_1000');
+
+      // Update in storage
+      syncCurrentUser();
+      document.getElementById('xp-text').textContent = `${currentUser.xp.toLocaleString()} XP`;
+      document.getElementById('stat-words-count').textContent = currentUser.wordsLearned;
+      renderLeaderboardView();
+    }
+
+    function unlockBadge(badgeId) {
+      if (!currentUser) return;
+      if (!currentUser.badges) currentUser.badges = ['b_seed'];
+      if (!currentUser.badges.includes(badgeId)) {
+        currentUser.badges.push(badgeId);
+        syncCurrentUser();
+        const b = BADGES_CATALOG.find(x => x.id === badgeId);
+        if (b) showToastPill(`🏅 새로운 뱃지 해금: ${b.icon} ${b.name}!`);
+        renderBadgesModal();
+      }
+    }
+
+    function syncCurrentUser() {
+      if (!currentUser) return;
+      localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
+      const idx = storedUsers.findIndex(u => u.id === currentUser.id);
+      if (idx >= 0) {
+        storedUsers[idx] = currentUser;
+        localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
+      }
+    }
+
+    // 8. SETTINGS & PASSWORD-PROTECTED CHANGES
     function handleChangeEmailWithPassword() {
       if (!currentUser) return;
       const newEmail = document.getElementById('set-prof-email').value.trim();
@@ -3320,11 +2537,7 @@
       }
 
       currentUser.email = newEmail;
-      const idx = storedUsers.findIndex(u => u.id === currentUser.id);
-      if (idx >= 0) storedUsers[idx].email = newEmail;
-      localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
-      localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
-
+      syncCurrentUser();
       document.getElementById('set-email-cur-pwd').value = '';
       refreshUserNavUI();
       showToastPill('✅ 이메일이 성공적으로 변경되었습니다!');
@@ -3344,11 +2557,7 @@
       }
 
       currentUser.pwd = newPwd;
-      const idx = storedUsers.findIndex(u => u.id === currentUser.id);
-      if (idx >= 0) storedUsers[idx].pwd = newPwd;
-      localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
-      localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
-
+      syncCurrentUser();
       document.getElementById('set-cur-pwd').value = '';
       document.getElementById('set-new-pwd').value = '';
       showToastPill('✅ 비밀번호가 안전하게 변경되었습니다!');
@@ -3360,13 +2569,7 @@
       if (currentUser) {
         if (name) currentUser.name = name;
         if (avatar) currentUser.avatar = avatar;
-        const idx = storedUsers.findIndex(u => u.id === currentUser.id);
-        if (idx >= 0) {
-          storedUsers[idx].name = currentUser.name;
-          storedUsers[idx].avatar = currentUser.avatar;
-          localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
-        }
-        localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
+        syncCurrentUser();
       }
       refreshUserNavUI();
       closeModal('settings-modal');
@@ -3398,6 +2601,29 @@
       closeModal('delete-modal');
       refreshUserNavUI();
       showToastPill('계정이 안전하게 영구 삭제되었습니다.');
+    }
+
+    // 9. BADGES MODAL RENDERING
+    function renderBadgesModal() {
+      const shelf = document.getElementById('badge-shelf-grid');
+      if (!shelf) return;
+
+      const myStreak = currentUser ? (currentUser.streak || 1) : 1;
+      const streakTxt = document.getElementById('badge-modal-streak-txt');
+      if (streakTxt) streakTxt.textContent = `${myStreak}일 연속 학습 기록 중!`;
+
+      const unlocked = currentUser ? (currentUser.badges || ['b_seed']) : [];
+
+      shelf.innerHTML = BADGES_CATALOG.map(b => {
+        const isUnlocked = unlocked.includes(b.id);
+        return `
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.85rem; text-align: center; ${isUnlocked ? 'border-color: var(--primary); box-shadow: 0 4px 12px var(--primary-soft);' : 'opacity: 0.45; filter: grayscale(1);'}">
+            <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">${isUnlocked ? b.icon : '🔒'}</div>
+            <div style="font-weight: 800; font-size: 0.82rem; margin-bottom: 0.2rem;">${b.name}</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">${b.desc}</div>
+          </div>
+        `;
+      }).join('');
     }
 
     // 10. CREATE STUDY SET (WORD-BY-WORD INPUT EDITOR)
@@ -3459,6 +2685,7 @@
       const sel = document.getElementById('new-set-lang-select');
       const lang = sel.value;
       const isRoman = sel.selectedOptions[0].getAttribute('data-roman') === 'true';
+      const ttsLang = sel.selectedOptions[0].getAttribute('data-tts') || 'en-US';
 
       if (!title) { alert('세트 제목을 입력해주세요!'); return; }
 
@@ -3489,6 +2716,7 @@
         desc: desc || '직접 생성한 단어 세트',
         lang,
         isRoman,
+        ttsLang,
         author: currentUser ? currentUser.name : '학습자',
         words
       };
@@ -3499,10 +2727,11 @@
       renderMySets();
       showToastPill(`✨ ${words.length}개 단어로 세트가 생성되었습니다! (+50 XP)`);
       gainXp(50);
+      unlockBadge('b_creator');
       openStudyView(newSetObj.id);
     }
 
-    // DROPDOWN & MODALS
+    // MODAL & DROPDOWN HANDLERS
     function toggleDropdown() { document.getElementById('user-dropdown').classList.toggle('show'); }
     function closeDropdown() { document.getElementById('user-dropdown').classList.remove('show'); }
     window.onclick = (e) => {
@@ -3511,6 +2740,7 @@
 
     function openModal(id) {
       if (id === 'create-modal') initCreateModalRows();
+      if (id === 'badge-modal') renderBadgesModal();
       document.getElementById(id).classList.add('show');
       closeDropdown();
     }
@@ -3523,7 +2753,7 @@
       setTimeout(() => t.classList.remove('show'), 3200);
     }
 
-    // INIT
+    // INITIALIZATION
     refreshUserNavUI();
     renderMySets();
   </script>
