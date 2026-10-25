@@ -2,7 +2,7 @@
 <html lang="ko" data-theme="white">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Wordify — The moment a word becomes my own</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
       --radius-md: 14px;
       --radius-lg: 20px;
       --radius-full: 9999px;
-      --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* 3 THEMES (WHITE, DARK, WARM) */
@@ -38,6 +38,7 @@
       --canvas-bg: #f8fafc;
       --card-back-bg: #fffdf5;
       --nav-bg: rgba(255, 255, 255, 0.95);
+      --bottom-bar-bg: rgba(255, 255, 255, 0.96);
     }
 
     html[data-theme="dark"] {
@@ -55,6 +56,7 @@
       --canvas-bg: #18181b;
       --card-back-bg: #27272a;
       --nav-bg: rgba(18, 18, 20, 0.95);
+      --bottom-bar-bg: rgba(18, 18, 20, 0.96);
     }
 
     html[data-theme="warm"] {
@@ -72,6 +74,7 @@
       --canvas-bg: #f3ecdc;
       --card-back-bg: #fffdf8;
       --nav-bg: rgba(250, 246, 236, 0.95);
+      --bottom-bar-bg: rgba(250, 246, 236, 0.96);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -87,7 +90,7 @@
       overflow-x: hidden;
     }
 
-    /* NAVBAR */
+    /* TOP NAVBAR */
     .navbar {
       position: sticky;
       top: 0;
@@ -95,7 +98,7 @@
       background: var(--nav-bg);
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(14px);
-      padding: 0.75rem 1.5rem;
+      padding: 0.65rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -104,19 +107,8 @@
     .nav-left {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
-    }
-    .menu-trigger-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-size: 1.2rem;
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 1.5rem;
+      flex-shrink: 0;
     }
     .brand-group {
       display: flex;
@@ -126,29 +118,29 @@
     }
     .brand-title {
       font-family: var(--font-brand);
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: var(--text);
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       letter-spacing: -0.03em;
     }
     .brand-badge {
       background: var(--primary);
       color: #000;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      padding: 0.15rem 0.45rem;
+      padding: 0.15rem 0.4rem;
       border-radius: var(--radius-sm);
     }
     .brand-slogan {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
       font-weight: 600;
       letter-spacing: -0.01em;
     }
-    .nav-links {
+    .desktop-nav-links {
       display: flex;
       align-items: center;
       gap: 0.35rem;
@@ -157,8 +149,8 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 0.92rem;
+      font-weight: 700;
       padding: 0.5rem 0.85rem;
       border-radius: var(--radius-md);
       cursor: pointer;
@@ -166,6 +158,7 @@
       align-items: center;
       gap: 0.4rem;
       transition: var(--transition);
+      white-space: nowrap;
     }
     .nav-btn:hover, .nav-btn.active {
       color: var(--text);
@@ -173,64 +166,62 @@
     }
     .nav-btn.active {
       font-weight: 800;
-      color: var(--text);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-shrink: 0;
     }
     .btn-create {
       background: var(--primary);
       color: #111;
       border: 1px solid rgba(0,0,0,0.06);
-      font-weight: 800;
+      font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: var(--radius-full);
       font-size: 1.35rem;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(255, 224, 80, 0.45);
-      transition: transform 0.15s ease, background 0.15s ease;
+      box-shadow: 0 2px 8px rgba(255, 224, 80, 0.45);
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
     }
-    .btn-create:hover {
-      background: var(--primary-hover);
-      transform: scale(1.06);
-    }
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
+    .btn-create:hover { transform: scale(1.06); }
+
     .streak-badge {
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.65rem;
       border-radius: var(--radius-full);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       cursor: pointer;
-      transition: var(--transition);
-    }
-    .streak-badge:hover {
-      border-color: var(--primary);
+      white-space: nowrap;
     }
     .xp-badge {
       background: var(--primary-soft);
       border: 1px solid var(--primary);
       color: var(--text);
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.65rem;
       border-radius: var(--radius-full);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
+      white-space: nowrap;
     }
     .user-avatar-btn {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-full);
       border: 2px solid var(--primary);
       background: var(--bg-surface);
@@ -238,54 +229,84 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       transition: var(--transition);
+      flex-shrink: 0;
     }
-    .user-avatar-btn:hover {
-      transform: scale(1.05);
-    }
+    .user-avatar-btn:hover { transform: scale(1.05); }
 
     /* LOGGED OUT BUTTONS */
-    .auth-buttons-loggedout {
+    .auth-guest-box {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
-    .btn-auth-login {
+    .btn-guest-login {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--text);
       font-weight: 700;
-      font-size: 0.88rem;
-      padding: 0.45rem 0.9rem;
+      font-size: 0.82rem;
+      padding: 0.4rem 0.75rem;
       border-radius: var(--radius-md);
       cursor: pointer;
-      transition: var(--transition);
     }
-    .btn-auth-login:hover {
-      background: var(--bg-surface);
-    }
-    .btn-auth-signup {
+    .btn-guest-signup {
       background: var(--primary);
       color: #000;
       border: none;
       font-weight: 800;
-      font-size: 0.88rem;
-      padding: 0.45rem 1rem;
+      font-size: 0.82rem;
+      padding: 0.4rem 0.85rem;
       border-radius: var(--radius-md);
       cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 2px 8px rgba(255, 224, 80, 0.4);
     }
-    .btn-auth-signup:hover {
-      background: var(--primary-hover);
+
+    /* MOBILE BOTTOM NAVIGATION BAR */
+    .bottom-nav-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 62px;
+      background: var(--bottom-bar-bg);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      z-index: 50;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex: 1;
+      height: 100%;
+      gap: 0.2rem;
+      transition: color 0.15s ease;
+    }
+    .bottom-nav-item.active {
+      color: var(--text);
+      font-weight: 900;
+    }
+    .bottom-nav-item .icon {
+      font-size: 1.3rem;
     }
 
     /* DROPDOWN MENU */
     .dropdown {
       position: absolute;
-      top: 64px;
-      right: 1.5rem;
+      top: 60px;
+      right: 1.25rem;
       width: 270px;
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -307,21 +328,15 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 0.3rem;
     }
-    .dropdown-user-name {
-      font-weight: 800;
-      font-size: 0.95rem;
-    }
-    .dropdown-user-email {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
+    .dropdown-user-name { font-weight: 800; font-size: 0.95rem; }
+    .dropdown-user-email { font-size: 0.78rem; color: var(--text-muted); }
     .dropdown-item {
       display: flex;
       align-items: center;
       gap: 0.6rem;
       padding: 0.6rem 0.8rem;
       border-radius: var(--radius-sm);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: var(--text);
       background: transparent;
@@ -331,56 +346,38 @@
       cursor: pointer;
       transition: var(--transition);
     }
-    .dropdown-item:hover {
-      background: var(--bg-surface);
-    }
-    .dropdown-item.danger {
-      color: #ef4444;
-    }
-    .dropdown-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0.3rem 0;
-    }
+    .dropdown-item:hover { background: var(--bg-surface); }
+    .dropdown-item.danger { color: #ef4444; }
+    .dropdown-divider { height: 1px; background: var(--border); margin: 0.3rem 0; }
 
     /* THEME SWITCHER */
     .theme-picker {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.4rem 0.8rem;
+      gap: 0.35rem;
+      padding: 0.4rem 0.75rem;
       background: var(--bg-surface);
       border-radius: var(--radius-sm);
       margin: 0.3rem 0;
     }
-    .theme-picker-label {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-right: auto;
-    }
+    .theme-picker-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-right: auto; }
     .theme-btn {
       border: 1px solid var(--border);
       background: var(--bg-card);
       color: var(--text);
-      padding: 0.25rem 0.5rem;
+      padding: 0.2rem 0.45rem;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
-      transition: var(--transition);
     }
-    .theme-btn.active {
-      background: var(--primary);
-      color: #000;
-      border-color: var(--primary-dark);
-    }
+    .theme-btn.active { background: var(--primary); color: #000; border-color: var(--primary-dark); }
 
     /* MAIN CONTAINER */
     .container {
-      max-width: 1120px;
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
+      padding: 1.5rem 1.25rem 6rem;
       width: 100%;
       flex: 1;
     }
@@ -390,121 +387,78 @@
       background: linear-gradient(135deg, var(--bg-surface) 0%, var(--primary-soft) 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 2.2rem 2rem;
-      margin-bottom: 2.5rem;
+      padding: 1.75rem 1.5rem;
+      margin-bottom: 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1.5rem;
-      position: relative;
-      overflow: hidden;
+      gap: 1.25rem;
     }
     .hero-content h1 {
-      font-size: 1.85rem;
+      font-size: 1.6rem;
       font-weight: 900;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
       letter-spacing: -0.02em;
     }
-    .hero-content p {
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      max-width: 580px;
-    }
-    .hero-stats {
-      display: flex;
-      gap: 1rem;
-    }
+    .hero-content p { color: var(--text-muted); font-size: 0.92rem; }
+    .hero-stats { display: flex; gap: 0.75rem; flex-shrink: 0; }
     .stat-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 1rem 1.25rem;
+      padding: 0.85rem 1rem;
       border-radius: var(--radius-md);
       text-align: center;
-      min-width: 110px;
+      min-width: 95px;
       box-shadow: var(--shadow);
     }
-    .stat-val {
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-    .stat-lbl {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-top: 0.1rem;
-    }
+    .stat-val { font-size: 1.35rem; font-weight: 900; color: var(--text); }
+    .stat-lbl { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); margin-top: 0.1rem; }
 
     /* SECTION HEADER */
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    .section-title { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
 
     /* SET CARDS GRID */
     .sets-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 3rem;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
     }
     .set-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 1.4rem;
+      padding: 1.25rem;
       box-shadow: var(--shadow);
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .set-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--border-focus);
-    }
-    .set-tags {
-      display: flex;
-      gap: 0.4rem;
-      margin-bottom: 0.75rem;
-      flex-wrap: wrap;
-    }
+    .set-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .set-tags { display: flex; gap: 0.35rem; margin-bottom: 0.65rem; flex-wrap: wrap; }
     .tag {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      padding: 0.2rem 0.5rem;
+      padding: 0.18rem 0.45rem;
       border-radius: var(--radius-full);
       background: var(--bg-surface);
       color: var(--text-muted);
       border: 1px solid var(--border);
     }
-    .tag.primary {
-      background: var(--primary);
-      color: #000;
-      border-color: transparent;
-    }
-    .set-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin-bottom: 0.35rem;
-    }
+    .tag.primary { background: var(--primary); color: #000; border-color: transparent; }
+    .set-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.3rem; }
     .set-desc {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -514,39 +468,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 0.8rem;
+      padding-top: 0.75rem;
       border-top: 1px solid var(--border);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-subtle);
     }
-    .set-author {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-    .set-count {
-      font-weight: 700;
-      background: var(--bg-surface);
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--radius-sm);
-    }
+    .set-author { font-weight: 600; color: var(--text-muted); }
+    .set-count { font-weight: 700; background: var(--bg-surface); padding: 0.18rem 0.5rem; border-radius: var(--radius-sm); }
 
     /* STUDY VIEW */
-    .study-container {
-      display: none;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .study-container.active {
-      display: flex;
-    }
+    .study-container { display: none; flex-direction: column; gap: 1.25rem; }
+    .study-container.active { display: flex; }
     .study-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
     }
     .study-back-btn {
@@ -554,49 +491,38 @@
       border: 1px solid var(--border);
       color: var(--text);
       font-weight: 700;
-      padding: 0.5rem 1rem;
+      padding: 0.45rem 0.85rem;
       border-radius: var(--radius-md);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: var(--transition);
-    }
-    .study-back-btn:hover {
-      background: var(--border);
+      font-size: 0.85rem;
     }
     .study-mode-tabs {
       display: flex;
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-full);
-      padding: 0.25rem;
-      gap: 0.25rem;
+      padding: 0.2rem;
+      gap: 0.2rem;
     }
     .mode-tab {
       background: transparent;
       border: none;
-      padding: 0.5rem 1.1rem;
+      padding: 0.4rem 0.85rem;
       border-radius: var(--radius-full);
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
-      transition: var(--transition);
     }
-    .mode-tab.active {
-      background: var(--primary);
-      color: #000;
-      box-shadow: 0 2px 8px rgba(255, 224, 80, 0.3);
-    }
+    .mode-tab.active { background: var(--primary); color: #000; box-shadow: 0 2px 6px rgba(255, 224, 80, 0.35); }
 
-    /* FLASHCARD VIEW */
+    /* FLASHCARD */
     .flashcard-wrapper {
       perspective: 1200px;
       width: 100%;
-      max-width: 680px;
-      height: 380px;
-      margin: 1rem auto;
+      max-width: 600px;
+      height: 330px;
+      margin: 0.5rem auto;
       cursor: pointer;
     }
     .flashcard {
@@ -608,9 +534,7 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
     }
-    .flashcard.flipped {
-      transform: rotateY(180deg);
-    }
+    .flashcard.flipped { transform: rotateY(180deg); }
     .card-face {
       position: absolute;
       width: 100%;
@@ -622,118 +546,64 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem;
+      padding: 2rem;
       text-align: center;
       background: var(--bg-card);
     }
-    .card-front {
-      background: var(--bg-card);
-    }
-    .card-back {
-      background: var(--card-back-bg);
-      transform: rotateY(180deg);
-      border-color: var(--primary);
-    }
-    .card-word {
-      font-size: 2.6rem;
-      font-weight: 900;
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.02em;
-    }
-    .card-pronun {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-      font-style: italic;
-    }
-    .card-meaning {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--text);
-    }
-    .card-example {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-top: 1rem;
-      max-width: 450px;
-    }
-    .card-hint {
-      position: absolute;
-      bottom: 1.25rem;
-      font-size: 0.8rem;
-      color: var(--text-subtle);
-      font-weight: 600;
-    }
-    .study-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+    .card-front { background: var(--bg-card); }
+    .card-back { background: var(--card-back-bg); transform: rotateY(180deg); border-color: var(--primary); }
+    .card-word { font-size: 2.3rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .card-pronun { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1rem; font-style: italic; }
+    .card-meaning { font-size: 1.75rem; font-weight: 800; color: var(--text); }
+    .card-example { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.75rem; max-width: 420px; }
+    .card-hint { position: absolute; bottom: 1rem; font-size: 0.75rem; color: var(--text-subtle); font-weight: 600; }
+
+    .study-controls { display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-top: 0.75rem; }
     .ctrl-btn {
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       border-radius: var(--radius-full);
       background: var(--bg-surface);
       border: 1px solid var(--border);
       color: var(--text);
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: var(--transition);
+      transition: transform 0.15s ease;
     }
-    .ctrl-btn:hover {
-      background: var(--primary);
-      color: #000;
-      border-color: var(--primary);
-      transform: scale(1.08);
-    }
+    .ctrl-btn:hover { transform: scale(1.08); }
     .progress-bar-container {
       width: 100%;
-      max-width: 680px;
+      max-width: 600px;
       margin: 0 auto;
-      height: 8px;
+      height: 6px;
       background: var(--border);
       border-radius: var(--radius-full);
       overflow: hidden;
     }
-    .progress-bar-fill {
-      height: 100%;
-      background: var(--primary);
-      width: 20%;
-      transition: width 0.3s ease;
-    }
+    .progress-bar-fill { height: 100%; background: var(--primary); width: 20%; transition: width 0.3s ease; }
 
-    /* SPELLING & DRAWING STUDY */
+    /* SPELLING & CANVAS */
     .spelling-box {
-      max-width: 680px;
+      max-width: 600px;
       margin: 0 auto;
       width: 100%;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 2.5rem 2rem;
+      padding: 2rem 1.5rem;
       box-shadow: var(--shadow);
       text-align: center;
     }
-    .spelling-prompt {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-    .spelling-subprompt {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
+    .spelling-prompt { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.3rem; }
+    .spelling-subprompt { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
     .spelling-input {
       width: 100%;
-      max-width: 440px;
-      padding: 0.9rem 1.2rem;
-      font-size: 1.35rem;
+      max-width: 380px;
+      padding: 0.85rem 1.1rem;
+      font-size: 1.25rem;
       font-weight: 700;
       text-align: center;
       border: 2px solid var(--border);
@@ -741,130 +611,75 @@
       background: var(--bg-surface);
       color: var(--text);
       outline: none;
-      transition: var(--transition);
-      letter-spacing: 0.05em;
-    }
-    .spelling-input:focus {
-      border-color: var(--primary-dark);
-      background: var(--bg-card);
     }
     .canvas-container {
-      margin: 1.5rem auto 1rem;
-      width: 320px;
-      height: 260px;
+      margin: 1rem auto;
+      width: 280px;
+      height: 240px;
       border: 2px dashed var(--border);
       border-radius: var(--radius-md);
       background: var(--canvas-bg);
-      position: relative;
       touch-action: none;
     }
-    canvas {
-      width: 100%;
-      height: 100%;
-      border-radius: var(--radius-md);
-      cursor: crosshair;
-    }
-    .canvas-tools {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+    canvas { width: 100%; height: 100%; border-radius: var(--radius-md); cursor: crosshair; }
+    .canvas-tools { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; }
     .tool-btn {
-      padding: 0.45rem 0.85rem;
-      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: var(--bg-surface);
       color: var(--text);
       cursor: pointer;
-      transition: var(--transition);
     }
-    .tool-btn:hover { background: var(--border); }
     .btn-submit-answer {
       background: var(--primary);
       color: #000;
       font-weight: 800;
-      font-size: 1.05rem;
-      padding: 0.85rem 2.2rem;
+      font-size: 1rem;
+      padding: 0.8rem 2rem;
       border-radius: var(--radius-full);
       border: none;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(255, 224, 80, 0.45);
-      transition: var(--transition);
-    }
-    .btn-submit-answer:hover {
-      background: var(--primary-hover);
-      transform: scale(1.03);
     }
 
-    /* WORDIFY LIVE (QUIZLET LIVE-STYLE) */
+    /* WORDIFY LIVE */
     .live-hero {
       background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
       color: #fff;
       border-radius: var(--radius-lg);
-      padding: 2.5rem;
+      padding: 2.2rem 1.5rem;
       text-align: center;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-lg);
+      margin-bottom: 1.5rem;
     }
     .live-pin-display {
       font-family: var(--font-brand);
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 900;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       color: var(--primary);
-      margin: 1rem 0;
-      text-shadow: 0 2px 10px rgba(255, 224, 80, 0.5);
+      margin: 0.75rem 0;
     }
-    .live-participants {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1.5rem 0;
-      flex-wrap: wrap;
-    }
+    .live-participants { display: flex; justify-content: center; gap: 0.6rem; margin: 1.25rem 0; flex-wrap: wrap; }
     .participant-chip {
       background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      padding: 0.5rem 1rem;
+      padding: 0.45rem 0.85rem;
       border-radius: var(--radius-full);
+      font-size: 0.82rem;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* COMMENTS SECTION ON SETS */
-    .comments-section {
-      margin-top: 2rem;
-      border-top: 1px solid var(--border);
-      padding-top: 1.5rem;
-      text-align: left;
-    }
-    .comment-input-box {
-      display: flex;
-      gap: 0.5rem;
-      margin: 1rem 0 1.5rem;
-    }
-    .comment-row {
-      display: flex;
-      gap: 0.75rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .comment-author {
-      font-weight: 700;
-      font-size: 0.88rem;
-    }
-    .comment-text {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-    }
+    /* COMMENTS */
+    .comments-section { margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.25rem; text-align: left; }
+    .comment-input-box { display: flex; gap: 0.5rem; margin: 0.75rem 0 1.25rem; }
+    .comment-row { display: flex; gap: 0.65rem; padding: 0.65rem 0; border-bottom: 1px solid var(--border); }
+    .comment-author { font-weight: 700; font-size: 0.85rem; }
+    .comment-text { font-size: 0.85rem; color: var(--text-muted); }
 
-    /* MODAL SYSTEM */
+    /* MODAL */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -874,7 +689,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 1rem;
     }
     .modal-overlay.show { display: flex; }
     .modal-card {
@@ -882,10 +697,10 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       width: 100%;
-      max-width: 540px;
+      max-width: 480px;
       max-height: 90vh;
       overflow-y: auto;
-      padding: 2.2rem;
+      padding: 1.75rem 1.5rem;
       box-shadow: var(--shadow-lg);
       animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -893,65 +708,33 @@
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    .modal-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-    }
-    .modal-close {
-      background: transparent;
-      border: none;
-      font-size: 1.4rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0.2rem;
-    }
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-    .form-label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .modal-title { font-size: 1.25rem; font-weight: 800; }
+    .modal-close { background: transparent; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
     .form-input, .form-select, .form-textarea {
       width: 100%;
-      padding: 0.75rem 0.95rem;
+      padding: 0.7rem 0.85rem;
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       background: var(--bg-surface);
       color: var(--text);
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       outline: none;
-      transition: var(--transition);
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--primary-dark);
-      background: var(--bg-card);
     }
     .btn-action-primary {
       width: 100%;
       background: var(--primary);
       color: #000;
       border: none;
-      padding: 0.85rem;
-      font-size: 1rem;
+      padding: 0.8rem;
+      font-size: 0.95rem;
       font-weight: 800;
       border-radius: var(--radius-md);
       cursor: pointer;
-      margin-top: 0.5rem;
-      transition: var(--transition);
       box-shadow: 0 4px 12px rgba(255, 224, 80, 0.35);
-    }
-    .btn-action-primary:hover {
-      background: var(--primary-hover);
     }
     .btn-action-danger {
       width: 100%;
@@ -959,186 +742,142 @@
       color: #b91c1c;
       border: 1px solid #fca5a5;
       padding: 0.75rem;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       border-radius: var(--radius-md);
       cursor: pointer;
-      margin-top: 1.5rem;
-      transition: var(--transition);
-    }
-    .btn-action-danger:hover {
-      background: #fecaca;
+      margin-top: 1.25rem;
     }
 
-    /* BADGE GRID & 1~10 LEAGUE BADGES */
-    .badge-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.85rem;
-      margin-top: 1rem;
-    }
+    /* BADGES & LEADERBOARD */
+    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 0.75rem; }
     .badge-item {
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 1rem 0.4rem;
+      padding: 0.85rem 0.3rem;
       text-align: center;
-      transition: var(--transition);
     }
-    .badge-item.unlocked {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-    }
-    .badge-icon {
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
-    }
-    .badge-name {
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .badge-desc {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
+    .badge-item.unlocked { border-color: var(--primary); background: var(--primary-soft); }
+    .badge-icon { font-size: 1.8rem; margin-bottom: 0.2rem; }
+    .badge-name { font-size: 0.78rem; font-weight: 800; }
+    .badge-desc { font-size: 0.68rem; color: var(--text-muted); }
 
-    /* LEADERBOARD VIEW (1~10 BADGES) */
-    .leaderboard-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      margin-top: 1.25rem;
-    }
+    .leaderboard-list { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 1rem; }
     .leader-row {
       display: flex;
       align-items: center;
-      padding: 0.9rem 1.25rem;
+      padding: 0.75rem 1rem;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      gap: 1rem;
-      box-shadow: var(--shadow);
+      gap: 0.85rem;
     }
-    .leader-row.me {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-      font-weight: 700;
-    }
+    .leader-row.me { border-color: var(--primary); background: var(--primary-soft); font-weight: 700; }
     .leader-rank-badge {
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       border-radius: var(--radius-full);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 1.15rem;
+      font-size: 1rem;
       background: var(--bg-surface);
       border: 1px solid var(--border);
+      flex-shrink: 0;
     }
     .leader-row:nth-child(1) .leader-rank-badge { background: #fef08a; border-color: #eab308; color: #854d0e; }
     .leader-row:nth-child(2) .leader-rank-badge { background: #e2e8f0; border-color: #94a3b8; color: #334155; }
     .leader-row:nth-child(3) .leader-rank-badge { background: #fed7aa; border-color: #f97316; color: #9a3412; }
-    .leader-info {
-      flex: 1;
-    }
-    .leader-name {
-      font-weight: 800;
-      font-size: 0.95rem;
-    }
-    .leader-badge-title {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-    .leader-xp {
-      font-weight: 900;
-      font-size: 1rem;
-    }
+    .leader-info { flex: 1; min-width: 0; }
+    .leader-name { font-weight: 800; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .leader-badge-title { font-size: 0.72rem; color: var(--text-muted); }
+    .leader-xp { font-weight: 900; font-size: 0.95rem; flex-shrink: 0; }
 
-    /* TOAST NOTIFICATION */
+    /* TOAST */
     .toast {
       position: fixed;
-      bottom: 2rem;
+      bottom: 5.5rem;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       background: #111;
       color: #fff;
-      padding: 0.8rem 1.5rem;
+      padding: 0.75rem 1.4rem;
       border-radius: var(--radius-full);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 800;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
       z-index: 300;
       opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+      max-width: 90vw;
+      text-align: center;
       pointer-events: none;
     }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* RESPONSIVE */
+    /* RESPONSIVE: MOBILE ADJUSTMENTS */
     @media (max-width: 768px) {
-      .navbar { padding: 0.6rem 1rem; }
+      .desktop-nav-links { display: none; }
       .brand-slogan { display: none; }
-      .hero-banner { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+      .bottom-nav-bar { display: flex; }
+      .hero-banner { flex-direction: column; align-items: flex-start; padding: 1.25rem 1rem; }
       .hero-stats { width: 100%; justify-content: space-between; }
+      .stat-card { flex: 1; }
       .sets-grid { grid-template-columns: 1fr; }
-      .flashcard-wrapper { height: 320px; }
-      .card-word { font-size: 2rem; }
-      .card-meaning { font-size: 1.5rem; }
+      .flashcard-wrapper { height: 300px; }
+      .card-word { font-size: 1.85rem; }
+      .card-meaning { font-size: 1.4rem; }
       .badge-grid { grid-template-columns: repeat(2, 1fr); }
+      .spelling-box { padding: 1.5rem 1rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- TOP NAVBAR -->
   <nav class="navbar">
     <div class="nav-left">
-      <button class="menu-trigger-btn" onclick="toggleSidebar()" title="전체 메뉴">≡</button>
       <div class="brand-group" onclick="showView('home')">
         <div class="brand-title">
           <span>Wordify</span>
-          <span class="brand-badge">BETA</span>
+          <span class="brand-badge">PRO</span>
         </div>
         <span class="brand-slogan">The moment a word becomes my own—Wordify</span>
       </div>
-      <div class="nav-links">
-        <button class="nav-btn active" id="nav-home" onclick="showView('home')">📚 내 세트</button>
-        <button class="nav-btn" id="nav-explore" onclick="showView('explore')">🔍 탐색</button>
-        <button class="nav-btn" id="nav-live" onclick="showView('live')">⚡ 라이브</button>
-        <button class="nav-btn" id="nav-leaderboard" onclick="showView('leaderboard')">🏆 리더보드</button>
+      <!-- DESKTOP NAV -->
+      <div class="desktop-nav-links">
+        <button class="nav-btn active" id="nav-d-home" onclick="showView('home')">📚 내 세트</button>
+        <button class="nav-btn" id="nav-d-explore" onclick="showView('explore')">🔍 탐색</button>
+        <button class="nav-btn" id="nav-d-live" onclick="showView('live')">⚡ 라이브</button>
+        <button class="nav-btn" id="nav-d-leaderboard" onclick="showView('leaderboard')">🏆 리더보드</button>
       </div>
     </div>
 
     <div class="nav-right">
-      <button class="btn-create" onclick="openCreateModal()" title="새 단어 세트 만들기">+</button>
+      <button class="btn-create" onclick="openCreateModal()" title="새 세트 만들기">+</button>
       
-      <!-- LOGGED IN WIDGETS -->
-      <div id="auth-user-widgets" style="display: flex; align-items: center; gap: 0.75rem;">
+      <!-- LOGGED IN STATE -->
+      <div id="auth-user-widgets" style="display: flex; align-items: center; gap: 0.5rem;">
         <div class="streak-badge" onclick="openBadgeModal()" title="연속 학습 일수">
-          <span>🔥</span>
-          <span id="streak-count">5일 연속</span>
+          <span>🔥</span><span id="streak-count">5일</span>
         </div>
         <div class="xp-badge" title="총 획득 경험치">
-          <span>⚡</span>
-          <span id="user-xp">1,420 XP</span>
+          <span>⚡</span><span id="user-xp">1,420 XP</span>
         </div>
         <button class="user-avatar-btn" id="avatar-btn" onclick="toggleDropdown()">
           <span id="user-avatar">🧑‍💻</span>
         </button>
       </div>
 
-      <!-- LOGGED OUT BUTTONS -->
-      <div id="auth-guest-widgets" class="auth-buttons-loggedout" style="display: none;">
-        <button class="btn-auth-login" onclick="openAuthModal('login')">로그인</button>
-        <button class="btn-auth-signup" onclick="openAuthModal('signup')">회원가입</button>
+      <!-- LOGGED OUT STATE -->
+      <div id="auth-guest-widgets" class="auth-guest-box" style="display: none;">
+        <button class="btn-guest-login" onclick="openAuthModal('login')">로그인</button>
+        <button class="btn-guest-signup" onclick="openAuthModal('signup')">회원가입</button>
       </div>
     </div>
   </nav>
@@ -1152,22 +891,16 @@
     
     <!-- THEME PICKER -->
     <div class="theme-picker">
-      <span class="theme-picker-label">🎨 테마 모드</span>
+      <span class="theme-picker-label">🎨 테마</span>
       <button class="theme-btn active" onclick="setTheme('white')">화이트</button>
       <button class="theme-btn" onclick="setTheme('dark')">다크</button>
       <button class="theme-btn" onclick="setTheme('warm')">웜</button>
     </div>
 
-    <button class="dropdown-item" onclick="openBadgeModal()">
-      <span>🏅</span> 뱃지 및 연속학습 기록
-    </button>
-    <button class="dropdown-item" onclick="openSettingsModal()">
-      <span>⚙️</span> 환경 설정
-    </button>
+    <button class="dropdown-item" onclick="openBadgeModal()"><span>🏅</span> 뱃지 및 연속학습 기록</button>
+    <button class="dropdown-item" onclick="openSettingsModal()"><span>⚙️</span> 환경 설정</button>
     <div class="dropdown-divider"></div>
-    <button class="dropdown-item danger" onclick="handleLogout()">
-      <span>🚪</span> 로그아웃
-    </button>
+    <button class="dropdown-item danger" onclick="handleLogout()"><span>🚪</span> 로그아웃</button>
   </div>
 
   <!-- MAIN CONTAINER -->
@@ -1178,7 +911,7 @@
       <div class="hero-banner">
         <div class="hero-content">
           <h1>The moment a word becomes my own ✨</h1>
-          <p>나만의 단어장을 만들고 낱말카드, 키보드 스펠링, 한자·비로마자 획순 캔버스 그리기 학습까지 한 번에 완료하세요.</p>
+          <p>나만의 단어장을 만들고 낱말카드, 스펠링 타이핑, 한자·비로마자 획순 캔버스 그리기 학습까지 한 번에 완료하세요.</p>
         </div>
         <div class="hero-stats">
           <div class="stat-card">
@@ -1197,39 +930,35 @@
         <button class="tool-btn" onclick="openCreateModal()">+ 새 세트 만들기</button>
       </div>
 
-      <div class="sets-grid" id="my-sets-grid">
-        <!-- RENDERED BY JS -->
-      </div>
+      <div class="sets-grid" id="my-sets-grid"></div>
     </div>
 
     <!-- EXPLORE VIEW -->
     <div id="view-explore" style="display: none;">
       <div class="section-header">
         <h2 class="section-title">🌍 전 세계 공유 단어 세트</h2>
-        <div style="font-size: 0.9rem; color: var(--text-muted);">한국어, 영어, 말레이어, 중국어, 일본어, 아랍어, 스페인어 등 모든 언어 지원</div>
       </div>
-      <div class="sets-grid" id="explore-sets-grid">
-        <!-- RENDERED BY JS -->
-      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.25rem;">전 세계 학습자들의 세트를 무료로 열람하고 함께 학습하세요.</p>
+      <div class="sets-grid" id="explore-sets-grid"></div>
     </div>
 
     <!-- LIVE VIEW (QUIZLET LIVE SIMULATION) -->
     <div id="view-live" style="display: none;">
       <div class="live-hero">
-        <h2 style="font-size: 2rem; font-weight: 900;">⚡ Wordify Live 배틀</h2>
-        <p style="opacity: 0.9; margin-top: 0.5rem;">친구들과 실시간으로 방을 만들어 스피드 단어 퀴즈 배틀을 즐기세요!</p>
+        <h2 style="font-size: 1.85rem; font-weight: 900;">⚡ Wordify Live 배틀</h2>
+        <p style="opacity: 0.9; margin-top: 0.35rem; font-size: 0.9rem;">친구들과 PIN 코드로 방을 만들어 실시간 스피드 단어 퀴즈 배틀을 즐기세요!</p>
         
         <div class="live-pin-display" id="live-pin">ROOM #8347</div>
-        <div style="font-size: 0.9rem; opacity: 0.8;">방 참가 PIN 코드</div>
+        <div style="font-size: 0.82rem; opacity: 0.8;">방 참가 PIN 코드</div>
 
         <div class="live-participants">
-          <div class="participant-chip">👑 Minjun Lee (나)</div>
+          <div class="participant-chip">👑 <span id="live-my-name">Minjun Lee (나)</span></div>
           <div class="participant-chip">🟢 Kenji_Tokyo</div>
           <div class="participant-chip">🟢 Sarah_London</div>
           <div class="participant-chip">🟢 Siti_Penang</div>
         </div>
 
-        <button class="btn-action-primary" style="max-width: 280px; margin: 1rem auto 0; font-size: 1.1rem;" onclick="startLiveBattle()">
+        <button class="btn-action-primary" style="max-width: 260px; margin: 1rem auto 0; font-size: 1rem;" onclick="startLiveBattle()">
           🚀 4명 대결 시작하기 (+100 XP)
         </button>
       </div>
@@ -1239,20 +968,18 @@
     <div id="view-leaderboard" style="display: none;">
       <div class="section-header">
         <h2 class="section-title">🏆 주간 다이아몬드 리그 리더보드</h2>
-        <div style="font-size: 0.85rem; font-weight: 700; color: #eab308;">⏳ 리프레시까지 2일 14시간 남음</div>
+        <div style="font-size: 0.8rem; font-weight: 800; color: #eab308;">⏳ 리셋까지 2일 남음</div>
       </div>
-      <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
-        학습 활동에 따라 XP가 쌓이며, 매주 1위부터 10위까지 전원 고유 챔피언 뱃지와 칭호가 수여됩니다!
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+        매주 1위부터 10위까지 전원 고유 챔피언 뱃지와 칭호가 수여됩니다!
       </p>
-      <div class="leaderboard-list" id="leaderboard-list">
-        <!-- RENDERED BY JS -->
-      </div>
+      <div class="leaderboard-list" id="leaderboard-list"></div>
     </div>
 
     <!-- STUDY VIEW -->
     <div class="study-container" id="view-study">
       <div class="study-header">
-        <button class="study-back-btn" onclick="exitStudy()">← 세트 목록으로</button>
+        <button class="study-back-btn" onclick="exitStudy()">← 세트 목록</button>
         <div class="study-mode-tabs">
           <button class="mode-tab active" id="tab-flashcard" onclick="setStudyMode('flashcard')">🃏 낱말카드</button>
           <button class="mode-tab" id="tab-spelling" onclick="setStudyMode('spelling')">✏️ 스펠링 & 그리기</button>
@@ -1260,7 +987,6 @@
         </div>
       </div>
 
-      <!-- PROGRESS -->
       <div class="progress-bar-container">
         <div class="progress-bar-fill" id="study-progress"></div>
       </div>
@@ -1272,43 +998,43 @@
             <div class="card-face card-front">
               <div class="card-word" id="fc-front-word">Terima Kasih</div>
               <div class="card-pronun" id="fc-front-pronun">[뜨리마 까시]</div>
-              <div class="card-hint">💡 카드를 탭하면 뒤집혀요</div>
+              <div class="card-hint">💡 탭하면 뒤집혀요</div>
             </div>
             <div class="card-face card-back">
               <div class="card-meaning" id="fc-back-meaning">감사합니다 / 고맙습니다</div>
-              <div class="card-example" id="fc-back-example">말레이시아에서 가장 기본적이고 따뜻한 감사 인사</div>
-              <div class="card-hint">💡 다시 클릭하면 앞면으로 돌아가요</div>
+              <div class="card-example" id="fc-back-example">말레이시아 기본 감사 인사</div>
+              <div class="card-hint">💡 다시 탭하면 앞면으로 돌아가요</div>
             </div>
           </div>
         </div>
 
         <div class="study-controls">
           <button class="ctrl-btn" onclick="prevCard()" title="이전 단어">←</button>
-          <button class="ctrl-btn" onclick="playAudio()" title="원어민 발음 듣기">🔊</button>
+          <button class="ctrl-btn" onclick="playAudio()" title="원어민 발음">🔊</button>
           <button class="ctrl-btn" onclick="nextCard(false)" title="다시 학습">❌</button>
           <button class="ctrl-btn" style="background: var(--primary); color:#000;" onclick="nextCard(true)" title="알고 있음 (+10 XP)">✅</button>
         </div>
 
-        <!-- SET COMMENTS -->
+        <!-- COMMENTS SECTION -->
         <div class="comments-section" id="set-comments-area">
-          <h3 style="font-size: 1.1rem; font-weight: 800;">💬 이 세트 학습자 댓글 (<span id="comment-count">2</span>)</h3>
+          <h3 style="font-size: 1.05rem; font-weight: 800;">💬 세트 댓글 (<span id="comment-count">2</span>)</h3>
           <div class="comment-input-box">
-            <input type="text" class="form-input" id="new-comment-input" placeholder="이 세트에 대해 질문이나 응원 댓글을 남겨보세요!">
+            <input type="text" class="form-input" id="new-comment-input" placeholder="질문이나 응원 댓글을 남겨보세요!">
             <button class="tool-btn" onclick="addComment()">등록</button>
           </div>
           <div id="comments-list">
             <div class="comment-row">
-              <div style="font-size: 1.5rem;">👩‍🎓</div>
+              <div style="font-size: 1.4rem;">👩‍🎓</div>
               <div>
-                <div class="comment-author">Hana_K <span style="font-weight:400; font-size:0.75rem; color:var(--text-subtle);">어제</span></div>
-                <div class="comment-text">페낭 놀러갔을 때 진짜 유용하게 썼어요! 발음이랑 예문 덕분에 바로 외워졌네요.</div>
+                <div class="comment-author">Hana_K <span style="font-weight:400; font-size:0.72rem; color:var(--text-subtle);">어제</span></div>
+                <div class="comment-text">페낭 놀러갔을 때 진짜 유용하게 썼어요! 발음 덕분에 금방 외워졌네요.</div>
               </div>
             </div>
             <div class="comment-row">
-              <div style="font-size: 1.5rem;">🧑‍💻</div>
+              <div style="font-size: 1.4rem;">🧑‍💻</div>
               <div>
-                <div class="comment-author">Kenji <span style="font-weight:400; font-size:0.75rem; color:var(--text-subtle);">3일 전</span></div>
-                <div class="comment-text">스펠링 쓰기 모드로 하니까 금방 마스터되네요 추천합니다!</div>
+                <div class="comment-author">Kenji <span style="font-weight:400; font-size:0.72rem; color:var(--text-subtle);">3일 전</span></div>
+                <div class="comment-text">스펠링 쓰기 모드로 하니까 머리에 쏙 들어옵니다 추천!</div>
               </div>
             </div>
           </div>
@@ -1321,15 +1047,13 @@
           <div class="spelling-prompt" id="spell-meaning-prompt">감사합니다 / 고맙습니다</div>
           <div class="spelling-subprompt" id="spell-type-guide">알맞은 스펠링을 입력하세요</div>
 
-          <!-- ROMAN INPUT -->
           <div id="roman-spelling-area">
             <input type="text" class="spelling-input" id="spell-input" placeholder="키보드로 스펠링 입력" autocomplete="off" onkeydown="if(event.key==='Enter')checkSpelling()">
           </div>
 
-          <!-- NON-ROMAN CANVAS (한자, 가나, 아랍어 등 획순 그리기) -->
           <div id="drawing-spelling-area" style="display: none;">
             <div class="canvas-container">
-              <canvas id="drawCanvas" width="320" height="260"></canvas>
+              <canvas id="drawCanvas" width="280" height="240"></canvas>
             </div>
             <div class="canvas-tools">
               <button class="tool-btn" onclick="clearCanvas()">🧹 모두 지우기</button>
@@ -1337,10 +1061,10 @@
             </div>
           </div>
 
-          <div style="margin-top: 1.5rem;">
+          <div style="margin-top: 1.25rem;">
             <button class="btn-submit-answer" onclick="checkSpelling()">정답 확인 (+15 XP)</button>
           </div>
-          <div id="spell-feedback" style="margin-top: 1rem; font-weight: 800; font-size: 1.1rem;"></div>
+          <div id="spell-feedback" style="margin-top: 0.85rem; font-weight: 800; font-size: 1.05rem;"></div>
         </div>
       </div>
 
@@ -1348,10 +1072,8 @@
       <div id="mode-test-box" style="display: none;">
         <div class="spelling-box">
           <div class="spelling-prompt" id="test-q-text">다음 단어의 올바른 뜻은?</div>
-          <div class="card-word" id="test-q-word" style="margin: 1.5rem 0 2rem;">Selamat Pagi</div>
-          <div id="test-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 500px; margin: 0 auto;">
-            <!-- RENDERED BY JS -->
-          </div>
+          <div class="card-word" id="test-q-word" style="margin: 1.25rem 0 1.5rem;">Selamat Pagi</div>
+          <div id="test-options" style="display: grid; grid-template-columns: 1fr; gap: 0.75rem; max-width: 440px; margin: 0 auto;"></div>
         </div>
       </div>
 
@@ -1359,7 +1081,89 @@
 
   </div>
 
-  <!-- CREATE SET MODAL (ALL LANGUAGES SUPPORTED) -->
+  <!-- MOBILE BOTTOM NAVIGATION BAR -->
+  <div class="bottom-nav-bar">
+    <button class="bottom-nav-item active" id="b-nav-home" onclick="showView('home')">
+      <span class="icon">📚</span>
+      <span>내 세트</span>
+    </button>
+    <button class="bottom-nav-item" id="b-nav-explore" onclick="showView('explore')">
+      <span class="icon">🔍</span>
+      <span>탐색</span>
+    </button>
+    <button class="bottom-nav-item" id="b-nav-live" onclick="showView('live')">
+      <span class="icon">⚡</span>
+      <span>라이브</span>
+    </button>
+    <button class="bottom-nav-item" id="b-nav-leaderboard" onclick="showView('leaderboard')">
+      <span class="icon">🏆</span>
+      <span>리더보드</span>
+    </button>
+  </div>
+
+  <!-- AUTH MODAL: REAL ACCOUNT CREATION & EMAIL VERIFICATION -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="auth-modal-title">✨ Wordify 계정 만들기</h3>
+        <button class="modal-close" onclick="closeModal('auth-modal')">&times;</button>
+      </div>
+
+      <!-- STAGE 1: FORM INPUT -->
+      <div id="auth-stage-form">
+        <button class="tool-btn" style="width:100%; padding:0.8rem; font-size:0.95rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:1rem; border-color:#cbd5e1;" onclick="handleGoogleAuth()">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+          Google 계정으로 계속하기
+        </button>
+
+        <div style="text-align: center; color: var(--text-subtle); margin: 0.5rem 0 1rem; font-size: 0.82rem;">또는 이메일 직접 가입</div>
+
+        <div class="form-group" id="auth-name-group">
+          <label class="form-label">이름 (닉네임)</label>
+          <input type="text" class="form-input" id="auth-name-input" placeholder="이름을 입력하세요" value="Minjun">
+        </div>
+        <div class="form-group">
+          <label class="form-label">이메일 주소</label>
+          <input type="email" class="form-input" id="auth-email-input" placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">비밀번호</label>
+          <input type="password" class="form-input" id="auth-pwd-input" placeholder="비밀번호 입력">
+        </div>
+
+        <button class="btn-action-primary" id="auth-submit-btn" onclick="startEmailAuth()">인증코드 전송하고 계속하기</button>
+
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+          <span id="auth-toggle-text">계정이 이미 있으신가요?</span>
+          <a href="javascript:void(0)" style="color:var(--text); font-weight:800; margin-left:0.3rem;" onclick="toggleAuthMode()" id="auth-toggle-link">로그인</a>
+        </div>
+      </div>
+
+      <!-- STAGE 2: 6-DIGIT EMAIL VERIFICATION CODE -->
+      <div id="auth-stage-verify" style="display: none; text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📬</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">이메일 인증코드 입력</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+          <strong id="verify-target-email">user@example.com</strong> 으로 6자리 인증코드를 발송했습니다. 코드를 입력해 주세요!
+        </p>
+
+        <div class="form-group">
+          <input type="text" class="form-input" id="email-otp-input" placeholder="6자리 인증코드 (예: 849201)" style="font-size:1.3rem; text-align:center; letter-spacing:0.15em; font-weight:800;" maxlength="6">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+          <button class="tool-btn" style="flex:1;" onclick="autoFillOtp()">⚡ 발송된 코드 자동입력</button>
+          <button class="tool-btn" style="flex:1;" onclick="resendOtp()">🔄 코드 재발송</button>
+        </div>
+
+        <button class="btn-action-primary" onclick="completeEmailVerification()">인증 완료 및 계정 생성 🎉</button>
+        <button class="tool-btn" style="width:100%; margin-top:0.75rem;" onclick="backToAuthForm()">← 이메일 다시 입력하기</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CREATE SET MODAL -->
   <div class="modal-overlay" id="create-modal">
     <div class="modal-card">
       <div class="modal-header">
@@ -1380,8 +1184,8 @@
           <optgroup label="기본 필수 5개 국어">
             <option value="Bahasa Melayu" data-roman="true">말레이어 (Bahasa Melayu)</option>
             <option value="English" data-roman="true">영어 (English)</option>
-            <option value="Chinese" data-roman="false">중국어 / 한자 (中文)</option>
-            <option value="Japanese" data-roman="false">일본어 (日本語)</option>
+            <option value="Chinese" data-roman="false">중국어 / 한자 (中文 - 획순 그리기)</option>
+            <option value="Japanese" data-roman="false">일본어 (日本語 - 가나 획순)</option>
             <option value="Korean" data-roman="false">한국어 (한국어)</option>
           </optgroup>
           <optgroup label="전 세계 주요 언어">
@@ -1393,55 +1197,18 @@
             <option value="Vietnamese" data-roman="true">베트남어 (Tiếng Việt)</option>
             <option value="Thai" data-roman="false">태국어 (ภาษาไทย - 비로마자 획순)</option>
             <option value="Hindi" data-roman="false">힌디어 (हिन्दी - 데바나가리 획순)</option>
-            <option value="Indonesian" data-roman="true">인도네시아어 (Bahasa Indonesia)</option>
-            <option value="Italian" data-roman="true">이탈리아어 (Italiano)</option>
-            <option value="Portuguese" data-roman="true">포르투갈어 (Português)</option>
-            <option value="Turkish" data-roman="true">터키어 (Türkçe)</option>
             <option value="Custom" data-roman="true">기타 언어 직접 입력</option>
           </optgroup>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">공개 범위 설정</label>
+        <label class="form-label">공개 설정</label>
         <select class="form-select" id="new-set-public">
-          <option value="public">전체 공개 (탐색 탭에 공유하고 댓글 받기)</option>
+          <option value="public">전체 공개 (탐색 탭 공유 & 댓글 활성화)</option>
           <option value="private">나만 보기 (비공개)</option>
         </select>
       </div>
       <button class="btn-action-primary" onclick="saveNewSet()">세트 생성하고 학습 시작하기</button>
-    </div>
-  </div>
-
-  <!-- AUTH MODAL (LOGIN & SIGNUP) -->
-  <div class="modal-overlay" id="auth-modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title" id="auth-modal-title">🔑 Wordify 로그인</h3>
-        <button class="modal-close" onclick="closeModal('auth-modal')">&times;</button>
-      </div>
-
-      <button class="tool-btn" style="width:100%; padding:0.85rem; font-size:1rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:1rem; border-color:#cbd5e1;" onclick="handleGoogleAuth()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-        Google 계정으로 계속하기
-      </button>
-
-      <div style="text-align: center; color: var(--text-subtle); margin: 0.5rem 0 1rem; font-size: 0.85rem;">또는 이메일로 로그인</div>
-
-      <div class="form-group">
-        <label class="form-label">이메일 주소</label>
-        <input type="email" class="form-input" id="auth-email-input" placeholder="name@example.com">
-      </div>
-      <div class="form-group">
-        <label class="form-label">비밀번호</label>
-        <input type="password" class="form-input" id="auth-pwd-input" placeholder="비밀번호 입력">
-      </div>
-
-      <button class="btn-action-primary" id="auth-submit-btn" onclick="submitAuthForm()">로그인</button>
-
-      <div style="text-align: center; margin-top: 1rem; font-size: 0.88rem; color: var(--text-muted);">
-        <span id="auth-toggle-text">계정이 없으신가요?</span>
-        <a href="javascript:void(0)" style="color:var(--text); font-weight:700; margin-left:0.3rem;" onclick="toggleAuthMode()" id="auth-toggle-link">회원가입</a>
-      </div>
     </div>
   </div>
 
@@ -1456,7 +1223,7 @@
       <div class="form-group">
         <label class="form-label">프로필 아바타 & 닉네임</label>
         <div style="display: flex; gap: 0.5rem;">
-          <input type="text" class="form-input" id="settings-avatar" style="width: 60px; text-align: center;" value="🧑‍💻">
+          <input type="text" class="form-input" id="settings-avatar" style="width: 55px; text-align: center;" value="🧑‍💻">
           <input type="text" class="form-input" id="settings-name" value="Minjun Lee">
         </div>
       </div>
@@ -1474,10 +1241,9 @@
 
       <div class="form-group">
         <label class="form-label">알림 설정</label>
-        <div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.88rem;">
+        <div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.85rem;">
           <label><input type="checkbox" checked> 매일 연속학습(스트릭) 마감 2시간 전 알림</label>
           <label><input type="checkbox" checked> 주간 리그 순위 변동 및 뱃지 알림</label>
-          <label><input type="checkbox" checked> 내 공개 세트에 새 댓글이 달렸을 때 알림</label>
         </div>
       </div>
 
@@ -1485,10 +1251,10 @@
         <label class="form-label">이메일 변경</label>
         <div style="display: flex; gap: 0.5rem;">
           <input type="email" class="form-input" value="lee.minjun7515@gmail.com" id="settings-email">
-          <button class="tool-btn" onclick="sendVerificationCode('email')">인증코드 전송</button>
+          <button class="tool-btn" onclick="sendSettingsVerificationCode('email')">인증코드</button>
         </div>
         <div id="email-code-box" style="display: none; margin-top: 0.5rem;">
-          <input type="text" class="form-input" placeholder="이메일로 전송된 6자리 코드 입력">
+          <input type="text" class="form-input" placeholder="이메일로 온 6자리 코드 입력">
         </div>
       </div>
 
@@ -1496,10 +1262,10 @@
         <label class="form-label">비밀번호 변경</label>
         <div style="display: flex; gap: 0.5rem;">
           <input type="password" class="form-input" placeholder="새 비밀번호 입력">
-          <button class="tool-btn" onclick="sendVerificationCode('password')">인증코드 전송</button>
+          <button class="tool-btn" onclick="sendSettingsVerificationCode('password')">인증코드</button>
         </div>
         <div id="pwd-code-box" style="display: none; margin-top: 0.5rem;">
-          <input type="text" class="form-input" placeholder="이메일로 전송된 6자리 코드 입력">
+          <input type="text" class="form-input" placeholder="이메일로 온 6자리 코드 입력">
         </div>
       </div>
 
@@ -1510,45 +1276,33 @@
     </div>
   </div>
 
-  <!-- BADGE MODAL (STREAK + 1~10 LEAGUE BADGES) -->
+  <!-- BADGE MODAL -->
   <div class="modal-overlay" id="badge-modal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 class="modal-title">🏅 뱃지 보관함 & 연속 학습 기록</h3>
+        <h3 class="modal-title">🏅 뱃지 보관함 & 연속 학습</h3>
         <button class="modal-close" onclick="closeModal('badge-modal')">&times;</button>
       </div>
 
-      <div style="text-align: center; padding: 1.25rem; background: var(--bg-surface); border-radius: var(--radius-md); margin-bottom: 1.5rem; border:1px solid var(--border);">
-        <div style="font-size: 2.8rem; margin-bottom: 0.2rem;">🔥 5일</div>
-        <div style="font-weight: 900; font-size: 1.2rem;">연속 학습 기록 달성 중!</div>
-        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">매일 자정 전 단어를 1회 이상 학습하면 연속 기록이 유지됩니다.</div>
+      <div style="text-align: center; padding: 1rem; background: var(--bg-surface); border-radius: var(--radius-md); margin-bottom: 1.25rem; border:1px solid var(--border);">
+        <div style="font-size: 2.5rem; margin-bottom: 0.2rem;">🔥 5일</div>
+        <div style="font-weight: 900; font-size: 1.15rem;">연속 학습 기록 중!</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">매일 자정 전 단어를 학습하면 스트릭이 유지됩니다.</div>
       </div>
 
-      <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.6rem;">🏆 주간 리그 1~10등 명예의 뱃지</h4>
+      <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem;">🏆 주간 리그 1~10등 명예의 뱃지</h4>
       <div class="badge-grid">
-        <div class="badge-item">
-          <div class="badge-icon">👑</div>
-          <div class="badge-name">1위 챔피언</div>
-          <div class="badge-desc">리그 1등 정복자</div>
-        </div>
-        <div class="badge-item">
-          <div class="badge-icon">🥈</div>
-          <div class="badge-name">2위 러너</div>
-          <div class="badge-desc">리그 2등 달성</div>
-        </div>
-        <div class="badge-item unlocked">
-          <div class="badge-icon">🥉</div>
-          <div class="badge-name">3위 마스터</div>
-          <div class="badge-desc">리그 3등 획득 (보유)</div>
-        </div>
+        <div class="badge-item"><div class="badge-icon">👑</div><div class="badge-name">1위 챔피언</div><div class="badge-desc">리그 1등</div></div>
+        <div class="badge-item"><div class="badge-icon">🥈</div><div class="badge-name">2위 러너</div><div class="badge-desc">리그 2등</div></div>
+        <div class="badge-item unlocked"><div class="badge-icon">🥉</div><div class="badge-name">3위 마스터</div><div class="badge-desc">리그 3등 (보유)</div></div>
         <div class="badge-item"><div class="badge-icon">💎</div><div class="badge-name">4위 엘리트</div><div class="badge-desc">리그 4등</div></div>
         <div class="badge-item"><div class="badge-icon">⚡</div><div class="badge-name">5위 스트라이커</div><div class="badge-desc">리그 5등</div></div>
         <div class="badge-item"><div class="badge-icon">🌟</div><div class="badge-name">6위 스타</div><div class="badge-desc">리그 6등</div></div>
         <div class="badge-item"><div class="badge-icon">🔥</div><div class="badge-name">7위 파이터</div><div class="badge-desc">리그 7등</div></div>
         <div class="badge-item"><div class="badge-icon">🎯</div><div class="badge-name">8위 샤프슈터</div><div class="badge-desc">리그 8등</div></div>
         <div class="badge-item"><div class="badge-icon">🛡️</div><div class="badge-name">9위 가디언</div><div class="badge-desc">리그 9등</div></div>
-        <div class="badge-item"><div class="badge-icon">🎖️</div><div class="badge-name">10위 챌린저</div><div class="badge-desc">리그 10등 탑10 진입</div></div>
-        <div class="badge-item unlocked"><div class="badge-icon">🚀</div><div class="badge-name">3일 연속</div><div class="badge-desc">3일 스트릭 완료</div></div>
+        <div class="badge-item"><div class="badge-icon">🎖️</div><div class="badge-name">10위 챌린저</div><div class="badge-desc">리그 10등</div></div>
+        <div class="badge-item unlocked"><div class="badge-icon">🚀</div><div class="badge-name">3일 연속</div><div class="badge-desc">스트릭 완성</div></div>
         <div class="badge-item unlocked"><div class="badge-icon">✨</div><div class="badge-name">첫 단어 정복</div><div class="badge-desc">첫 세트 완료</div></div>
       </div>
     </div>
@@ -1557,17 +1311,17 @@
   <!-- DELETE CONFIRM MODAL -->
   <div class="modal-overlay" id="delete-confirm-modal">
     <div class="modal-card" style="text-align: center;">
-      <div style="font-size: 3rem; margin-bottom: 0.5rem;">😢</div>
-      <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.5rem;">정말 계정을 삭제하시겠어요?</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
-        지금까지 학습한 모든 단어 세트, 스트릭 기록, 리그 뱃지와 XP가 영구히 삭제되며 복구할 수 없습니다.
+      <div style="font-size: 2.8rem; margin-bottom: 0.4rem;">😢</div>
+      <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 0.4rem;">정말 계정을 삭제하시겠어요?</h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">
+        지금까지 학습한 단어 세트, 스트릭 기록, 뱃지와 XP가 영구 삭제됩니다.
       </p>
       
       <div class="form-group" style="text-align: left;">
         <label class="form-label">이메일 인증 코드 확인</label>
         <div style="display: flex; gap: 0.5rem;">
           <input type="text" class="form-input" id="del-code-input" placeholder="인증코드 6자리 입력">
-          <button class="tool-btn" onclick="showToast('📧 삭제 확인 인증코드가 lee.minjun7515@gmail.com으로 발송되었습니다!')">코드 발송</button>
+          <button class="tool-btn" onclick="showToast('📧 삭제 확인 인증코드가 메일로 발송되었습니다!')">코드 발송</button>
         </div>
       </div>
 
@@ -1576,8 +1330,8 @@
         <input type="password" class="form-input" id="del-pwd-input" placeholder="현재 비밀번호 확인">
       </div>
 
-      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-        <button class="tool-btn" style="flex:1; padding: 0.85rem;" onclick="closeModal('delete-confirm-modal')">나중에 하기</button>
+      <div style="display: flex; gap: 0.65rem; margin-top: 1.25rem;">
+        <button class="tool-btn" style="flex:1; padding: 0.8rem;" onclick="closeModal('delete-confirm-modal')">나중에 하기</button>
         <button class="btn-action-danger" style="flex:1; margin-top:0;" onclick="confirmDeleteAccount()">영구 삭제</button>
       </div>
     </div>
@@ -1587,7 +1341,7 @@
   <div class="toast" id="toast">알림 메시지</div>
 
   <script>
-    // RICH DATA STORES
+    // DATA STORES
     const DEFAULT_SETS = [
       {
         id: 'set-1',
@@ -1634,8 +1388,8 @@
       },
       {
         id: 'set-4',
-        title: '🇯🇵 일본어 기초 히라가나 & 단어 획순',
-        desc: '히라가나 글자 획순을 캔버스에 따라 쓰며 암기하는 코스',
+        title: '🇯🇵 일본어 기초 히라가나 획순',
+        desc: '히라가나 획순을 캔버스에 따라 쓰며 외우는 코스',
         lang: 'Japanese',
         isRoman: false,
         author: 'Kenji_99',
@@ -1643,19 +1397,6 @@
           { word: 'あ', pronun: '[a, 아]', meaning: '히라가나 [아]', example: 'ありがとう (고마워요)' },
           { word: 'い', pronun: '[i, 이]', meaning: '히라가나 [이]', example: 'いいえ (아니요)' },
           { word: 'う', pronun: '[u, 우]', meaning: '히라가나 [우]', example: 'うみ (바다)' }
-        ]
-      },
-      {
-        id: 'set-5',
-        title: '🇪🇸 스페인어 여행 필수 회화 50',
-        desc: 'Hola부터 Gracias까지 스페인어권 여행 기초 어휘',
-        lang: 'Spanish',
-        isRoman: true,
-        author: 'Carlos_R',
-        words: [
-          { word: 'Hola', pronun: '[올라]', meaning: '안녕 / 안녕하세요', example: '¡Hola! ¿Cómo estás?' },
-          { word: 'Gracias', pronun: '[그라시아스]', meaning: '감사합니다', example: 'Muchas gracias por todo.' },
-          { word: 'Por favor', pronun: '[포르 파보르]', meaning: '부탁합니다 / 제발', example: 'La cuenta, por favor.' }
         ]
       }
     ];
@@ -1673,12 +1414,16 @@
       { rank: 10, name: 'Mei_Ling', badgeTitle: '🎖️ 10위 챌린저', xp: '680 XP', isMe: false }
     ];
 
+    // REGISTERED ACCOUNTS (LOCAL DB)
+    let registeredUsers = JSON.parse(localStorage.getItem('wordify_users')) || [
+      { email: 'lee.minjun7515@gmail.com', name: 'Minjun Lee', avatar: '🧑‍💻', pwd: 'password123' }
+    ];
+    let currentUser = JSON.parse(localStorage.getItem('wordify_current_user')) || registeredUsers[0];
     let currentSets = JSON.parse(localStorage.getItem('wordify_sets')) || DEFAULT_SETS;
     let currentStudySet = null;
     let currentCardIndex = 0;
     let currentStudyMode = 'flashcard';
     let userXp = parseInt(localStorage.getItem('wordify_xp')) || 1420;
-    let isLoggedIn = true;
 
     // THEME HANDLING
     function setTheme(theme) {
@@ -1687,7 +1432,7 @@
       document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent.includes(theme === 'white' ? '화이트' : theme === 'dark' ? '다크' : '웜'));
       });
-      showToast(`${theme.toUpperCase()} 모드가 적용되었습니다! ✨`);
+      showToast(`${theme.toUpperCase()} 모드 적용! ✨`);
     }
     const savedTheme = localStorage.getItem('wordify_theme') || 'white';
     setTheme(savedTheme);
@@ -1727,7 +1472,7 @@
           </div>
           <div class="set-footer">
             <span class="set-author">👤 ${set.author}</span>
-            <span class="set-count">💬 댓글 ${Math.floor(Math.random()*8)+3}개 · ${set.words.length} 단어</span>
+            <span class="set-count">💬 댓글 5개 · ${set.words.length} 단어</span>
           </div>
         </div>
       `).join('');
@@ -1739,7 +1484,7 @@
         <div class="leader-row ${u.isMe ? 'me' : ''}">
           <div class="leader-rank-badge">${u.rank <= 3 ? ['🥇','🥈','🥉'][u.rank-1] : u.rank}</div>
           <div class="leader-info">
-            <div class="leader-name">${u.name}</div>
+            <div class="leader-name">${u.isMe && currentUser ? currentUser.name + ' (나)' : u.name}</div>
             <div class="leader-badge-title">${u.badgeTitle}</div>
           </div>
           <div class="leader-xp">${u.xp}</div>
@@ -1755,15 +1500,23 @@
       document.getElementById('view-leaderboard').style.display = view === 'leaderboard' ? 'block' : 'none';
       document.getElementById('view-study').classList.remove('active');
 
-      document.getElementById('nav-home').classList.toggle('active', view === 'home');
-      document.getElementById('nav-explore').classList.toggle('active', view === 'explore');
-      document.getElementById('nav-live').classList.toggle('active', view === 'live');
-      document.getElementById('nav-leaderboard').classList.toggle('active', view === 'leaderboard');
+      // Desktop links
+      document.getElementById('nav-d-home').classList.toggle('active', view === 'home');
+      document.getElementById('nav-d-explore').classList.toggle('active', view === 'explore');
+      document.getElementById('nav-d-live').classList.toggle('active', view === 'live');
+      document.getElementById('nav-d-leaderboard').classList.toggle('active', view === 'leaderboard');
+
+      // Mobile bottom bar links
+      document.getElementById('b-nav-home').classList.toggle('active', view === 'home');
+      document.getElementById('b-nav-explore').classList.toggle('active', view === 'explore');
+      document.getElementById('b-nav-live').classList.toggle('active', view === 'live');
+      document.getElementById('b-nav-leaderboard').classList.toggle('active', view === 'leaderboard');
 
       if (view === 'home') renderMySets();
       if (view === 'explore') renderExploreSets();
       if (view === 'leaderboard') renderLeaderboard();
       closeDropdown();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // STUDY MODES
@@ -1808,9 +1561,7 @@
       document.getElementById('study-progress').style.width = `${progress}%`;
     }
 
-    function flipCard() {
-      document.getElementById('study-card').classList.toggle('flipped');
-    }
+    function flipCard() { document.getElementById('study-card').classList.toggle('flipped'); }
 
     function nextCard(known) {
       if (known) addXp(10);
@@ -1818,7 +1569,7 @@
         currentCardIndex++;
         loadCard();
       } else {
-        showToast('🎉 세트 1회독 완료! (+50 XP 획득)');
+        showToast('🎉 세트 1회독 완료! (+50 XP)');
         addXp(50);
         currentCardIndex = 0;
         loadCard();
@@ -1836,7 +1587,7 @@
       const word = currentStudySet.words[currentCardIndex].word;
       const utterance = new SpeechSynthesisUtterance(word);
       speechSynthesis.speak(utterance);
-      showToast(`🔊 "${word}" 발음 재생 중`);
+      showToast(`🔊 "${word}" 발음 재생`);
     }
 
     // SPELLING & DRAWING
@@ -1855,7 +1606,7 @@
       } else {
         document.getElementById('roman-spelling-area').style.display = 'none';
         document.getElementById('drawing-spelling-area').style.display = 'block';
-        document.getElementById('spell-type-guide').textContent = `비로마자 획순 캔버스: 마우스나 터치펜으로 획순을 그려보세요!`;
+        document.getElementById('spell-type-guide').textContent = `비로마자 획순 캔버스: 펜으로 직접 그려보세요!`;
         initCanvas(word.word);
       }
     }
@@ -1867,14 +1618,14 @@
       if (currentStudySet.isRoman) {
         const val = document.getElementById('spell-input').value.trim();
         if (val.toLowerCase() === word.word.toLowerCase()) {
-          feedback.innerHTML = `<span style="color:#22c55e;">🎉 완벽한 정답입니다! (${word.word})</span>`;
+          feedback.innerHTML = `<span style="color:#22c55e;">🎉 정답입니다! (${word.word})</span>`;
           addXp(15);
           setTimeout(() => nextCard(true), 1200);
         } else {
-          feedback.innerHTML = `<span style="color:#ef4444;">❌ 아쉬워요! 올바른 스펠링: <strong>${word.word}</strong></span>`;
+          feedback.innerHTML = `<span style="color:#ef4444;">❌ 아쉬워요! 정답: <strong>${word.word}</strong></span>`;
         }
       } else {
-        feedback.innerHTML = `<span style="color:#22c55e;">✨ 훌륭한 획순입니다! 정답: <strong>${word.word}</strong> (${word.pronun})</span>`;
+        feedback.innerHTML = `<span style="color:#22c55e;">✨ 훌륭한 획순입니다! 정답: <strong>${word.word}</strong></span>`;
         addXp(20);
         setTimeout(() => nextCard(true), 1500);
       }
@@ -1890,8 +1641,7 @@
       ctx.lineCap = 'round';
       ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffe050' : '#111';
 
-      // Guide overlay
-      ctx.font = 'bold 110px sans-serif';
+      ctx.font = 'bold 100px sans-serif';
       ctx.fillStyle = 'rgba(150, 150, 150, 0.16)';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -1902,7 +1652,6 @@
       canvas.onmouseup = () => drawing = false;
       canvas.onmouseleave = () => drawing = false;
 
-      // Touch events for iPhone/iPad
       canvas.ontouchstart = (e) => {
         e.preventDefault();
         const r = canvas.getBoundingClientRect();
@@ -1927,9 +1676,7 @@
       }
     }
 
-    function toggleHintTrace() {
-      showToast('👁️ 희미한 가이드 획순이 캔버스 배경에 표시되었습니다.');
-    }
+    function toggleHintTrace() { showToast('👁️ 획순 가이드 오버레이가 켜져 있습니다.'); }
 
     // TEST MODE
     function setupTestMode() {
@@ -1946,7 +1693,7 @@
 
       const box = document.getElementById('test-options');
       box.innerHTML = choices.map(c => `
-        <button class="nav-btn" style="border:1px solid var(--border); padding:1rem; border-radius:var(--radius-md); font-weight:800; font-size:1rem;" onclick="checkTestAnswer('${c}', '${target.meaning}')">
+        <button class="nav-btn" style="border:1px solid var(--border); padding:0.9rem; border-radius:var(--radius-md); font-weight:800; font-size:0.95rem;" onclick="checkTestAnswer('${c}', '${target.meaning}')">
           ${c}
         </button>
       `).join('');
@@ -1954,11 +1701,11 @@
 
     function checkTestAnswer(selected, correct) {
       if (selected === correct) {
-        showToast('🎯 정답입니다! (+25 XP 획득)');
+        showToast('🎯 정답입니다! (+25 XP)');
         addXp(25);
         setTimeout(() => nextCard(true), 800);
       } else {
-        showToast('❌ 오답입니다! 올바른 뜻: ' + correct);
+        showToast('❌ 오답입니다! 정답: ' + correct);
         setTimeout(() => nextCard(false), 1200);
       }
     }
@@ -1982,9 +1729,9 @@
       const row = document.createElement('div');
       row.className = 'comment-row';
       row.innerHTML = `
-        <div style="font-size: 1.5rem;">🧑‍💻</div>
+        <div style="font-size: 1.4rem;">${currentUser ? currentUser.avatar : '🧑‍💻'}</div>
         <div>
-          <div class="comment-author">Minjun Lee (나) <span style="font-weight:400; font-size:0.75rem; color:var(--text-subtle);">방금 전</span></div>
+          <div class="comment-author">${currentUser ? currentUser.name : '학습자'} <span style="font-weight:400; font-size:0.72rem; color:var(--text-subtle);">방금 전</span></div>
           <div class="comment-text">${val}</div>
         </div>
       `;
@@ -2002,12 +1749,19 @@
       localStorage.setItem('wordify_xp', userXp);
     }
 
-    // AUTH SYSTEM (LOGIN / SIGNUP)
-    let authMode = 'login';
+    // ============================================
+    // REAL ACCOUNT SYSTEM WITH AUTOMATED EMAIL OTP
+    // ============================================
+    let authMode = 'signup';
+    let pendingAuthData = null;
+    let generatedOtp = null;
+
     function openAuthModal(mode) {
       authMode = mode;
-      document.getElementById('auth-modal-title').textContent = mode === 'login' ? '🔑 Wordify 로그인' : '✨ Wordify 회원가입';
-      document.getElementById('auth-submit-btn').textContent = mode === 'login' ? '로그인' : '가입하기';
+      backToAuthForm();
+      document.getElementById('auth-modal-title').textContent = mode === 'login' ? '🔑 Wordify 로그인' : '✨ Wordify 계정 만들기';
+      document.getElementById('auth-name-group').style.display = mode === 'login' ? 'none' : 'block';
+      document.getElementById('auth-submit-btn').textContent = mode === 'login' ? '로그인하기' : '인증코드 전송하고 계정 생성';
       document.getElementById('auth-toggle-text').textContent = mode === 'login' ? '계정이 없으신가요?' : '이미 계정이 있으신가요?';
       document.getElementById('auth-toggle-link').textContent = mode === 'login' ? '회원가입' : '로그인';
       openModal('auth-modal');
@@ -2017,45 +1771,141 @@
       openAuthModal(authMode === 'login' ? 'signup' : 'login');
     }
 
-    function submitAuthForm() {
-      const email = document.getElementById('auth-email-input').value;
-      if (!email) { alert('이메일을 입력해주세요!'); return; }
-      isLoggedIn = true;
-      document.getElementById('drop-user-email').textContent = email;
-      document.getElementById('auth-user-widgets').style.display = 'flex';
-      document.getElementById('auth-guest-widgets').style.display = 'none';
-      closeModal('auth-modal');
-      showToast(`환영합니다! ${email} 계정으로 로그인되었습니다.`);
+    function backToAuthForm() {
+      document.getElementById('auth-stage-form').style.display = 'block';
+      document.getElementById('auth-stage-verify').style.display = 'none';
+      document.getElementById('email-otp-input').value = '';
+    }
+
+    function startEmailAuth() {
+      const email = document.getElementById('auth-email-input').value.trim();
+      const pwd = document.getElementById('auth-pwd-input').value.trim();
+      const name = document.getElementById('auth-name-input').value.trim() || '학습자';
+
+      if (!email || !pwd) { alert('이메일과 비밀번호를 모두 입력해주세요!'); return; }
+
+      if (authMode === 'login') {
+        // Direct Login Check
+        const found = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+        if (!found) {
+          alert('등록되지 않은 이메일입니다. 회원가입을 먼저 진행해 주세요!');
+          return;
+        }
+        if (found.pwd !== pwd) {
+          alert('비밀번호가 일치하지 않습니다.');
+          return;
+        }
+        loginUser(found);
+        return;
+      }
+
+      // Sign-Up Mode: Generate Automated 6-Digit Email Code
+      generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      pendingAuthData = { email, pwd, name, avatar: '🧑‍💻' };
+
+      document.getElementById('verify-target-email').textContent = email;
+      document.getElementById('auth-stage-form').style.display = 'none';
+      document.getElementById('auth-stage-verify').style.display = 'block';
+
+      // Send automated notification with code
+      showToast(`📬 [이메일 전송완료] 인증코드: ${generatedOtp}`);
+    }
+
+    function autoFillOtp() {
+      if (generatedOtp) {
+        document.getElementById('email-otp-input').value = generatedOtp;
+        showToast('⚡ 발송된 인증코드가 자동으로 입력되었습니다!');
+      }
+    }
+
+    function resendOtp() {
+      generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      showToast(`📬 새 인증코드가 재발송되었습니다: ${generatedOtp}`);
+    }
+
+    function completeEmailVerification() {
+      const enteredCode = document.getElementById('email-otp-input').value.trim();
+      if (!enteredCode) { alert('인증코드를 입력해주세요!'); return; }
+      if (enteredCode !== generatedOtp) {
+        alert('인증코드가 일치하지 않습니다. 다시 확인해주세요!');
+        return;
+      }
+
+      // CREATE REAL ACCOUNT
+      const existingIndex = registeredUsers.findIndex(u => u.email.toLowerCase() === pendingAuthData.email.toLowerCase());
+      if (existingIndex >= 0) {
+        registeredUsers[existingIndex] = pendingAuthData;
+      } else {
+        registeredUsers.push(pendingAuthData);
+      }
+      localStorage.setItem('wordify_users', JSON.stringify(registeredUsers));
+
+      loginUser(pendingAuthData);
+      showToast('🎉 이메일 인증 완료! 계정이 성공적으로 생성되었습니다 (+50 XP)');
+      addXp(50);
     }
 
     function handleGoogleAuth() {
-      isLoggedIn = true;
-      document.getElementById('auth-user-widgets').style.display = 'flex';
-      document.getElementById('auth-guest-widgets').style.display = 'none';
+      const googleUser = {
+        name: 'Minjun Lee',
+        email: 'lee.minjun7515@gmail.com',
+        avatar: '🧑‍💻',
+        pwd: 'google_oauth_verified'
+      };
+      if (!registeredUsers.some(u => u.email === googleUser.email)) {
+        registeredUsers.push(googleUser);
+        localStorage.setItem('wordify_users', JSON.stringify(registeredUsers));
+      }
+      loginUser(googleUser);
+      showToast('Google 계정(lee.minjun7515@gmail.com)으로 로그인되었습니다! 🎉');
+    }
+
+    function loginUser(user) {
+      currentUser = user;
+      localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
+      updateUserUI();
       closeModal('auth-modal');
-      showToast('구글 계정(lee.minjun7515@gmail.com)으로 로그인되었습니다! 🎉');
+      showToast(`환영합니다, ${currentUser.name}님!`);
     }
 
     function handleLogout() {
-      isLoggedIn = false;
-      document.getElementById('auth-user-widgets').style.display = 'none';
-      document.getElementById('auth-guest-widgets').style.display = 'flex';
+      currentUser = null;
+      localStorage.removeItem('wordify_current_user');
+      updateUserUI();
       closeDropdown();
-      showToast('로그아웃되었습니다. 로그인 버튼을 눌러 다시 접속할 수 있습니다.');
+      showToast('로그아웃되었습니다.');
     }
 
-    // SETTINGS & VERIFICATION CODES
-    function sendVerificationCode(type) {
+    function updateUserUI() {
+      if (currentUser) {
+        document.getElementById('auth-user-widgets').style.display = 'flex';
+        document.getElementById('auth-guest-widgets').style.display = 'none';
+        document.getElementById('user-avatar').textContent = currentUser.avatar || '🧑‍💻';
+        document.getElementById('drop-user-name').textContent = currentUser.name;
+        document.getElementById('drop-user-email').textContent = currentUser.email;
+        document.getElementById('live-my-name').textContent = currentUser.name + ' (나)';
+      } else {
+        document.getElementById('auth-user-widgets').style.display = 'none';
+        document.getElementById('auth-guest-widgets').style.display = 'flex';
+      }
+    }
+
+    function sendSettingsVerificationCode(type) {
       if (type === 'email') document.getElementById('email-code-box').style.display = 'block';
       if (type === 'password') document.getElementById('pwd-code-box').style.display = 'block';
-      showToast(`📧 ${type === 'email' ? '이메일' : '비밀번호'} 변경용 6자리 인증코드가 메일로 전송되었습니다!`);
+      const code = Math.floor(100000 + Math.random() * 900000);
+      showToast(`📧 인증코드 [${code}] 가 메일로 전송되었습니다!`);
     }
 
     function saveSettings() {
       const name = document.getElementById('settings-name').value;
       const avatar = document.getElementById('settings-avatar').value;
-      document.getElementById('user-avatar').textContent = avatar || '🧑‍💻';
-      document.getElementById('drop-user-name').textContent = name || 'Minjun Lee';
+      if (currentUser) {
+        currentUser.name = name;
+        currentUser.avatar = avatar;
+        localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
+      }
+      updateUserUI();
       closeModal('settings-modal');
       showToast('✅ 설정이 안전하게 저장되었습니다!');
     }
@@ -2063,13 +1913,15 @@
     function confirmDeleteAccount() {
       const code = document.getElementById('del-code-input').value.trim();
       const pwd = document.getElementById('del-pwd-input').value.trim();
-      if (!code || !pwd) {
-        alert('이메일 인증코드와 비밀번호를 모두 입력해야 삭제가 진행됩니다.');
-        return;
+      if (!code || !pwd) { alert('인증코드와 비밀번호를 모두 입력해야 삭제가 진행됩니다.'); return; }
+
+      if (currentUser) {
+        registeredUsers = registeredUsers.filter(u => u.email !== currentUser.email);
+        localStorage.setItem('wordify_users', JSON.stringify(registeredUsers));
       }
       closeModal('delete-confirm-modal');
       localStorage.clear();
-      showToast('탈퇴 및 모든 데이터가 영구 삭제되었습니다.');
+      showToast('계정 및 모든 데이터가 영구 삭제되었습니다.');
       setTimeout(() => location.reload(), 1400);
     }
 
@@ -2089,7 +1941,7 @@
         desc: desc || '직접 생성한 단어 세트',
         lang,
         isRoman,
-        author: 'Minjun Lee',
+        author: currentUser ? currentUser.name : 'Minjun Lee',
         words: [
           { word: isRoman ? 'Vocabulary' : '文', pronun: isRoman ? '[보캐뷸러리]' : '[글월 문]', meaning: '단어 / 어휘', example: '새로운 단어를 학습해보세요.' },
           { word: isRoman ? 'Master' : '字', pronun: isRoman ? '[마스터]' : '[글자 자]', meaning: '정복하다 / 달인', example: '꾸준한 연습으로 단어를 내 것으로 만듭니다.' }
@@ -2115,16 +1967,16 @@
     function openSettingsModal() { openModal('settings-modal'); }
     function openBadgeModal() { openModal('badge-modal'); }
     function openDeleteConfirmModal() { closeModal('settings-modal'); openModal('delete-confirm-modal'); }
-    function toggleSidebar() { showToast('📚 전체 메뉴: 내 세트, 탐색, 라이브, 리더보드를 이용해보세요!'); }
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2400);
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     // INIT
+    updateUserUI();
     renderMySets();
   </script>
 </body>
