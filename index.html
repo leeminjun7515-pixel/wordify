@@ -1584,7 +1584,7 @@
       </button>
 
       <!-- LOGGED IN USER STATE -->
-      <div id="user-auth-area" style="display: flex; align-items: center; gap: 0.6rem;">
+      <div id="user-auth-area" style="display: none; align-items: center; gap: 0.6rem;">
         <div class="pill-badge" onclick="openModal('badge-modal')" title="연속 학습 일수">
           <span>🔥</span><span id="streak-text">5일</span>
         </div>
@@ -1596,8 +1596,8 @@
         </button>
       </div>
 
-      <!-- LOGGED OUT GUEST STATE -->
-      <div id="guest-auth-area" class="guest-auth-box" style="display: none;">
+      <!-- LOGGED OUT GUEST STATE (DEFAULT) -->
+      <div id="guest-auth-area" class="guest-auth-box" style="display: flex;">
         <button class="btn-auth-login" onclick="openAuthModal('login')">로그인</button>
         <button class="btn-auth-signup" onclick="openAuthModal('signup')">회원가입</button>
       </div>
@@ -2183,8 +2183,8 @@
     // STORAGE & SESSION
     let storedUsers = JSON.parse(localStorage.getItem('wordify_users')) || [];
     let currentUser = JSON.parse(localStorage.getItem('wordify_current_user')) || null;
-    // Clean old dummy session if never explicitly created
-    if (currentUser && (!currentUser.pwd || currentUser.pwd === 'password123') && storedUsers.length === 0) {
+    // Clean old dummy session if never explicitly created via Supabase or real login
+    if (currentUser && (currentUser.id === 'u1' || currentUser.pwd === 'password123' || !currentUser.email)) {
       currentUser = null;
       localStorage.removeItem('wordify_current_user');
     }
@@ -2841,22 +2841,25 @@
       closeDropdown();
       showToastPill('로그아웃되었습니다.');
     }
-      showToastPill('로그아웃되었습니다.');
-    }
 
     function refreshUserNavUI() {
+      const userArea = document.getElementById('user-auth-area');
+      const guestArea = document.getElementById('guest-auth-area');
+      if (!userArea || !guestArea) return;
+
       if (currentUser) {
-        document.getElementById('user-auth-area').style.display = 'flex';
-        document.getElementById('guest-auth-area').style.display = 'none';
+        userArea.style.display = 'flex';
+        guestArea.style.display = 'none';
         document.getElementById('nav-avatar-icon').textContent = currentUser.avatar || '🧑‍💻';
         document.getElementById('drop-avatar').textContent = currentUser.avatar || '🧑‍💻';
-        document.getElementById('drop-name').textContent = currentUser.name;
-        document.getElementById('drop-email').textContent = currentUser.email;
+        document.getElementById('drop-name').textContent = currentUser.name || '학습자';
+        document.getElementById('drop-email').textContent = currentUser.email || '';
       } else {
-        document.getElementById('user-auth-area').style.display = 'none';
-        document.getElementById('guest-auth-area').style.display = 'flex';
+        userArea.style.display = 'none';
+        guestArea.style.display = 'flex';
       }
     }
+    refreshUserNavUI();
 
     // 9. SETTINGS & DELETE ACCOUNT
     function sendFieldVerifyCode(field) {
