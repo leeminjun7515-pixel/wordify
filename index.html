@@ -505,6 +505,132 @@
     }
 
     /* =========================================================
+       LANDING / PROMO VIEW (FOR GUESTS)
+       ========================================================= */
+    .landing-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .landing-hero {
+      text-align: center;
+      padding: 3.5rem 1.5rem 2.8rem;
+      background: radial-gradient(circle at 50% 20%, var(--primary-soft) 0%, transparent 65%);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .landing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.95rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.25rem;
+    }
+
+    .landing-title {
+      font-family: var(--font-brand);
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .landing-sub {
+      font-size: 1.08rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto 2.25rem;
+      line-height: 1.6;
+    }
+
+    .landing-cta-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-landing-primary {
+      background: var(--primary);
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 1.05rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-lg);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--primary-glow);
+      transition: transform var(--transition-fast);
+    }
+    .btn-landing-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-landing-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background var(--transition-fast);
+    }
+    .btn-landing-secondary:hover {
+      background: var(--bg-subtle);
+    }
+
+    .landing-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .landing-feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+    }
+    .landing-feature-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .landing-feat-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .landing-feat-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .landing-feat-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* =========================================================
        HERO BANNER: AESTHETIC QUIZLET PROMO
        ========================================================= */
     .hero-container {
@@ -1558,16 +1684,15 @@
        ========================================================= -->
   <nav class="navbar">
     <div class="nav-brand-wrap">
-      <div class="brand-logo" onclick="switchView('home')">
+      <div class="brand-logo" onclick="handleBrandLogoClick()">
         <div class="brand-row">
           <span class="brand-name">Wordify</span>
-          <span class="brand-tag">PRO</span>
         </div>
         <span class="brand-slogan">The moment a word becomes my own—Wordify</span>
       </div>
 
-      <!-- DESKTOP NAV TABS -->
-      <div class="desktop-nav-tabs">
+      <!-- DESKTOP NAV TABS (LOGGED IN ONLY) -->
+      <div class="desktop-nav-tabs" id="main-desktop-tabs" style="display: none;">
         <button class="nav-tab-btn active" id="tab-d-home" onclick="switchView('home')">📚 내 세트</button>
         <button class="nav-tab-btn" id="tab-d-explore" onclick="switchView('explore')">🔍 탐색</button>
         <button class="nav-tab-btn" id="tab-d-live" onclick="switchView('live')">⚡ Wordify Live</button>
@@ -1577,8 +1702,8 @@
 
     <!-- RIGHT ACTION BAR -->
     <div class="nav-actions">
-      <!-- + CREATE PILL BUTTON -->
-      <button class="btn-create-pill" onclick="openModal('create-modal')" title="새 단어 세트 만들기">
+      <!-- + CREATE PILL BUTTON (LOGGED IN ONLY) -->
+      <button class="btn-create-pill" id="main-create-pill-btn" style="display: none;" onclick="openModal('create-modal')" title="새 단어 세트 만들기">
         <span class="plus-icon">+</span>
         <span>만들기</span>
       </button>
@@ -1597,7 +1722,12 @@
       </div>
 
       <!-- LOGGED OUT GUEST STATE (DEFAULT) -->
-      <div id="guest-auth-area" class="guest-auth-box" style="display: flex;">
+      <div id="guest-auth-area" class="guest-auth-box" style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="theme-btn-group" style="display: flex; gap: 0.2rem; background: var(--bg-subtle); padding: 0.2rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+          <button class="t-btn active" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="changeTheme('white')">화이트</button>
+          <button class="t-btn" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="changeTheme('dark')">다크</button>
+          <button class="t-btn" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="changeTheme('warm')">웜</button>
+        </div>
         <button class="btn-auth-login" onclick="openAuthModal('login')">로그인</button>
         <button class="btn-auth-signup" onclick="openAuthModal('signup')">회원가입</button>
       </div>
@@ -1643,80 +1773,296 @@
        ========================================================= -->
   <main class="main-content">
 
-    <!-- 1. HOME VIEW: MY SETS -->
-    <div id="view-home">
-      <!-- HERO BANNER -->
-      <div class="hero-container">
-        <div class="hero-left">
-          <h1>The moment a word<br>becomes my own ✨</h1>
-          <p>퀴즐렛의 감각적인 낱말카드 학습부터 로마자 스펠링 타이핑, 비로마자 획순 캔버스 그리기까지 나만의 어휘 정복을 시작하세요.</p>
-        </div>
-        <div class="hero-stats-group">
-          <div class="hero-stat-box">
-            <div class="hero-stat-num" id="stat-words-count">24</div>
-            <div class="hero-stat-label">외운 단어</div>
+    <!-- =========================================================
+         LANDING & PROMO VIEW (UNAUTHENTICATED GUEST ONLY)
+         ========================================================= -->
+    <div id="landing-promo-wrap" style="display: block;">
+      <div class="landing-wrap">
+        <!-- HERO -->
+        <div class="landing-hero">
+          <div class="landing-badge">
+            <span>✨</span> The moment a word becomes my own—Wordify
           </div>
-          <div class="hero-stat-box">
-            <div class="hero-stat-num">다이아 💎</div>
-            <div class="hero-stat-label">주간 리그</div>
+          <h1 class="landing-title">
+            단어가 온전히 내 것이 되는 순간<br>
+            <span style="background: linear-gradient(135deg, var(--text-main) 0%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Wordify</span>
+          </h1>
+          <p class="landing-sub">
+            퀴즐렛 스타일의 감각적인 낱말카드부터 로마자 스펠링 타이핑, 한자·비로마자 획순 캔버스 그리기, 실시간 라이브 퀴즈 배틀까지.<br>
+            원하는 모든 언어의 단어장을 직접 만들어 완벽하게 정복하세요.
+          </p>
+          <div class="landing-cta-row">
+            <button class="btn-landing-primary" onclick="openAuthModal('signup')">🚀 지금 무료로 시작하기</button>
+            <button class="btn-landing-secondary" onclick="openAuthModal('login')">🔑 기존 계정으로 로그인</button>
           </div>
         </div>
-      </div>
 
-      <div class="section-head">
+        <!-- 4 CORE STUDY MODES -->
         <div>
-          <h2 class="section-head-title">내 단어 세트</h2>
-          <div class="section-head-subtitle">내가 직접 만들거나 북마크한 학습 세트입니다.</div>
-        </div>
-        <button class="btn-create-pill" onclick="openModal('create-modal')">+ 새 세트</button>
-      </div>
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 0.4rem;">Wordify만의 독보적인 4가지 학습 방식</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">단순 암기를 넘어, 오감과 손끝으로 체득하는 과학적인 어휘 정복 루틴</p>
+          </div>
 
-      <div class="sets-grid" id="my-sets-container"></div>
+          <div class="landing-features-grid">
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">🃏</div>
+              <div class="landing-feat-title">3D 인터랙티브 낱말카드</div>
+              <div class="landing-feat-desc">부드러운 카드 뒤집기 애니메이션과 실제 현지 원어민 발음 오디오, 별표 즐겨찾기로 헷갈리는 단어를 집중 복습합니다.</div>
+            </div>
+
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">✍️</div>
+              <div class="landing-feat-title">미자격(米字格) 획순 그리기</div>
+              <div class="landing-feat-desc">중국어 한자, 일본어 히라가나 등 비로마자 언어를 화면 캔버스에 직접 손가락/마우스로 따라 쓰며 획순을 체득합니다.</div>
+            </div>
+
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">⌨️</div>
+              <div class="landing-feat-title">키보드 스펠링 학습</div>
+              <div class="landing-feat-desc">영어, 말레이어, 스페인어 등 로마자 언어는 키보드로 철자를 직접 타이핑하여 스펠링 실수 없이 완벽하게 암기합니다.</div>
+            </div>
+
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">⏱️</div>
+              <div class="landing-feat-title">타임어택 매치 게임</div>
+              <div class="landing-feat-desc">단어와 뜻 타일을 가장 빠르게 짝지어 기록을 단축하는 스톱워치 타일 결합 게임으로 순발력과 흥미를 극대화합니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOCIAL & LIVE SHOWCASE -->
+        <div>
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 0.4rem;">실시간 멀티플레이와 주간 리그</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">혼자 외우지 마세요. 친구들과 대항전을 펼치고 주간 리그 뱃지를 획득하세요.</p>
+          </div>
+
+          <div class="landing-features-grid">
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">⚡</div>
+              <div class="landing-feat-title">Wordify Live 퀴즈 배틀</div>
+              <div class="landing-feat-desc">PIN 코드 하나로 친구들과 같은 방에 입장해 실시간으로 문제 풀이 속도를 겨루는 흥미진진한 퀴즈 대항전!</div>
+            </div>
+
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">🏆</div>
+              <div class="landing-feat-title">주간 다이아몬드 리그 & 뱃지</div>
+              <div class="landing-feat-desc">학습할 때마다 쌓이는 XP로 리그 순위가 실시간 변동! 1위부터 10위까지 전원 명예로운 고유 뱃지를 수여합니다.</div>
+            </div>
+
+            <div class="landing-feature-card">
+              <div class="landing-feat-icon">🌏</div>
+              <div class="landing-feat-title">무제한 다국어 세트 제작</div>
+              <div class="landing-feat-desc">한국어, 영어, 말레이어, 중국어, 일본어뿐만 아니라 전 세계 모든 언어로 나만의 단어장을 자유롭게 제작하고 공유하세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM CALL TO ACTION -->
+        <div style="background: linear-gradient(135deg, var(--primary-soft) 0%, var(--bg-card) 100%); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 3rem 2rem; text-align: center;">
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem;">지금 Wordify로 나만의 어휘 학습을 시작하세요</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">가입은 무료이며, 1분이면 첫 번째 단어 세트를 만들 수 있습니다.</p>
+          <button class="btn-landing-primary" onclick="openAuthModal('signup')">✨ 1초 만에 무료 회원가입</button>
+        </div>
+      </div>
     </div>
 
-    <!-- 2. EXPLORE VIEW: PUBLIC COMMUNITY SETS -->
-    <div id="view-explore" style="display: none;">
-      <div class="section-head">
-        <div>
-          <h2 class="section-head-title">🌍 전 세계 공유 단어 세트</h2>
-          <div class="section-head-subtitle">전 세계 학습자들이 공유한 수천 개의 어휘 카드를 무료로 학습하세요.</div>
-        </div>
-      </div>
-      <div class="sets-grid" id="explore-sets-container"></div>
-    </div>
+    <!-- =========================================================
+         APP DASHBOARD VIEW (AUTHENTICATED USERS ONLY)
+         ========================================================= -->
+    <div id="app-dashboard-wrap" style="display: none;">
 
-    <!-- 3. WORDIFY LIVE VIEW (QUIZLET LIVE) -->
-    <div id="view-live" style="display: none;">
-      <div class="hero-container" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color:#fff;">
-        <div class="hero-left" style="text-align: center; width: 100%;">
-          <div style="font-size: 0.9rem; font-weight: 800; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase;">Realtime Battle</div>
-          <h1 style="color: #fff; margin: 0.5rem 0;">⚡ Wordify Live 멀티플레이 배틀</h1>
-          <p style="color: rgba(255, 255, 255, 0.85); margin: 0 auto 1.5rem; max-width: 500px;">
-            친구들과 PIN 번호로 입장해 가장 빠른 속도로 정답을 맞히는 실시간 단어 대항전입니다!
+      <!-- 1. HOME VIEW: MY SETS -->
+      <div id="view-home">
+        <!-- HERO BANNER -->
+        <div class="hero-container">
+          <div class="hero-left">
+            <h1>The moment a word<br>becomes my own ✨</h1>
+            <p>퀴즐렛의 감각적인 낱말카드 학습부터 로마자 스펠링 타이핑, 비로마자 획순 캔버스 그리기까지 나만의 어휘 정복을 시작하세요.</p>
+          </div>
+          <div class="hero-stats-group">
+            <div class="hero-stat-box">
+              <div class="hero-stat-num" id="stat-words-count">24</div>
+              <div class="hero-stat-label">외운 단어</div>
+            </div>
+            <div class="hero-stat-box">
+              <div class="hero-stat-num" id="stat-league-badge">다이아 💎</div>
+              <div class="hero-stat-label">주간 리그</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <div>
+            <h2 class="section-head-title">내 단어 세트</h2>
+            <div class="section-head-subtitle">내가 직접 만들거나 북마크한 학습 세트입니다.</div>
+          </div>
+          <button class="btn-create-pill" onclick="openModal('create-modal')">+ 새 세트</button>
+        </div>
+
+        <div class="sets-grid" id="my-sets-container"></div>
+      </div>
+
+      <!-- 2. EXPLORE VIEW: PUBLIC COMMUNITY SETS -->
+      <div id="view-explore" style="display: none;">
+        <div class="section-head">
+          <div>
+            <h2 class="section-head-title">🌍 전 세계 공유 단어 세트</h2>
+            <div class="section-head-subtitle">전 세계 학습자들이 공유한 수천 개의 어휘 카드를 무료로 학습하세요.</div>
+          </div>
+        </div>
+        <div class="sets-grid" id="explore-sets-container"></div>
+      </div>
+
+      <!-- 3. WORDIFY LIVE VIEW (INTERACTIVE REALTIME MULTIPLAYER) -->
+      <div id="view-live" style="display: none;">
+        <!-- LOBBY -->
+        <div id="live-stage-lobby" class="hero-container" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color:#fff; display: flex; flex-direction: column; align-items: center; text-align: center;">
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase;">Realtime Battle</div>
+          <h1 style="color: #fff; margin: 0.5rem 0 0.25rem;">⚡ Wordify Live 멀티플레이 배틀</h1>
+          <p style="color: rgba(255, 255, 255, 0.85); margin-bottom: 1.5rem; max-width: 480px;">
+            친구들과 실시간으로 스피드 단어 퀴즈를 겨루는 라이브 대항전입니다!
           </p>
 
-          <div style="background: rgba(255, 255, 255, 0.1); border: 2px dashed rgba(255, 224, 80, 0.6); padding: 1.25rem; border-radius: var(--radius-lg); max-width: 320px; margin: 0 auto 1.5rem;">
-            <div style="font-size: 0.8rem; color: #ffe050; font-weight: 800;">참가 PIN 코드</div>
-            <div style="font-family: var(--font-brand); font-size: 3rem; font-weight: 900; letter-spacing: 0.15em; color: var(--primary);">8347</div>
+          <div style="background: rgba(255, 255, 255, 0.08); border: 2px dashed rgba(255, 224, 80, 0.7); padding: 1rem 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1.5rem;">
+            <div>
+              <div style="font-size: 0.75rem; color: #ffe050; font-weight: 800;">참가 PIN 코드</div>
+              <div style="font-family: var(--font-brand); font-size: 2.5rem; font-weight: 900; letter-spacing: 0.15em; color: var(--primary);" id="live-pin-display">8347</div>
+            </div>
+            <button class="styled-input" style="width: auto; padding: 0.5rem 0.8rem; margin: 0; background: rgba(255,255,255,0.15); color: #fff; border: none; font-size: 0.8rem; cursor: pointer;" onclick="refreshLivePin()">🔄 새 PIN</button>
           </div>
 
-          <button class="btn-main-action" style="max-width: 280px; margin: 0 auto; font-size: 1.05rem;" onclick="launchLiveMatch()">
-            🚀 4인 라이브 매치 시작하기 (+100 XP)
+          <div style="width: 100%; max-width: 420px; margin-bottom: 1.5rem; text-align: left;">
+            <div style="font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-bottom: 0.4rem; font-weight: 700;">대결할 단어 세트 선택</div>
+            <select class="styled-select" id="live-set-selector" style="background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.2);">
+            </select>
+          </div>
+
+          <div style="width: 100%; max-width: 420px; margin-bottom: 2rem;">
+            <div style="font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-bottom: 0.4rem; text-align: left; font-weight: 700;">참가 플레이어 (4명 접속 완료)</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+              <div style="background: rgba(255,255,255,0.12); border-radius: var(--radius-md); padding: 0.6rem; text-align: center;">
+                <div style="font-size: 1.8rem;" id="live-my-avatar">🧑‍💻</div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: #ffe050;" id="live-my-name">나 (호스트)</div>
+              </div>
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 0.6rem; text-align: center;">
+                <div style="font-size: 1.8rem;">🐱</div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #fff;">Alex_KL</div>
+              </div>
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 0.6rem; text-align: center;">
+                <div style="font-size: 1.8rem;">🦊</div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #fff;">Kenji</div>
+              </div>
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 0.6rem; text-align: center;">
+                <div style="font-size: 1.8rem;">🐼</div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #fff;">Mei_Ling</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-main-action" style="max-width: 280px; font-size: 1.05rem;" onclick="startLiveBattle()">
+            🚀 4인 실시간 배틀 시작!
+          </button>
+        </div>
+
+        <!-- LIVE QUIZ ROUND -->
+        <div id="live-stage-quiz" style="display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-card);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <div style="font-weight: 900; font-size: 1.1rem; color: var(--primary);" id="live-round-indicator">문제 1 / 4</div>
+            <div style="font-weight: 900; font-size: 1.25rem; font-family: var(--font-brand);" id="live-score-display">0 pts</div>
+          </div>
+
+          <!-- TIMER BAR -->
+          <div style="height: 8px; background: var(--bg-subtle); border-radius: var(--radius-full); overflow: hidden; margin-bottom: 1.25rem;">
+            <div id="live-timer-bar" style="height: 100%; width: 100%; background: var(--primary); transition: width 0.1s linear;"></div>
+          </div>
+
+          <!-- RACE PROGRESS -->
+          <div style="background: var(--bg-subtle); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.75rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--text-muted); margin-bottom: 0.5rem;">🏁 실시간 레이스 현황</div>
+            <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.95rem; width: 22px;" id="live-track-my-avatar">🧑‍💻</span>
+                <div style="flex: 1; height: 10px; background: rgba(0,0,0,0.06); border-radius: 5px; overflow: hidden;">
+                  <div id="live-race-bar-me" style="height: 100%; width: 5%; background: var(--primary); transition: width 0.3s ease;"></div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.95rem; width: 22px;">🐱</span>
+                <div style="flex: 1; height: 10px; background: rgba(0,0,0,0.06); border-radius: 5px; overflow: hidden;">
+                  <div id="live-race-bar-alex" style="height: 100%; width: 5%; background: #38bdf8; transition: width 0.3s ease;"></div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.95rem; width: 22px;">🦊</span>
+                <div style="flex: 1; height: 10px; background: rgba(0,0,0,0.06); border-radius: 5px; overflow: hidden;">
+                  <div id="live-race-bar-kenji" style="height: 100%; width: 5%; background: #f97316; transition: width 0.3s ease;"></div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.95rem; width: 22px;">🐼</span>
+                <div style="flex: 1; height: 10px; background: rgba(0,0,0,0.06); border-radius: 5px; overflow: hidden;">
+                  <div id="live-race-bar-mei" style="height: 100%; width: 5%; background: #a855f7; transition: width 0.3s ease;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 1.75rem;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">올바른 뜻을 선택하세요:</div>
+            <h2 id="live-quiz-term" style="font-size: 2.2rem; font-weight: 900; font-family: var(--font-brand);">Terima Kasih</h2>
+          </div>
+
+          <div id="live-options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;"></div>
+        </div>
+
+        <!-- PODIUM STAGE -->
+        <div id="live-stage-podium" style="display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 3rem 1.5rem; text-align: center; box-shadow: var(--shadow-card);">
+          <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏆</div>
+          <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 0.3rem;" id="live-podium-title">🥇 1위 우승!</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 2rem;" id="live-podium-desc">스피드 퀴즈 배틀에서 승리했습니다! (+120 XP)</p>
+
+          <div style="display: flex; justify-content: center; align-items: flex-end; gap: 1.25rem; margin-bottom: 2.5rem;">
+            <div style="text-align: center;">
+              <div style="font-size: 1.6rem;">🐱</div>
+              <div style="font-weight: 800; font-size: 0.8rem;">Alex_KL</div>
+              <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md) var(--radius-md) 0 0; padding: 1.5rem 0.75rem 0.5rem; width: 75px;">
+                <span style="font-weight: 900; color: #64748b;">🥈 2위</span>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2.2rem;" id="live-podium-my-avatar">🧑‍💻</div>
+              <div style="font-weight: 900; font-size: 0.95rem; color: var(--primary);" id="live-podium-my-name">나</div>
+              <div style="background: var(--primary); color: #0f172a; border-radius: var(--radius-md) var(--radius-md) 0 0; padding: 2.5rem 1rem 0.5rem; width: 95px; box-shadow: 0 4px 16px var(--primary-glow);">
+                <span style="font-weight: 900;">🥇 1위</span>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.6rem;">🦊</div>
+              <div style="font-weight: 800; font-size: 0.8rem;">Kenji</div>
+              <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md) var(--radius-md) 0 0; padding: 1rem 0.75rem 0.5rem; width: 75px;">
+                <span style="font-weight: 900; color: #b45309;">🥉 3위</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-main-action" style="max-width: 240px; margin: 0 auto;" onclick="resetLiveGame()">
+            🔄 다시 플레이하기
           </button>
         </div>
       </div>
-    </div>
 
-    <!-- 4. LEADERBOARD VIEW (1~10 BADGES) -->
-    <div id="view-leaderboard" style="display: none;">
-      <div class="section-head">
-        <div>
-          <h2 class="section-head-title">🏆 주간 다이아몬드 리그 리더보드</h2>
-          <div class="section-head-subtitle">매주 일요일 자정 리셋! 1위부터 10위까지 전원 고유 뱃지와 명예의 전당 칭호 수여.</div>
+      <!-- 4. LEADERBOARD VIEW (1~10 BADGES) -->
+      <div id="view-leaderboard" style="display: none;">
+        <div class="section-head">
+          <div>
+            <h2 class="section-head-title">🏆 주간 다이아몬드 리그 리더보드</h2>
+            <div class="section-head-subtitle">실시간 XP 반영! 1위부터 10위까지 전원 고유 뱃지와 명예의 전당 칭호 수여.</div>
+          </div>
         </div>
+        <div id="leaderboard-table" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
       </div>
-      <div id="leaderboard-table" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-    </div>
 
     <!-- =========================================================
          5. STUDY DETAIL SCREEN (QUIZLET STYLE STUDY)
@@ -1858,9 +2204,9 @@
   </main>
 
   <!-- =========================================================
-       MOBILE BOTTOM TAB BAR (App-like Experience)
+       MOBILE BOTTOM TAB BAR (LOGGED IN ONLY)
        ========================================================= -->
-  <div class="mobile-bottom-tabs">
+  <div class="mobile-bottom-tabs" id="main-mobile-bottom-tabs" style="display: none;">
     <button class="bottom-tab-link active" id="b-tab-home" onclick="switchView('home')">
       <span class="b-icon">📚</span>
       <span>내 세트</span>
@@ -1891,16 +2237,9 @@
 
       <!-- STEP 1: FORM -->
       <div id="auth-form-step">
-        <button class="styled-input" style="display: flex; align-items: center; justify-content: center; gap: 0.65rem; font-weight: 800; cursor: pointer; border-color: #cbd5e1; margin-bottom: 1.25rem;" onclick="loginWithGoogle()">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-          Google 계정으로 빠른 시작
-        </button>
-
-        <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: -0.5rem 0 1rem;">또는 이메일 직접 가입</div>
-
         <div id="auth-name-field-wrap">
           <label class="input-label">이름 (닉네임)</label>
-          <input type="text" class="styled-input" id="auth-name" placeholder="닉네임을 입력하세요" value="Minjun">
+          <input type="text" class="styled-input" id="auth-name" placeholder="닉네임을 입력하세요">
         </div>
 
         <label class="input-label">이메일 주소</label>
@@ -1938,47 +2277,68 @@
     </div>
   </div>
 
-  <!-- MODAL: CREATE SET -->
+  <!-- MODAL: CREATE SET (WORD-BY-WORD QUIZLET EDITOR) -->
   <div class="modal-backdrop" id="create-modal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: 620px; max-height: 88vh; display: flex; flex-direction: column;">
       <div class="modal-header-row">
         <h3 class="modal-title">✨ 새 단어 세트 만들기</h3>
         <button class="modal-close-btn" onclick="closeModal('create-modal')">&times;</button>
       </div>
 
-      <label class="input-label">세트 제목</label>
-      <input type="text" class="styled-input" id="new-set-name" placeholder="예: 페낭 현지 말레이어 필수 회화">
+      <div style="overflow-y: auto; padding-right: 0.35rem; flex: 1;">
+        <label class="input-label">세트 제목 *</label>
+        <input type="text" class="styled-input" id="new-set-name" placeholder="예: HSK 4급 필수 어휘 / 페낭 실전 회화">
 
-      <label class="input-label">설명</label>
-      <textarea class="styled-textarea" id="new-set-desc" rows="2" placeholder="이 단어장에 대한 간단한 설명"></textarea>
+        <label class="input-label">설명 (선택)</label>
+        <textarea class="styled-textarea" id="new-set-desc" rows="2" placeholder="이 단어장에 대한 간단한 설명을 입력하세요"></textarea>
 
-      <label class="input-label">학습 언어 (전 세계 언어 지원)</label>
-      <select class="styled-select" id="new-set-lang-select">
-        <optgroup label="필수 5대 언어">
-          <option value="Bahasa Melayu" data-roman="true">말레이어 (Bahasa Melayu)</option>
-          <option value="English" data-roman="true">영어 (English)</option>
-          <option value="Chinese" data-roman="false">중국어 / 한자 (中文 - 획순 그리기)</option>
-          <option value="Japanese" data-roman="false">일본어 (日本語 - 가나 획순)</option>
-          <option value="Korean" data-roman="false">한국어 (Korean)</option>
-        </optgroup>
-        <optgroup label="전 세계 주요 언어">
-          <option value="Spanish" data-roman="true">스페인어 (Español)</option>
-          <option value="French" data-roman="true">프랑스어 (Français)</option>
-          <option value="German" data-roman="true">독일어 (Deutsch)</option>
-          <option value="Arabic" data-roman="false">아랍어 (العربية - 비로마자 획순)</option>
-          <option value="Russian" data-roman="false">러시아어 (Русский)</option>
-          <option value="Hindi" data-roman="false">힌디어 (हिन्दी)</option>
-          <option value="Thai" data-roman="false">태국어 (ภาษาไทย)</option>
-        </optgroup>
-      </select>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="input-label">학습 언어</label>
+            <select class="styled-select" id="new-set-lang-select">
+              <optgroup label="기본 지원 언어">
+                <option value="Bahasa Melayu" data-roman="true">말레이어 (Bahasa Melayu)</option>
+                <option value="English" data-roman="true">영어 (English)</option>
+                <option value="Chinese" data-roman="false">중국어 / 한자 (中文 - 획순 캔버스)</option>
+                <option value="Japanese" data-roman="false">일본어 (日本語 - 가나 획순)</option>
+                <option value="Korean" data-roman="false">한국어 (Korean)</option>
+              </optgroup>
+              <optgroup label="전 세계 주요 언어">
+                <option value="Spanish" data-roman="true">스페인어 (Español)</option>
+                <option value="French" data-roman="true">프랑스어 (Français)</option>
+                <option value="German" data-roman="true">독일어 (Deutsch)</option>
+                <option value="Arabic" data-roman="false">아랍어 (العربية)</option>
+                <option value="Russian" data-roman="false">러시아어 (Русский)</option>
+                <option value="Hindi" data-roman="false">힌디어 (हिन्दी)</option>
+                <option value="Thai" data-roman="false">태국어 (ภาษาไทย)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label class="input-label">공개 범위</label>
+            <select class="styled-select" id="new-set-visibility">
+              <option value="public">전체 공개 (탐색 탭에 공유)</option>
+              <option value="private">나만 보기 (비공개)</option>
+            </select>
+          </div>
+        </div>
 
-      <label class="input-label">공개 범위</label>
-      <select class="styled-select" id="new-set-visibility">
-        <option value="public">전체 공개 (탐색 탭에 공유 & 댓글 허용)</option>
-        <option value="private">나만 보기 (비공개)</option>
-      </select>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 1.25rem 0 0.75rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 800;">단어 목록 (단어와 뜻을 직접 입력)</h4>
+          <span style="font-size: 0.78rem; color: var(--text-muted);">최소 2개 이상 필수</span>
+        </div>
 
-      <button class="btn-main-action" onclick="createNewStudySet()">세트 생성하고 학습 시작하기</button>
+        <!-- DYNAMIC WORD ROW CONTAINER -->
+        <div id="create-word-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+
+        <button type="button" class="styled-input" style="border: 2px dashed var(--primary); background: var(--primary-soft); font-weight: 800; cursor: pointer; margin-top: 0.85rem; text-align: center; color: var(--text-main);" onclick="addWordCardRow()">
+          + 새 단어 카드 추가하기
+        </button>
+      </div>
+
+      <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border);">
+        <button class="btn-main-action" onclick="createNewStudySet()">세트 생성하고 바로 학습하기 ✨</button>
+      </div>
     </div>
   </div>
 
@@ -2212,7 +2572,20 @@
     changeTheme(initialTheme);
 
     // 2. VIEW SWITCHING
+    function handleBrandLogoClick() {
+      if (currentUser) {
+        switchView('home');
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
     function switchView(viewName) {
+      if (!currentUser && viewName !== 'home') {
+        openAuthModal('signup');
+        return;
+      }
+
       document.getElementById('view-home').style.display = viewName === 'home' ? 'block' : 'none';
       document.getElementById('view-explore').style.display = viewName === 'explore' ? 'block' : 'none';
       document.getElementById('view-live').style.display = viewName === 'live' ? 'block' : 'none';
@@ -2233,6 +2606,7 @@
 
       if (viewName === 'home') renderMySets();
       if (viewName === 'explore') renderExploreSets();
+      if (viewName === 'live') { populateLiveSetSelector(); resetLiveGame(); }
       if (viewName === 'leaderboard') renderLeaderboardView();
 
       closeDropdown();
@@ -2242,6 +2616,7 @@
     // 3. RENDER SETS
     function renderMySets() {
       const c = document.getElementById('my-sets-container');
+      if (!c) return;
       c.innerHTML = studySets.map(set => `
         <div class="set-item-card" onclick="openStudyView('${set.id}')">
           <div>
@@ -2262,6 +2637,7 @@
 
     function renderExploreSets() {
       const c = document.getElementById('explore-sets-container');
+      if (!c) return;
       c.innerHTML = studySets.map(set => `
         <div class="set-item-card" onclick="openStudyView('${set.id}')">
           <div>
@@ -2282,11 +2658,52 @@
 
     function renderLeaderboardView() {
       const t = document.getElementById('leaderboard-table');
-      t.innerHTML = LEADERBOARD_USERS.map(u => `
-        <div style="display: flex; align-items: center; padding: 0.85rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); gap: 1rem; ${u.isMe ? 'border-color: var(--primary); background: var(--primary-soft);' : ''}">
-          <div style="width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem;">
-            ${u.rank <= 3 ? ['🥇','🥈','🥉'][u.rank-1] : u.rank}
+      if (!t) return;
+
+      const myDisplayName = currentUser ? currentUser.name + ' (나)' : '나 (학습자)';
+      const list = [
+        { name: 'Sarah_K', xp: 3240, isMe: false },
+        { name: 'Kenji_Tokyo', xp: 2920, isMe: false },
+        { name: myDisplayName, xp: userXp, isMe: true },
+        { name: 'Alex_Global', xp: 1310, isMe: false },
+        { name: 'Hana_Busan', xp: 1190, isMe: false },
+        { name: 'David_KL', xp: 1050, isMe: false },
+        { name: 'Nurul_Penang', xp: 920, isMe: false },
+        { name: 'Jiwoo_Seoul', xp: 840, isMe: false },
+        { name: 'Carlos_Madrid', xp: 760, isMe: false },
+        { name: 'Mei_Ling', xp: 680, isMe: false }
+      ].sort((a, b) => b.xp - a.xp);
+
+      const rankTitles = [
+        '👑 1위 다이아 챔피언',
+        '🥈 2위 러너',
+        '🥉 3위 마스터',
+        '💎 4위 엘리트',
+        '⚡ 5위 스트라이커',
+        '🌟 6위 스타',
+        '🔥 7위 파이터',
+        '🎯 8위 샤프슈터',
+        '🛡️ 9위 가디언',
+        '🎖️ 10위 챌린저'
+      ];
+
+      t.innerHTML = list.slice(0, 10).map((u, idx) => {
+        const rank = idx + 1;
+        const title = rankTitles[idx] || `${rank}위 챌린저`;
+        return `
+          <div style="display: flex; align-items: center; padding: 0.85rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); gap: 1rem; ${u.isMe ? 'border-color: var(--primary); background: var(--primary-soft);' : ''}">
+            <div style="width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem;">
+              ${rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank}
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-weight: 800; font-size: 0.95rem;">${u.name}</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">${title}</div>
+            </div>
+            <div style="font-weight: 900; font-size: 1rem; font-family: var(--font-brand);">${u.xp.toLocaleString()} XP</div>
           </div>
+        `;
+      }).join('');
+    }
           <div style="flex: 1; min-width: 0;">
             <div style="font-weight: 800; font-size: 0.95rem;">${u.isMe && currentUser ? currentUser.name + ' (나)' : u.name}</div>
             <div style="font-size: 0.76rem; color: var(--text-muted);">${u.title}</div>
@@ -2623,18 +3040,188 @@
       }
     }
 
-    function launchLiveMatch() {
-      showToastPill('⚡ Wordify Live 퀴즈 배틀이 시작되었습니다!');
+    // =========================================================
+    // REALTIME WORDIFY LIVE MULTIPLAYER GAME ENGINE
+    // =========================================================
+    let livePin = 8347;
+    let liveQuizQuestions = [];
+    let liveCurrentQuestionIdx = 0;
+    let liveScore = 0;
+    let liveTimerInterval = null;
+    let liveTimerLeft = 10;
+    let opponentRaceScores = { alex: 0, kenji: 0, mei: 0 };
+
+    function refreshLivePin() {
+      livePin = Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('live-pin-display').textContent = livePin;
+      showToastPill(`새 PIN [${livePin}] 이 생성되었습니다!`);
+    }
+
+    function populateLiveSetSelector() {
+      const sel = document.getElementById('live-set-selector');
+      if (!sel) return;
+      sel.innerHTML = studySets.map(s => `<option value="${s.id}">${s.title} (${s.words.length}단어)</option>`).join('');
+    }
+
+    function startLiveBattle() {
+      const sel = document.getElementById('live-set-selector');
+      const setId = sel ? sel.value : (studySets[0] ? studySets[0].id : null);
+      const set = studySets.find(s => s.id === setId) || studySets[0];
+
+      if (!set || set.words.length < 2) {
+        alert('대결할 단어 세트에 단어가 2개 이상 필요합니다!');
+        return;
+      }
+
+      liveQuizQuestions = [...set.words].sort(() => Math.random() - 0.5);
+      liveCurrentQuestionIdx = 0;
+      liveScore = 0;
+      opponentRaceScores = { alex: 10, kenji: 10, mei: 10 };
+
+      document.getElementById('live-stage-lobby').style.display = 'none';
+      document.getElementById('live-stage-podium').style.display = 'none';
+      document.getElementById('live-stage-quiz').style.display = 'block';
+
+      loadLiveQuestion();
+    }
+
+    function loadLiveQuestion() {
+      if (liveCurrentQuestionIdx >= liveQuizQuestions.length || liveCurrentQuestionIdx >= 4) {
+        finishLiveBattle();
+        return;
+      }
+
+      const q = liveQuizQuestions[liveCurrentQuestionIdx];
+      document.getElementById('live-round-indicator').textContent = `문제 ${liveCurrentQuestionIdx + 1} / ${Math.min(liveQuizQuestions.length, 4)}`;
+      document.getElementById('live-score-display').textContent = `${liveScore.toLocaleString()} pts`;
+      document.getElementById('live-quiz-term').textContent = q.word;
+
+      // 4 options
+      const otherMeanings = studySets.flatMap(s => s.words.map(w => w.meaning)).filter(m => m !== q.meaning);
+      const shuffledDistractors = otherMeanings.sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [q.meaning, ...shuffledDistractors].sort(() => Math.random() - 0.5);
+
+      const grid = document.getElementById('live-options-grid');
+      grid.innerHTML = options.map(opt => `
+        <button class="styled-input live-opt-btn" style="padding: 1.15rem 1rem; font-size: 1rem; font-weight: 800; cursor: pointer; text-align: center; margin-bottom: 0; transition: all 0.2s ease;" onclick="handleLiveAnswer(this, '${encodeURIComponent(opt)}', '${encodeURIComponent(q.meaning)}')">
+          ${opt}
+        </button>
+      `).join('');
+
+      // 10s Timer
+      clearInterval(liveTimerInterval);
+      liveTimerLeft = 10;
+      const timerBar = document.getElementById('live-timer-bar');
+      timerBar.style.width = '100%';
+      timerBar.style.background = 'var(--primary)';
+
+      liveTimerInterval = setInterval(() => {
+        liveTimerLeft -= 0.1;
+        const pct = Math.max(0, (liveTimerLeft / 10) * 100);
+        timerBar.style.width = pct + '%';
+        if (pct < 30) timerBar.style.background = '#ef4444';
+
+        if (liveTimerLeft <= 0) {
+          clearInterval(liveTimerInterval);
+          handleLiveTimeout(q.meaning);
+        }
+      }, 100);
+    }
+
+    function handleLiveAnswer(btn, chosenEncoded, correctEncoded) {
+      clearInterval(liveTimerInterval);
+      const chosen = decodeURIComponent(chosenEncoded);
+      const correct = decodeURIComponent(correctEncoded);
+
+      const buttons = document.querySelectorAll('.live-opt-btn');
+      buttons.forEach(b => b.style.pointerEvents = 'none');
+
+      if (chosen === correct) {
+        btn.style.background = '#22c55e';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#22c55e';
+        const speedBonus = Math.round(liveTimerLeft * 85);
+        liveScore += (500 + speedBonus);
+        showToastPill(`🎯 정답! +${500 + speedBonus} pts`);
+      } else {
+        btn.style.background = '#ef4444';
+        btn.style.color = '#fff';
+        buttons.forEach(b => {
+          if (decodeURIComponent(b.getAttribute('onclick')).includes(correct)) {
+            b.style.background = '#22c55e';
+            b.style.color = '#fff';
+          }
+        });
+        showToastPill('❌ 오답입니다!');
+      }
+
+      opponentRaceScores.alex += Math.floor(Math.random() * 450 + 350);
+      opponentRaceScores.kenji += Math.floor(Math.random() * 400 + 300);
+      opponentRaceScores.mei += Math.floor(Math.random() * 350 + 200);
+
+      updateRaceBars();
+
       setTimeout(() => {
-        showToastPill('🥇 1등 달성! Kenji_Tokyo를 제치고 우승 (+100 XP)');
-        gainXp(100);
-      }, 2400);
+        liveCurrentQuestionIdx++;
+        loadLiveQuestion();
+      }, 1400);
+    }
+
+    function handleLiveTimeout(correct) {
+      const buttons = document.querySelectorAll('.live-opt-btn');
+      buttons.forEach(b => {
+        b.style.pointerEvents = 'none';
+        if (decodeURIComponent(b.getAttribute('onclick')).includes(correct)) {
+          b.style.background = '#22c55e';
+          b.style.color = '#fff';
+        }
+      });
+      showToastPill('⏰ 시간 초과!');
+      setTimeout(() => {
+        liveCurrentQuestionIdx++;
+        loadLiveQuestion();
+      }, 1400);
+    }
+
+    function updateRaceBars() {
+      const maxTrack = 3500;
+      const myPct = Math.min(100, Math.max(5, (liveScore / maxTrack) * 100));
+      const alexPct = Math.min(95, Math.max(5, (opponentRaceScores.alex / maxTrack) * 100));
+      const kenjiPct = Math.min(90, Math.max(5, (opponentRaceScores.kenji / maxTrack) * 100));
+      const meiPct = Math.min(85, Math.max(5, (opponentRaceScores.mei / maxTrack) * 100));
+
+      document.getElementById('live-race-bar-me').style.width = myPct + '%';
+      document.getElementById('live-race-bar-alex').style.width = alexPct + '%';
+      document.getElementById('live-race-bar-kenji').style.width = kenjiPct + '%';
+      document.getElementById('live-race-bar-mei').style.width = meiPct + '%';
+    }
+
+    function finishLiveBattle() {
+      clearInterval(liveTimerInterval);
+      document.getElementById('live-stage-quiz').style.display = 'none';
+      document.getElementById('live-stage-podium').style.display = 'block';
+
+      const won = liveScore >= opponentRaceScores.alex;
+      const xpEarned = won ? 120 : 60;
+      gainXp(xpEarned);
+
+      document.getElementById('live-podium-title').textContent = won ? '🥇 1위 우승 챔피언!' : '🥈 2위 러너업!';
+      document.getElementById('live-podium-desc').textContent = `최종 점수: ${liveScore.toLocaleString()} pts (+${xpEarned} XP 획득!)`;
+      showToastPill(`🏆 라이브 퀴즈 배틀 완료 (+${xpEarned} XP)`);
+    }
+
+    function resetLiveGame() {
+      document.getElementById('live-stage-podium').style.display = 'none';
+      document.getElementById('live-stage-quiz').style.display = 'none';
+      document.getElementById('live-stage-lobby').style.display = 'flex';
+      refreshLivePin();
     }
 
     function gainXp(amount) {
       userXp += amount;
       document.getElementById('xp-text').textContent = `${userXp.toLocaleString()} XP`;
       localStorage.setItem('wordify_xp', userXp);
+      renderLeaderboardView();
     }
 
     // =========================================================
@@ -2801,28 +3388,6 @@
       gainXp(50);
     }
 
-    async function loginWithGoogle() {
-      if (supabaseClient) {
-        await supabaseClient.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.origin + window.location.pathname }
-        });
-        return;
-      }
-      const googleUser = {
-        name: 'Minjun Lee',
-        email: 'lee.minjun7515@gmail.com',
-        avatar: '🧑‍💻',
-        pwd: 'google_oauth_verified'
-      };
-      if (!storedUsers.some(u => u.email === googleUser.email)) {
-        storedUsers.push(googleUser);
-        localStorage.setItem('wordify_users', JSON.stringify(storedUsers));
-      }
-      setSessionUser(googleUser);
-      showToastPill('Google 계정(lee.minjun7515@gmail.com)으로 로그인되었습니다! 🎉');
-    }
-
     function setSessionUser(user) {
       currentUser = user;
       localStorage.setItem('wordify_current_user', JSON.stringify(currentUser));
@@ -2845,18 +3410,47 @@
     function refreshUserNavUI() {
       const userArea = document.getElementById('user-auth-area');
       const guestArea = document.getElementById('guest-auth-area');
-      if (!userArea || !guestArea) return;
+      const landingWrap = document.getElementById('landing-promo-wrap');
+      const dashboardWrap = document.getElementById('app-dashboard-wrap');
+      const desktopTabs = document.getElementById('main-desktop-tabs');
+      const createPill = document.getElementById('main-create-pill-btn');
+      const mobileBottom = document.getElementById('main-mobile-bottom-tabs');
 
       if (currentUser) {
-        userArea.style.display = 'flex';
-        guestArea.style.display = 'none';
+        if (userArea) userArea.style.display = 'flex';
+        if (guestArea) guestArea.style.display = 'none';
+        if (landingWrap) landingWrap.style.display = 'none';
+        if (dashboardWrap) dashboardWrap.style.display = 'block';
+        if (desktopTabs) desktopTabs.style.display = 'flex';
+        if (createPill) createPill.style.display = 'inline-flex';
+        if (mobileBottom) mobileBottom.style.display = 'flex';
+
         document.getElementById('nav-avatar-icon').textContent = currentUser.avatar || '🧑‍💻';
         document.getElementById('drop-avatar').textContent = currentUser.avatar || '🧑‍💻';
         document.getElementById('drop-name').textContent = currentUser.name || '학습자';
         document.getElementById('drop-email').textContent = currentUser.email || '';
+
+        const liveMyAv = document.getElementById('live-my-avatar');
+        if (liveMyAv) liveMyAv.textContent = currentUser.avatar || '🧑‍💻';
+        const liveMyNm = document.getElementById('live-my-name');
+        if (liveMyNm) liveMyNm.textContent = (currentUser.name || '나') + ' (호스트)';
+        const trackAv = document.getElementById('live-track-my-avatar');
+        if (trackAv) trackAv.textContent = currentUser.avatar || '🧑‍💻';
+        const podAv = document.getElementById('live-podium-my-avatar');
+        if (podAv) podAv.textContent = currentUser.avatar || '🧑‍💻';
+        const podNm = document.getElementById('live-podium-my-name');
+        if (podNm) podNm.textContent = currentUser.name || '나';
+
+        renderMySets();
+        renderLeaderboardView();
       } else {
-        userArea.style.display = 'none';
-        guestArea.style.display = 'flex';
+        if (userArea) userArea.style.display = 'none';
+        if (guestArea) guestArea.style.display = 'flex';
+        if (landingWrap) landingWrap.style.display = 'block';
+        if (dashboardWrap) dashboardWrap.style.display = 'none';
+        if (desktopTabs) desktopTabs.style.display = 'none';
+        if (createPill) createPill.style.display = 'none';
+        if (mobileBottom) mobileBottom.style.display = 'none';
       }
     }
     refreshUserNavUI();
@@ -2902,7 +3496,59 @@
       setTimeout(() => location.reload(), 1400);
     }
 
-    // 10. CREATE STUDY SET
+    // 10. CREATE STUDY SET (WORD-BY-WORD INPUT EDITOR)
+    function initCreateModalRows() {
+      const container = document.getElementById('create-word-list');
+      if (!container) return;
+      if (container.children.length === 0) {
+        addWordCardRow();
+        addWordCardRow();
+        addWordCardRow();
+      }
+    }
+
+    function addWordCardRow() {
+      const container = document.getElementById('create-word-list');
+      if (!container) return;
+      const count = container.querySelectorAll('.create-word-card').length + 1;
+      const card = document.createElement('div');
+      card.className = 'create-word-card';
+      card.style.cssText = 'background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.85rem;';
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+          <span style="font-weight: 800; font-size: 0.82rem; color: var(--text-muted);" class="word-card-num">#${count}</span>
+          <button type="button" style="width: auto; padding: 0.15rem 0.45rem; margin: 0; font-size: 0.75rem; border: none; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;" onclick="removeWordCardRow(this)">🗑️ 삭제</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.45rem;">
+          <input type="text" class="styled-input word-term-input" placeholder="단어 / 문자 *" style="margin-bottom: 0; font-weight: 800;">
+          <input type="text" class="styled-input word-meaning-input" placeholder="뜻 / 정의 *" style="margin-bottom: 0; font-weight: 800;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <input type="text" class="styled-input word-pronun-input" placeholder="발음 (선택)" style="margin-bottom: 0; font-size: 0.82rem;">
+          <input type="text" class="styled-input word-example-input" placeholder="예문 (선택)" style="margin-bottom: 0; font-size: 0.82rem;">
+        </div>
+      `;
+      container.appendChild(card);
+      renumberWordCards();
+    }
+
+    function removeWordCardRow(btn) {
+      const container = document.getElementById('create-word-list');
+      if (container.querySelectorAll('.create-word-card').length <= 2) {
+        alert('최소 2개의 단어 카드가 필요합니다!');
+        return;
+      }
+      btn.closest('.create-word-card').remove();
+      renumberWordCards();
+    }
+
+    function renumberWordCards() {
+      const container = document.getElementById('create-word-list');
+      container.querySelectorAll('.create-word-card').forEach((card, idx) => {
+        card.querySelector('.word-card-num').textContent = `#${idx + 1}`;
+      });
+    }
+
     function createNewStudySet() {
       const title = document.getElementById('new-set-name').value.trim();
       const desc = document.getElementById('new-set-desc').value.trim();
@@ -2912,24 +3558,43 @@
 
       if (!title) { alert('세트 제목을 입력해주세요!'); return; }
 
+      const words = [];
+      document.querySelectorAll('.create-word-card').forEach(row => {
+        const word = row.querySelector('.word-term-input').value.trim();
+        const meaning = row.querySelector('.word-meaning-input').value.trim();
+        const pronun = row.querySelector('.word-pronun-input').value.trim();
+        const example = row.querySelector('.word-example-input').value.trim();
+        if (word && meaning) {
+          words.push({
+            word,
+            meaning,
+            pronun: pronun || `[${word}]`,
+            example: example || 'The moment a word becomes my own.'
+          });
+        }
+      });
+
+      if (words.length < 2) {
+        alert('최소 2개 이상의 단어와 뜻을 입력해주세요!');
+        return;
+      }
+
       const newSetObj = {
         id: 'set-' + Date.now(),
         title,
         desc: desc || '직접 생성한 단어 세트',
         lang,
         isRoman,
-        author: currentUser ? currentUser.name : 'Minjun Lee',
-        words: [
-          { word: isRoman ? 'Vocabulary' : '字', pronun: isRoman ? '[보캐뷸러리]' : '[글자 자]', meaning: '단어 / 어휘', example: '새로운 단어를 꾸준히 학습하세요.' },
-          { word: isRoman ? 'Master' : '學', pronun: isRoman ? '[마스터]' : '[배울 학]', meaning: '완전히 정복하다', example: 'The moment a word becomes my own.' }
-        ]
+        author: currentUser ? currentUser.name : '학습자',
+        words
       };
 
       studySets.unshift(newSetObj);
       localStorage.setItem('wordify_sets', JSON.stringify(studySets));
       closeModal('create-modal');
       renderMySets();
-      showToastPill('✨ 새 단어 세트가 생성되었습니다!');
+      showToastPill(`✨ ${words.length}개 단어로 세트가 생성되었습니다! (+50 XP)`);
+      gainXp(50);
       openStudyView(newSetObj.id);
     }
 
@@ -2940,7 +3605,11 @@
       if (!e.target.closest('#profile-avatar-btn') && !e.target.closest('#user-dropdown')) closeDropdown();
     };
 
-    function openModal(id) { document.getElementById(id).classList.add('show'); closeDropdown(); }
+    function openModal(id) {
+      if (id === 'create-modal') initCreateModalRows();
+      document.getElementById(id).classList.add('show');
+      closeDropdown();
+    }
     function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
     function showToastPill(msg) {
